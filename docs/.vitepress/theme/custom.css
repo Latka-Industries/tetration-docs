@@ -1,0 +1,15 @@
+/* Home: shadcn cards sit between hero and feature cards */
+.VPHome {
+  display: flex;
+  flex-direction: column;
+}
+
+.VPHome > .container {
+  order: 1;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.VPHome .VPFeatures {
+  order: 2;
+}

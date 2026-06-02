@@ -8,6 +8,13 @@
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.0",
     "vitepress": "^1.6.3"
+  },
+  "dependencies": {
+    "@lucide/vue": "^1.17.0"
   }
 }
