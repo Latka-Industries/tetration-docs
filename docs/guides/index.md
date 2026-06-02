@@ -1,12 +1,18 @@
 # Guides
 
-## Planned guides
+Practical docs for choosing Tetration, reading data efficiently, and running queries.
 
-- **`.tet` vs Parquet vs Zarr`** — when Tetration fits
-- **Mmap read patterns** — partial chunk access in Rust and Python
-- **Query cookbook** — common JSON/TOML queries
-- **ZahirScan + UBLX** — extracting `.tet` metadata in a [catalog workflow](https://github.com/Latka-Industries/ublx-docs)
+## Available guides
 
-::: tip
-Cross-links to the catalog stack live on [ublx-docs](https://github.com/Latka-Industries/ublx-docs).
-:::
+| Guide | Description |
+|-------|-------------|
+| [Query engine](/guides/query-engine/) | What queries can do — ops, selections, execution |
+| [Query cookbook](/guides/query-cookbook) | Copy-paste JSON/TOML examples |
+| [Format comparison](/guides/format-comparison) | `.tet` vs Parquet vs Zarr vs NPY |
+| [Mmap read patterns](/guides/mmap-patterns) | Partial chunk access in Rust and Python |
+
+## Quick links
+
+- [Getting started](/getting-started) — install CLI, first commands
+- [Format spec](/format/) — on-disk layout
+- [CLI reference](/cli/) — all `tet` commands

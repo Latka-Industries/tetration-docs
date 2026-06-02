@@ -11,7 +11,7 @@ npm install
 npm run docs:dev
 ```
 
-Open [http://localhost:5173/tetration-docs/](http://localhost:5173/tetration-docs/) (base path matches GitHub Pages).
+Open [http://localhost:5174/tetration-docs/](http://localhost:5174/tetration-docs/) (base path matches GitHub Pages).
 
 ## Build
 
@@ -38,6 +38,4 @@ Pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`.
 | `/cli/` | `tet` command reference |
 | `/rust/` | Rust crate usage (links to docs.rs) |
 | `/python/` | tet-py install and API |
-| `/guides/` | Query cookbook, comparisons |
-
-Related: [ublx-docs](https://github.com/Latka-Industries/ublx-docs) (catalog stack — ZahirScan reads `.tet` metadata).
+| `/guides/` | Query engine, cookbook, comparisons |
