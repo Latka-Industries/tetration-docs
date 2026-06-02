@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ArrowUpRight, Boxes, Braces } from '@lucide/vue'
+import { ArrowUpRight } from '@lucide/vue'
 import Badge from './ui/Badge.vue'
 import Card from './ui/Card.vue'
+import PythonIcon from './icons/PythonIcon.vue'
+import RustIcon from './icons/RustIcon.vue'
 import { cn } from '../lib/utils'
 
 const active = ref<'tetration' | 'tet-py'>('tetration')
@@ -11,10 +13,11 @@ const repos = [
   {
     id: 'tetration' as const,
     name: 'tetration',
-    lang: 'Rust',
     description: 'Core crate, tet CLI, and C ABI for .tet I/O.',
     href: 'https://github.com/Latka-Industries/tetration',
-    icon: Boxes,
+    icon: RustIcon,
+    iconClass: 'size-5 text-[#DEA584]',
+    iconBoxClass: 'border-[#DEA584]/20 bg-[#DEA584]/10',
     badges: [
       { label: 'crate', variant: 'secondary' as const },
       { label: 'CLI', variant: 'default' as const },
@@ -24,10 +27,11 @@ const repos = [
   {
     id: 'tet-py' as const,
     name: 'tet-py',
-    lang: 'Python',
     description: 'Python bindings and NumPy-friendly .tet access.',
     href: 'https://github.com/Latka-Industries/tet-py',
-    icon: Braces,
+    icon: PythonIcon,
+    iconClass: 'size-5 text-[#3776AB]',
+    iconBoxClass: 'border-[#3776AB]/20 bg-[#3776AB]/10',
     badges: [
       { label: 'bindings', variant: 'default' as const },
       { label: 'PyPI', variant: 'outline' as const },
@@ -73,9 +77,14 @@ const repos = [
 
           <div class="relative flex items-start justify-between gap-3">
             <div
-              class="flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-muted"
+              :class="
+                cn(
+                  'flex size-10 shrink-0 items-center justify-center rounded-lg border',
+                  repo.iconBoxClass,
+                )
+              "
             >
-              <component :is="repo.icon" class="size-5 text-foreground" aria-hidden="true" />
+              <component :is="repo.icon" :class="repo.iconClass" aria-hidden="true" />
             </div>
             <ArrowUpRight
               class="size-4 shrink-0 text-muted-foreground opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
@@ -84,11 +93,6 @@ const repos = [
           </div>
 
           <div class="relative mt-4 space-y-1">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                {{ repo.lang }}
-              </span>
-            </div>
             <h3 class="text-base font-semibold leading-none tracking-tight text-card-foreground">
               {{ repo.name }}
             </h3>
