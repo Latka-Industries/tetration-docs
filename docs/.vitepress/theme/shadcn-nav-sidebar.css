@@ -1,0 +1,30 @@
+/* Hide default VitePress sidebar groups when shadcn sidebar is mounted */
+.VPSidebar nav > .group {
+  display: none;
+}
+
+/* Sidebar chrome uses shadcn tokens */
+@media (min-width: 960px) {
+  .VPSidebar {
+    background-color: hsl(var(--sidebar-background));
+  }
+
+  .VPSidebar .curtain {
+    background-color: hsl(var(--sidebar-background));
+  }
+}
+
+.shadcn-sidebar-nav + .group {
+  display: none;
+}
+
+.shadcn-sidebar-nav {
+  padding-bottom: 1rem;
+}
+
+.shadcn-sidebar-nav > div + div {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid hsl(var(--sidebar-border));
+}
+

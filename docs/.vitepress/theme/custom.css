@@ -1,4 +1,4 @@
-/* Home: shadcn cards sit between hero and feature cards */
+/* Home: markdown container holds feature cards, then repo cards */
 .VPHome {
   display: flex;
   flex-direction: column;
@@ -12,4 +12,51 @@
 
 .VPHome .VPFeatures {
   order: 2;
+}
+
+/* Top nav: shadcn-style link treatment (matches ublx-docs) */
+@media (min-width: 768px) {
+  .VPNavBarMenu .VPNavBarMenuLink {
+    margin: 0 2px;
+    border-radius: calc(var(--radius) - 2px);
+    transition:
+      color 0.2s,
+      background-color 0.2s;
+  }
+
+  .VPNavBarMenu .VPNavBarMenuLink:hover {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+
+  .VPNavBarMenu .VPNavBarMenuGroup :deep(.button) {
+    margin: 0 2px;
+    border-radius: calc(var(--radius) - 2px);
+    transition:
+      color 0.2s,
+      background-color 0.2s;
+  }
+
+  .VPNavBarMenu .VPNavBarMenuGroup :deep(.button:hover) {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+}
+
+/* Nav dropdown panels */
+.VPMenu {
+  border-radius: calc(var(--radius) - 2px);
+  border-color: hsl(var(--border));
+  background: hsl(var(--popover));
+}
+
+.VPMenu .VPMenuLink .label {
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+}
+
+.VPMenu .VPMenuLink:hover .label {
+  background: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
 }
