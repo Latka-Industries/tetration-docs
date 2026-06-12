@@ -109,7 +109,7 @@ export default defineConfig({
     ],
     footer: {
       message: 'Latka Industries',
-      copyright: 'Copyright © 2026 Latka Industries',
+      copyright: 'Copyright © 2026 Alexander Hurowitz',
     },
   },
 })
