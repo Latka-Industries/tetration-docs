@@ -9,14 +9,17 @@ hero:
     - theme: brand
       text: Get started
       link: /getting-started
+    - theme: alt
+      text: Python (tet-py)
+      link: /python/
 
 features:
   - title: One file, many chunks
     details: Portable tensor storage with a catalog, dataset index, and chunk-level mmap access.
   - title: Query in JSON or TOML
-    details: Scalar and partial reductions, selections, transforms, and spill export — see the query engine guide.
+    details: Scalar and partial reductions, selections, transforms, and dense export to RAM, spill (`.bin`), or sidecar (derived `.tet`).
   - title: Rust + Python
-    details: Use as a crate with optional C ABI, or via tet-py for the Python ecosystem.
+    details: Use the tetration crate and CLI, or pip install tet-py for NumPy-friendly query and I/O.
 ---
 
 <HomeImpls />

@@ -56,7 +56,7 @@ DYLD_LIBRARY_PATH=target/release target/release/ffi_query sample.tet
 
 ## Python bindings
 
-Official Python bindings (**tet-py**) will use this C ABI or PyO3 over the Rust crate. See [Python overview](/python/).
+Official Python bindings (**tet-py**) use **PyO3 over the Rust crate**, not the C ABI. Install from PyPI: `pip install tet-py`. See [Python overview](/python/).
 
 ## Release archives
 

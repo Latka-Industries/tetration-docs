@@ -1,37 +1,63 @@
 # Install
 
-::: info Package status
-**tet-py** is not yet published to PyPI. This page describes the planned install paths.
-:::
-
-## PyPI (planned)
+## PyPI (recommended)
 
 ```bash
 pip install tet-py
 ```
 
-Platform wheels will ship for common macOS, Linux, and Windows targets via maturin.
+Requires **Python 3.11+**. Wheels ship for common Linux (x86_64, aarch64), macOS (universal2), and Windows targets. The package depends on **NumPy 2.x**.
 
-## Build from source (planned)
+Verify:
 
-Once the tet-py repository is published:
+```python
+import tet
+print(tet.__version__)       # tet-py release, e.g. 0.1.0
+print(tet.core_version())    # linked tetration crate, e.g. 0.1.9
+```
+
+::: warning PyPI name collision
+Install **`tet-py`**, not `tetration`. The PyPI project named `tetration` is unrelated.
+:::
+
+## Build from source
+
+For development or unreleased fixes:
 
 ```bash
-git clone https://github.com/Latka-Industries/tet-py.git  # URL TBD
+git clone https://github.com/Latka-Industries/tet-py.git
 cd tet-py
-pip install .
+```
+
+**With uv (recommended in repo):**
+
+```bash
+uv sync --extra dev
+uv run maturin develop
+uv run pytest -q
+```
+
+**With pip:**
+
+```bash
+pip install maturin
+maturin develop --release
+pip install -e .
 ```
 
 Build requirements:
 
-- Rust toolchain (matching the pinned `tetration` crate version)
-- `maturin` for wheel building
+- Python **3.11+**
+- Rust **1.95+**
+- [maturin](https://www.maturin.rs/) **1.7+**
 
-## Install the CLI today
+Release builds pin **`tetration = "0.1.9"`** from [crates.io](https://crates.io/crates/tetration) — no sibling tetration checkout required.
 
-While waiting for tet-py, install the `tet` CLI:
+## Install the CLI (optional)
 
-**macOS:**
+tet-py does not require the `tet` binary, but it is useful for convert, verify, and shell workflows:
+
+**macOS — Homebrew:**
 
 ```bash
 brew tap Latka-Industries/tetration https://github.com/Latka-Industries/tetration
@@ -44,14 +70,15 @@ brew install tetration
 cargo install tetration
 ```
 
-Then call `tet` from Python via `subprocess` for query and inspection workflows.
-
-## FFI shared library
-
-For custom bindings, build the C ABI directly:
+Default features need system HDF5 and NetCDF dev libraries for `tet convert`. Without them:
 
 ```bash
-cargo build --release --no-default-features --features tetration-ffi
+cargo install tetration --no-default-features
 ```
 
-See [C ABI / FFI](/rust/ffi).
+`tet info`, `tet query`, and Zarr import still work.
+
+## Next steps
+
+- [Quick start](/python/quick-start)
+- [Version alignment](/python/version-alignment)

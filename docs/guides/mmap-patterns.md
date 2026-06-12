@@ -63,7 +63,26 @@ tet query mean.toml -t data.tet -x --format stats
 tet query slice.json -t data.tet -x --format table --preview 6
 ```
 
-## Python: CLI subprocess (until tet-py ships)
+## Python (tet-py)
+
+Prefer **tet-py** for mmap-backed queries and dense export:
+
+```python
+import tet
+
+with tet.open("data.tet") as f:
+    r = f.execute({"dataset": "temperature", "mean": []}, plan=True)
+    arr = f.read_numpy("temperature", selection=tet.selection_slices(tet.axis_slice(0, 100)))
+
+    # Transform sinks — spill (.bin) or sidecar (derived .tet beside source)
+    side = f.transform.to_sidecar.zscore("temperature", path="temperature.zscore.tet")
+    derived = side.open(f)   # or tet.open(side.path) once path is known
+    arr = derived.read_numpy("temperature-zscore")
+```
+
+See [Python quick start](/python/quick-start) and [NumPy interchange](/python/numpy).
+
+### CLI subprocess (no Python install)
 
 ```python
 import json

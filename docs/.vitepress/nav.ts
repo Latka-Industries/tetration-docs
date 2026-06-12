@@ -42,6 +42,8 @@ export const mainNav: DefaultTheme.NavItem[] = [
       { text: 'Overview', link: '/python/' },
       { text: 'Install', link: '/python/install' },
       { text: 'Quick start', link: '/python/quick-start' },
+      { text: 'Query operations', link: '/python/operations' },
+      { text: 'NumPy interchange', link: '/python/numpy' },
       { text: 'Version alignment', link: '/python/version-alignment' },
     ],
   },

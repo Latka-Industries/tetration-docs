@@ -67,14 +67,14 @@ const repos: Array<{
     href: 'https://github.com/Latka-Industries/tet-py',
     githubBadges: [
       {
+        src: 'https://img.shields.io/pypi/v/tet-py.svg',
+        alt: 'tet-py on PyPI',
+      },
+      {
         src: 'https://github.com/Latka-Industries/tet-py/actions/workflows/ci.yml/badge.svg',
         alt: 'tet-py CI',
       },
       { src: 'https://img.shields.io/crates/v/tetration.svg?label=tetration', alt: 'tetration crate' },
-      {
-        src: 'https://img.shields.io/badge/PyPI-pre--release-3776AB?logo=python&logoColor=white',
-        alt: 'tet-py PyPI status',
-      },
     ],
     icon: PythonIcon,
     iconClass: 'size-5 text-[#3776AB]',

@@ -6,7 +6,7 @@ You can run queries through:
 
 - **`tet query`** — CLI with plan-only or execute modes ([CLI reference](/cli/query))
 - **Rust crate** — `execute_query_json`, `plan_query_with_tet_mmap`, embedder materialize helpers ([Rust quick start](/rust/quick-start))
-- **Python (planned)** — tet-py will wrap the same engine; use the CLI subprocess workaround for now ([Python quick start](/python/quick-start))
+- **Python (tet-py)** — `pip install tet-py`; same wire documents via `f.execute`, reductions, and NumPy materialize ([Python quick start](/python/quick-start))
 
 ## What you can do
 

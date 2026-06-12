@@ -37,5 +37,5 @@ Pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`.
 | `/format/` | On-disk layout, chunks, catalog |
 | `/cli/` | `tet` command reference |
 | `/rust/` | Rust crate usage (links to docs.rs) |
-| `/python/` | tet-py install and API |
+| `/python/` | tet-py install, query API, NumPy ram/spill/sidecar |
 | `/guides/` | Query engine, cookbook, comparisons |

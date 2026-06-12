@@ -93,9 +93,27 @@ See [Rust quick start](/rust/quick-start).
 
 ## Python (tet-py)
 
-::: info
-tet-py is not yet published to PyPI. Use the CLI or Rust crate for now. See [Python overview](/python/).
-:::
+```bash
+pip install tet-py
+```
+
+```python
+import tet
+
+with tet.open("volume.tet") as f:
+    print(tet.__version__, tet.core_version())
+    print(f.mean("temperature"))
+
+    # Dense export — three sinks (same as the query engine)
+    arr = f.read_numpy("temperature")                              # ram
+    z = f.transform.to_numpy.zscore("temperature")                 # transform → ram
+    spill = f.transform.to_spill.zscore("temperature", path="z.bin")
+    spill.to_numpy()
+    side = f.transform.to_sidecar.zscore("temperature", path="z.tet")  # sidecar → .tet
+    side.to_numpy(f)
+```
+
+See [Python overview](/python/), [quick start](/python/quick-start), and [NumPy interchange](/python/numpy) (ram / spill / sidecar).
 
 ## Next steps
 
@@ -103,4 +121,5 @@ tet-py is not yet published to PyPI. Use the CLI or Rust crate for now. See [Pyt
 - [CLI reference](/cli/) — all `tet` commands
 - [Query engine](/guides/query-engine/) — what queries can do
 - [Query cookbook](/guides/query-cookbook) — copy-paste examples
+- [Python (tet-py)](/python/) — PyPI install, query API, NumPy
 - [Guides](/guides/) — format comparisons, mmap patterns, catalog integration

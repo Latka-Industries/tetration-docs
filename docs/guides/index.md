@@ -13,6 +13,7 @@ Practical docs for choosing Tetration, reading data efficiently, and running que
 
 ## Quick links
 
-- [Getting started](/getting-started) — install CLI, first commands
+- [Getting started](/getting-started) — install CLI or tet-py, first commands
+- [Python (tet-py)](/python/) — PyPI install, query API, NumPy
 - [Format spec](/format/) — on-disk layout
 - [CLI reference](/cli/) — all `tet` commands
