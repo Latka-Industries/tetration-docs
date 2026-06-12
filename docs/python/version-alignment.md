@@ -6,7 +6,7 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | **0.1.0** |
+| **tet-py** (PyPI) | **0.1.0** shipped; **0.1.1** on `main` (tag pending) |
 | **tetration** crate (linked) | **0.1.9** |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
@@ -18,6 +18,7 @@
 | tet-py | tetration crate | Notes |
 |--------|-----------------|-------|
 | **0.1.0** | **0.1.9** | Initial PyPI release; query + NumPy ram/spill/sidecar + f32/f64 write |
+| **0.1.1** | **0.1.9** | `preview=N` on reducers / `query_execute`; `QueryResult.preview` (THI-24) |
 
 - **Patch** tet-py releases may bump the pinned crate for bug fixes.
 - **Minor** tet-py releases may add Python API or query wrappers without layout changes.

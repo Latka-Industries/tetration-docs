@@ -33,6 +33,12 @@ with tet.open("data.tet") as f:
 
 Partial vs full reduction: when `raw=False` (default), full reductions return Python scalars; partial reductions return a [`QueryResult`](/python/operations#queryresult).
 
+Optional preview samples (parity with `tet query -x --preview N`):
+
+```python
+r = f.mean("temperature", preview=32)   # QueryResult: r.scalar + r.preview (ndarray)
+```
+
 ## Generic queries
 
 ```python

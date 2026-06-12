@@ -3,7 +3,7 @@
 **[tet-py](https://github.com/Latka-Industries/tet-py)** is the official Python package for Tetration. Install from PyPI, `import tet`, and use the same query engine and `.tet` layout as the Rust crate and `tet` CLI.
 
 ::: tip PyPI
-**tet-py 0.1.0** is on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
+**tet-py 0.1.0** is on PyPI; **0.1.1** (query preview API) on `main` — tag pending: [`pip install tet-py`](https://pypi.org/project/tet-py/)
 
 Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 :::
@@ -19,14 +19,15 @@ Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 
 Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI remains in the tetration repo for Julia/R/Go embedders.
 
-## What's shipped (0.1.0)
+## What's shipped (0.1.x)
 
 | Topic | Status |
 |-------|--------|
-| PyPI wheels (Linux, macOS, Windows) | ✅ |
+| PyPI wheels (Linux, macOS, Windows) | ✅ 0.1.0+ |
 | Open `.tet`, catalog, `info()` / `summary()` | ✅ |
 | Reductions (`mean`, `quantile`, `histogram`, …) | ✅ |
 | `QueryResult`, `build_query`, selections | ✅ |
+| Query preview (`preview=N`, `QueryResult.preview`) | ✅ 0.1.1 |
 | NumPy **ram** — `read_numpy`, `transform.to_numpy` | ✅ |
 | NumPy **spill** — `read_spill`, `transform.to_spill` | ✅ |
 | NumPy **sidecar** — `transform.to_sidecar.*` | ✅ (transform → derived `.tet`) |

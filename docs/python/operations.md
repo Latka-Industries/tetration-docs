@@ -41,6 +41,24 @@ wire = f.mean("a", raw=True)
 r = f.execute({"dataset": "a", "mean": []})
 ```
 
+## Preview samples (`preview=N`)
+
+While executing a reduction, optionally include up to **N** raw payload values (does not materialize the full tensor).
+
+| Call | Returns |
+|------|---------|
+| `f.mean("a")` | `float` |
+| `f.mean("a", preview=32)` | `QueryResult` — `.scalar` + `.preview` (`numpy.ndarray`, 1-D) |
+
+```python
+r = f.mean("a", preview=32)
+r.scalar
+r.preview              # capped raw samples
+r.preview_truncated    # True when more values exist beyond N
+```
+
+`preview=N` works on list-style reducers, `quantile`, `histogram`, `null_count`, and `query_execute` / `execute`.
+
 ## List-style reductions
 
 ```python
@@ -133,7 +151,8 @@ axis_slice(start_label="2020", stop_label="2024")
 |--------|-----|
 | `f.query(doc)` | `tet query -x` |
 | `f.plan_only(doc)` | `tet query` (no `-x`) |
-| `f.query_execute(doc, device=...)` | execute with `execution.device` |
+| `f.query_execute(doc, device=..., preview=N)` | execute with device + preview cap |
+| `QueryResult.preview` | capped `execution.*_preview` → `ndarray` |
 | `f.execute(doc, plan=True)` | plan only |
 | `f.read_numpy(...)` | Materialize selection → ndarray |
 | `f.read_spill(...)` | Spill selection → `SpillReadResult` |
@@ -166,5 +185,4 @@ Plus: `execute`, `query`, `query_execute`, `plan_only`, `dataset`, `summary`, `i
 
 | Topic | Tracking |
 |-------|----------|
-| Preview ndarray from `query_execute` | [tet-py#7](https://github.com/Latka-Industries/tet-py/issues/7) |
 | `read_numpy` memory budget preflight | [tet-py#9](https://github.com/Latka-Industries/tet-py/issues/9), [tetration#19](https://github.com/Latka-Industries/tetration/issues/19) |
