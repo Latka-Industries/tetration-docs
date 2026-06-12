@@ -6,7 +6,7 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | **0.1.0** on PyPI; **0.1.1** merged on `main` ([tag pending](https://github.com/Latka-Industries/tet-py/releases)) |
+| **tet-py** (PyPI) | [**0.1.1**](https://pypi.org/project/tet-py/0.1.1/) |
 | **tetration** crate (linked) | **0.1.9** |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
@@ -18,7 +18,7 @@
 | tet-py | tetration crate | Notes |
 |--------|-----------------|-------|
 | **0.1.0** | **0.1.9** | Initial PyPI release; query + NumPy ram/spill/sidecar + f32/f64 write |
-| **0.1.1** | **0.1.9** | `preview=N` on reducers / `query_execute`; `QueryResult.preview` (THI-24) |
+| **0.1.1** | **0.1.9** | Query preview: `preview=N`, `QueryResult.preview` |
 
 - **Patch** tet-py releases may bump the pinned crate for bug fixes.
 - **Minor** tet-py releases may add Python API or query wrappers without layout changes.

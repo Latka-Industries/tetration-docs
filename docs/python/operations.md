@@ -30,6 +30,7 @@ Pass **only one** of `axis` or `axes`, not both. `axis=1` becomes `axes=[1]` on 
 | `raw` | Full reduction | Partial reduction |
 |-------|----------------|-------------------|
 | `False` (default) | Python `float` / `int` / `bool` | `QueryResult` — `.scalar`, `.reduced`, `.matrix`, … |
+| `False` + `preview=N` | `QueryResult` — `.scalar` + `.preview` | `QueryResult` (same fields) |
 | `True` | Full wire `dict` | Full wire `dict` |
 
 ```python
