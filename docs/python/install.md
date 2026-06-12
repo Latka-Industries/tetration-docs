@@ -12,7 +12,7 @@ Verify:
 
 ```python
 import tet
-print(tet.__version__)       # tet-py release, e.g. 0.1.0
+print(tet.__version__)       # tet-py release, e.g. 0.1.1
 print(tet.core_version())    # linked tetration crate, e.g. 0.1.9
 ```
 

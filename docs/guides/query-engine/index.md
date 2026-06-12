@@ -46,7 +46,7 @@ flowchart LR
 |------|--------|
 | `-t PATH` | Attach `.tet` for catalog + read plan |
 | `-x` / `--execute` | Run decode and operation |
-| `--preview N` | Cap preview sample values (default 64 for `full`/`json`) |
+| `--preview N` | Cap preview sample values (default 64 for `full`/`json`); Python: `preview=N` on `f.mean` / `query_execute` → [`QueryResult.preview`](/python/operations#preview-samples-previewn) |
 | `--format` | `full`, `json`, `stats`, `plan`, `quiet`, `table` |
 | `--device` | Optional GPU routing (experimental; needs `-x`) |
 

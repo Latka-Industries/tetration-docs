@@ -1,6 +1,8 @@
 # NumPy interchange
 
-tet-py materializes dense selections and transforms through the same three sinks as the tetration query engine: **ram**, **spill**, and **sidecar**. Decode stays in Rust; Python receives `numpy.ndarray` (copy path in 0.1.0).
+tet-py materializes dense selections and transforms through the same three sinks as the tetration query engine: **ram**, **spill**, and **sidecar**. Decode stays in Rust; Python receives `numpy.ndarray` (copy path in 0.1.x).
+
+For a **small sample** while running a reduction (not full materialization), use [`preview=N`](/python/operations#preview-samples-previewn) on `mean` / `query_execute` — `QueryResult.preview` returns a 1-D capped array (`tet query -x --preview N`).
 
 Requires **NumPy 2.x** (installed with `tet-py`).
 

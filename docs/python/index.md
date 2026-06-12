@@ -3,7 +3,7 @@
 **[tet-py](https://github.com/Latka-Industries/tet-py)** is the official Python package for Tetration. Install from PyPI, `import tet`, and use the same query engine and `.tet` layout as the Rust crate and `tet` CLI.
 
 ::: tip PyPI
-**tet-py 0.1.0** is on PyPI; **0.1.1** (query preview API) on `main` — tag pending: [`pip install tet-py`](https://pypi.org/project/tet-py/)
+**tet-py 0.1.0** is on PyPI; **0.1.1** adds query preview — on `main`, PyPI tag pending: [`pip install tet-py`](https://pypi.org/project/tet-py/)
 
 Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 :::
@@ -62,6 +62,7 @@ import tet
 with tet.open("data.tet") as f:
     print(tet.__version__, tet.core_version())
     print(f.mean("temperature"))
+    r = f.mean("temperature", preview=32)   # QueryResult: scalar + capped preview
     arr = f.read_numpy("temperature")
     z = f.transform.to_numpy.zscore("temperature")
     side = f.transform.to_sidecar.zscore("temperature", path="temperature.zscore.tet")

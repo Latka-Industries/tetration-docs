@@ -15,7 +15,7 @@ with tet.open("data.tet") as f:
     print(ds.shape, ds.dtype)
 ```
 
-Paths support `~` expansion. Opening is read-only via mmap (local filesystem only in 0.1.0).
+Paths support `~` expansion. Opening is read-only via mmap (local filesystem only in 0.1.x).
 
 ## Reductions
 
@@ -44,6 +44,7 @@ r = f.mean("temperature", preview=32)   # QueryResult: r.scalar + r.preview (nda
 ```python
 doc = {"dataset": "temperature", "mean": []}
 r = f.execute(doc)                         # QueryResult
+r = f.execute(doc, preview=32)             # QueryResult with r.preview (ndarray)
 wire = f.execute(doc, raw=True)            # full JSON dict (CLI -x parity)
 
 f.plan_only(doc)                           # plan without executing

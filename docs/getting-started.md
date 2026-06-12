@@ -104,6 +104,10 @@ with tet.open("volume.tet") as f:
     print(tet.__version__, tet.core_version())
     print(f.mean("temperature"))
 
+    # Optional capped preview while querying (CLI: --preview N)
+    r = f.mean("temperature", preview=32)
+    r.scalar, r.preview.shape
+
     # Dense export — three sinks (same as the query engine)
     arr = f.read_numpy("temperature")                              # ram
     z = f.transform.to_numpy.zscore("temperature")                 # transform → ram

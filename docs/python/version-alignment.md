@@ -6,7 +6,7 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | **0.1.0** shipped; **0.1.1** on `main` (tag pending) |
+| **tet-py** (PyPI) | **0.1.0** on PyPI; **0.1.1** merged on `main` ([tag pending](https://github.com/Latka-Industries/tet-py/releases)) |
 | **tetration** crate (linked) | **0.1.9** |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
