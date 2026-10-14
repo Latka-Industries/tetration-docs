@@ -3,14 +3,48 @@
   display: none;
 }
 
-/* Sidebar chrome uses shadcn tokens */
+/* Glass sidebar — translucent wash over the brand ambient field.
+   VitePress scopes .VPSidebar background, so override the token + win with !important. */
 @media (min-width: 960px) {
-  .VPSidebar {
-    background-color: hsl(var(--sidebar-background));
+  :root {
+    --vp-sidebar-bg-color: color-mix(
+      in srgb,
+      hsl(var(--sidebar-background)) 52%,
+      transparent
+    );
   }
 
-  .VPSidebar .curtain {
-    background-color: hsl(var(--sidebar-background));
+  html.dark {
+    --vp-sidebar-bg-color: color-mix(
+      in srgb,
+      hsl(var(--sidebar-background)) 42%,
+      transparent
+    );
+  }
+
+  aside.VPSidebar {
+    background-color: var(--vp-sidebar-bg-color) !important;
+    backdrop-filter: blur(22px) saturate(1.25);
+    -webkit-backdrop-filter: blur(22px) saturate(1.25);
+    border-right: 1px solid color-mix(in srgb, hsl(var(--sidebar-border)) 55%, transparent);
+  }
+
+  aside.VPSidebar .curtain {
+    background-color: var(--vp-sidebar-bg-color) !important;
+    backdrop-filter: blur(22px) saturate(1.25);
+    -webkit-backdrop-filter: blur(22px) saturate(1.25);
+  }
+}
+
+@media (min-width: 960px) and (prefers-reduced-transparency: reduce) {
+  :root {
+    --vp-sidebar-bg-color: hsl(var(--sidebar-background));
+  }
+
+  aside.VPSidebar,
+  aside.VPSidebar .curtain {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }
 

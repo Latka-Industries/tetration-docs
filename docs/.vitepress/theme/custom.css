@@ -1,3 +1,70 @@
+/*
+ * Same shell wash as ublx-docs: primary over background, top + bottom fades.
+ * Wash tint is the Get started button (--vp-button-brand-bg) so tetration keeps its brand
+ * while the gradient shape matches ublx. Content stays transparent; sidebar stays glass.
+ */
+:root {
+  --tetration-shell-bg:
+    linear-gradient(
+      180deg,
+      color-mix(
+          in srgb,
+          var(--vp-button-brand-bg) calc(var(--shell-wash) * 100%),
+          transparent
+        )
+        0%,
+      transparent var(--shell-wash-inset),
+      transparent calc(100% - var(--shell-wash-inset)),
+      color-mix(
+          in srgb,
+          var(--vp-button-brand-bg) calc(var(--shell-wash) * 100%),
+          transparent
+        )
+        100%
+    ),
+    hsl(var(--background));
+  --vp-nav-bg-color: hsl(var(--background));
+  --vp-local-nav-bg-color: hsl(var(--background));
+  --vp-c-bg: transparent;
+  --vp-local-search-bg: var(--tetration-shell-bg);
+  --vp-local-search-result-bg: hsl(var(--background));
+  --vp-local-search-result-selected-bg: hsl(var(--muted));
+}
+
+html,
+body {
+  min-height: 100%;
+  background: var(--tetration-shell-bg);
+  background-attachment: fixed;
+}
+
+.VPNavBar,
+.VPNavBar .wrapper,
+.VPNavBar .container,
+.VPNavBar .content-body,
+.VPLocalNav {
+  background: var(--tetration-shell-bg) !important;
+  background-attachment: fixed !important;
+}
+
+.VPLocalSearchBox .shell {
+  background: var(--tetration-shell-bg) !important;
+  background-attachment: fixed !important;
+  border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 12px 40px hsl(var(--background) / 0.55);
+}
+
+.VPLocalSearchBox .result {
+  background-color: hsl(var(--background)) !important;
+}
+
+.VPContent,
+.VPDoc,
+.VPFooter {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
 /* Viewport film grain. Fixed overlay so it covers nav and content; never intercepts clicks. */
 body::after {
   content: "";

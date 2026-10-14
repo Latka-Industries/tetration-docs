@@ -32,6 +32,9 @@
   --sidebar-accent-foreground: 240 5.9% 10%;
   --sidebar-border: 220 13% 91%;
   --sidebar-ring: 240 5.9% 10%;
+  /* Same shell wash shape as ublx-docs (top+bottom primary fade). */
+  --shell-wash: 0.07;
+  --shell-wash-inset: 28%;
 }
 
 .dark {
@@ -62,6 +65,8 @@
   --sidebar-accent-foreground: 240 4.8% 95.9%;
   --sidebar-border: 240 3.7% 15.9%;
   --sidebar-ring: 240 4.9% 83.9%;
+  --shell-wash: 0.07;
+  --shell-wash-inset: 28%;
 }
 
 @theme inline {
