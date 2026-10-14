@@ -2,6 +2,10 @@
 
 Documentation site for [Tetration](https://github.com/Latka-Industries/tetration) (`.tet` chunked tensor store) and **tet-py** (Python bindings).
 
+**Site:** [https://docs.tetration.sh](https://docs.tetration.sh)
+
+**Contact:** [tensor@tetration.sh](mailto:tensor@tetration.sh)
+
 Built with [VitePress](https://vitepress.dev/).
 
 ## Local development
@@ -11,7 +15,7 @@ npm install
 npm run docs:dev
 ```
 
-Open [http://localhost:5174/tetration-docs/](http://localhost:5174/tetration-docs/) (base path matches GitHub Pages).
+Open [http://localhost:5174/](http://localhost:5174/) after `npm run docs:dev`.
 
 ## Build
 
@@ -22,12 +26,14 @@ npm run docs:preview
 
 ## Deployment
 
-Pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`.
+Pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`. Custom domain via `docs/public/CNAME`.
 
 | Environment | URL |
 |-------------|-----|
-| GitHub Pages (current) | `https://latka-industries.github.io/tetration-docs/` |
-| Custom domain (future) | `https://tetration.dev` |
+| Production | [https://docs.tetration.sh](https://docs.tetration.sh) |
+| GitHub Pages (legacy path) | `https://latka-industries.github.io/tetration-docs/` (retire after DNS cutover; `base` is now `/`) |
+
+DNS: point `docs.tetration.sh` at GitHub Pages and set the custom domain on the **tetration-docs** Pages settings (enforce HTTPS).
 
 ## Site structure
 
@@ -39,3 +45,4 @@ Pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`.
 | `/rust/` | Rust crate usage (links to docs.rs) |
 | `/python/` | tet-py install, query API, NumPy ram/spill/sidecar |
 | `/guides/` | Query engine, cookbook, comparisons |
+| `/contact` | Email and GitHub issue links |

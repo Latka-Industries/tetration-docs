@@ -2,6 +2,7 @@ import type { DefaultTheme } from 'vitepress/theme'
 
 /** Top nav (VitePress default menu — applies `base` to links automatically). */
 export const mainNav: DefaultTheme.NavItem[] = [
+  { text: 'Getting started', link: '/getting-started' },
   {
     text: 'Format',
     items: [
@@ -57,4 +58,5 @@ export const mainNav: DefaultTheme.NavItem[] = [
       { text: 'Mmap read patterns', link: '/guides/mmap-patterns' },
     ],
   },
+  { text: 'Contact', link: '/contact' },
 ]

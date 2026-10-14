@@ -5,7 +5,8 @@ import { mainNav } from './nav'
 export default defineConfig({
   title: 'Tetration',
   description: 'Documentation for the Tetration .tet tensor store, tet CLI, and tet-py.',
-  base: '/tetration-docs/',
+  // Custom domain docs.tetration.sh (GitHub Pages project site with CNAME).
+  base: '/',
   head: [
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
@@ -35,6 +36,7 @@ export default defineConfig({
           items: [
             { text: 'Overview', link: '/' },
             { text: 'Getting started', link: '/getting-started' },
+            { text: 'Contact', link: '/contact' },
           ],
         },
       ],
@@ -105,10 +107,11 @@ export default defineConfig({
       ],
     },
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/Latka-Industries/tetration-docs' },
+      { icon: 'github', link: 'https://github.com/Latka-Industries/tetration' },
     ],
     footer: {
-      message: 'Latka Industries',
+      message:
+        'Latka Industries · <a href="mailto:tensor@tetration.sh">tensor@tetration.sh</a>',
       copyright: 'Copyright © 2026 Alexander Hurowitz',
     },
   },
