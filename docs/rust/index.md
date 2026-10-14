@@ -23,7 +23,7 @@ This site covers usage patterns and cookbooks. Prefer docs.rs for struct fields,
 
 ```toml
 [dependencies]
-tetration = "0.1.9"
+tetration = "0.1.10"
 ```
 
 Requires **Rust 1.95+**.
@@ -38,7 +38,7 @@ Requires **Rust 1.95+**.
 
 ## Embedder flow
 
-1. **Write** — `TetWriterSession::create` → `push_dataset` → `commit()`
+1. **Write** — `TetWriterSession::create` → `push_dataset` with `TetDatasetWrite::f32_row_major`, `f64_row_major`, or `row_major(dtype, …)` → `commit()`. Streaming grids use `TetDatasetStreamSpec` (same builders) and `commit_with_fill`.
 2. **Read / aggregate** — `TetFile::open` → `execute_query_json` → `QueryResponse`
 3. **Dense tensors** — `materialize_query_selection` or `materialize_query_transform_ram` → `DenseMaterializeOutcome`
 

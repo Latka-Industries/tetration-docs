@@ -7,7 +7,8 @@
 | Component | Version |
 |-----------|---------|
 | **tet-py** (PyPI) | [**0.1.1**](https://pypi.org/project/tet-py/0.1.1/) |
-| **tetration** crate (linked) | **0.1.9** |
+| **tetration** crate (current CLI / Rust) | [**0.1.10**](https://crates.io/crates/tetration/0.1.10) |
+| **tetration** crate (linked by tet-py 0.1.1) | **0.1.9** |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -19,6 +20,8 @@
 |--------|-----------------|-------|
 | **0.1.0** | **0.1.9** | Initial PyPI release; query + NumPy ram/spill/sidecar + f32/f64 write |
 | **0.1.1** | **0.1.9** | Query preview: `preview=N`, `QueryResult.preview` |
+
+**tetration 0.1.10** (crate and CLI; not yet linked by tet-py) adds catalog session builders `f64_row_major` and `row_major(dtype, …)` on `TetDatasetWrite` and `TetDatasetStreamSpec`, for any supported wire dtype. See [Write path](/rust/write-path).
 
 - **Patch** tet-py releases may bump the pinned crate for bug fixes.
 - **Minor** tet-py releases may add Python API or query wrappers without layout changes.
@@ -44,7 +47,7 @@ tet --version
 
 ```toml
 [dependencies]
-tetration = "0.1.9"
+tetration = "0.1.10"
 ```
 
 **C ABI:**
