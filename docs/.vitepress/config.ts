@@ -62,6 +62,7 @@ export default defineConfig({
             { text: 'tet query', link: '/cli/query' },
             { text: 'tet verify & repair', link: '/cli/verify-repair' },
             { text: 'tet convert & export', link: '/cli/convert-export' },
+            { text: 'tet ingest / publish / pack', link: '/cli/package' },
             { text: 'tet qhist', link: '/cli/qhist' },
             { text: 'Exit codes & errors', link: '/cli/exit-codes' },
           ],
