@@ -109,7 +109,15 @@ s = f.transform.to_spill.zscore("a", path="a_zscore.bin")  # no RAM cap on outpu
 arr = s.to_numpy()
 ```
 
-Inspect resolved budget via `f.execute(doc, raw=True)` → `execution.memory_budget_bytes`.
+High-level APIs accept `memory_budget_bytes=` / `memory_budget_percent=` (same wire keys as the CLI):
+
+```python
+f.mean("a", memory_budget_percent=40)
+f.execute(doc, memory_budget_bytes=64 * 1024 * 1024, raw=True)
+f.transform.to_numpy.zscore("a", memory_budget_percent=50)
+```
+
+Inspect the resolved budget via `raw=True` → `execution.memory_budget_bytes`.
 
 ### Comparison
 

@@ -40,6 +40,8 @@ partial.reduced
 
 wire = f.mean("a", raw=True)
 r = f.execute({"dataset": "a", "mean": []})
+r = f.execute('dataset = "a"\nmean = []\n')   # TOML (CLI Auto parity)
+f.mean("a", memory_budget_percent=40)         # execution.memory_budget_*
 ```
 
 ## Preview samples (`preview=N`)
@@ -152,9 +154,11 @@ axis_slice(start_label="2020", stop_label="2024")
 |--------|-----|
 | `f.query(doc)` | `tet query -x` |
 | `f.plan_only(doc)` | `tet query` (no `-x`) |
-| `f.query_execute(doc, device=..., preview=N)` | execute with device + preview cap |
+| `f.query_execute(doc, device=..., memory_budget_*=..., preview=N)` | execute with execution hints + preview |
 | `QueryResult.preview` | capped `execution.*_preview` → `ndarray` |
 | `f.execute(doc, plan=True)` | plan only |
+| `f.execute(toml_string)` | TOML query document (Auto detect) |
+| `tet.convert(src.npy, dst.tet)` | NumPy `.npy`/`.npz` → `.tet` |
 | `f.read_numpy(...)` | Materialize selection → ndarray |
 | `f.read_spill(...)` | Spill selection → `SpillReadResult` |
 
