@@ -6,10 +6,9 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.1.1**](https://pypi.org/project/tet-py/0.1.1/) |
+| **tet-py** (PyPI) | [**0.1.2**](https://pypi.org/project/tet-py/0.1.2/) |
 | **tetration** crate (current CLI / Rust) | [**0.1.12**](https://crates.io/crates/tetration/0.1.12) |
-| **tetration** crate (linked by tet-py on `main`) | **0.1.12** |
-| **tetration** crate (linked by PyPI tet-py 0.1.1) | **0.1.9** |
+| **tetration** crate (linked by PyPI tet-py 0.1.2) | **0.1.12** |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -21,9 +20,9 @@
 |--------|-----------------|-------|
 | **0.1.0** | **0.1.9** | Initial PyPI release; query + NumPy ram/spill/sidecar + f32/f64 write |
 | **0.1.1** | **0.1.9** | Query preview: `preview=N`, `QueryResult.preview` |
-| **main** (unreleased) | **0.1.12** | `read_numpy` preflight, f16/u32/u64 export, integer/`f16` `write_dataset` |
+| **0.1.2** | **0.1.12** | `memory_budget_*` kwargs, TOML queries, `read_numpy` preflight, f16/u32/u64 export, integer/`f16` `write_dataset`, `tet.convert` npy/npz |
 
-**tetration 0.1.12** adds selection memory-budget preflight for dense materialize, `DenseBuffer` variants for f16/u32/u64, and earlier 0.1.10 catalog helpers (`f64_row_major` / `row_major`). See [Write path](/rust/write-path).
+**tetration 0.1.12** adds selection memory-budget preflight for dense materialize, `DenseBuffer` variants for f16/u32/u64, transform sidecar drafts via `TetWriterSession`, and earlier 0.1.10 catalog helpers (`f64_row_major` / `row_major`). See [Write path](/rust/write-path).
 
 - **Patch** tet-py releases may bump the pinned crate for bug fixes.
 - **Minor** tet-py releases may add Python API or query wrappers without layout changes.

@@ -3,7 +3,7 @@
 **[tet-py](https://github.com/Latka-Industries/tet-py)** is the official Python package for Tetration. Install from PyPI, `import tet`, and use the same query engine and `.tet` layout as the Rust crate and `tet` CLI.
 
 ::: tip PyPI
-**tet-py 0.1.1** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/0.1.1/)
+**tet-py 0.1.2** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/0.1.2/)
 
 Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 :::
@@ -14,24 +14,26 @@ Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 |------|-------|
 | PyPI / GitHub | **`tet-py`** |
 | Import | **`import tet`** |
-| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.1.12** (linked at build time on `main`; PyPI 0.1.1 still ships 0.1.9) |
+| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.1.12** (linked at build time) |
 | Native extension | `tet._native` (PyO3 / maturin, abi3 `cp311+`) |
 
 Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI remains in the tetration repo for Julia/R/Go embedders.
 
-## What's shipped (0.1.1)
+## What's shipped (0.1.2)
 
 | Topic | Status |
 |-------|--------|
 | PyPI wheels (Linux, macOS, Windows) | ✅ |
 | Open `.tet`, catalog, `info()` / `summary()` | ✅ |
 | Reductions + `QueryResult` (`preview=N` → `.preview` ndarray) | ✅ |
+| TOML query strings + `memory_budget_*` kwargs | ✅ |
 | `build_query`, selections | ✅ |
-| NumPy **ram** — `read_numpy`, `transform.to_numpy` | ✅ |
+| NumPy **ram** — `read_numpy` (budget preflight), `transform.to_numpy` | ✅ |
 | NumPy **spill** — `read_spill`, `transform.to_spill` | ✅ |
 | NumPy **sidecar** — `transform.to_sidecar.*` | ✅ |
-| NumPy **write** — `TetWriter`, `write_dataset` (layout-v1 floats + integers) | ✅ |
-| `tet.convert` extras (h5py, zarr, …) | Planned |
+| NumPy **write** — `TetWriter`, `write_dataset` (layout-v1 floats + integers + `f16`) | ✅ |
+| `tet.convert` — `.npy` / `.npz` | ✅ |
+| `tet.convert` extras (h5py, zarr, …) | Stubbed (use `tet convert` CLI) |
 | Zero-copy mmap → NumPy | Planned |
 | Object-store paths (`s3://…`) | Upstream tetration Phase 12 |
 

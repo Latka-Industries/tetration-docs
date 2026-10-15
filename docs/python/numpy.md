@@ -21,7 +21,7 @@ with tet.open("data.tet") as f:
     arr = f.read_numpy("a", selection=tet.selection_slices(tet.axis_slice(0, 100)))
 ```
 
-Integer dtypes (`i32`, `u8`, `u32`, …) and `f16` / `u64` export work with tetration **0.1.12+** (linked on tet-py `main`).
+Integer dtypes (`i32`, `u8`, `u32`, …) and `f16` / `u64` export work with tetration **0.1.12+** (linked by tet-py **0.1.2**).
 
 ::: tip Preflight on read_numpy (0.1.12+)
 `read_numpy` refuses selections larger than the resolved `memory_budget_bytes`. Slice the selection or use [read_spill](#read-spill) when RAM is tight.
@@ -77,7 +77,7 @@ CLI equivalent:
 
 **Sidecar vs spill:** spill is opaque row-major bytes (`.bin`); sidecar is a full `.tet` you can mmap, re-query, and pass to other tools. **Sidecar vs ram:** sidecar avoids holding the full array in Python RAM and produces a persistent file.
 
-**Sidecar vs `TetWriter`:** both produce a `.tet` on disk. Sidecar is the query engine writing a **transform result** with preset parameters (path beside source, dataset `{source}-{method}`, inherited metadata, transform history). `TetWriter` / `write_dataset` is **authoring** — you supply the NumPy array, name, chunks, and attrs with no source file or transform. Under the hood tetration today uses separate catalog write paths; unification is tracked in [Linear THI-61](https://linear.app/thicclatka/issue/THI-61).
+**Sidecar vs `TetWriter`:** both produce a `.tet` on disk. Sidecar is the query engine writing a **transform result** with preset parameters (path beside source, dataset `{source}-{method}`, inherited metadata, transform history). `TetWriter` / `write_dataset` is **authoring** — you supply the NumPy array, name, chunks, and attrs with no source file or transform. As of tetration **0.1.12**, sidecar drafts route through `TetWriterSession` (same writer path as authoring).
 
 There is no `read_sidecar` top-level op — only transforms can target the sidecar sink. To export a raw selection without a transform, use [`read_spill`](#read-spill) or slice + `read_numpy`.
 
@@ -162,7 +162,7 @@ w.commit()
 
 On `commit`, footer `tool` is set to `tet-py`. Roundtrip: `write_dataset` → `read_numpy` → reductions.
 
-Integer and `float16` write dtypes are supported on tet-py `main` ([THI-26](https://linear.app/thicclatka/issue/THI-26)).
+Integer and `float16` write dtypes are supported in tet-py **0.1.2** ([THI-26](https://linear.app/thicclatka/issue/THI-26)).
 
 ## Sink summary
 
@@ -177,8 +177,6 @@ Integer and `float16` write dtypes are supported on tet-py `main` ([THI-26](http
 | Topic | Tracking |
 |-------|----------|
 | Zero-copy mmap → NumPy | [tet-py#11](https://github.com/Latka-Industries/tet-py/issues/11) |
-| `read_numpy` preflight | **Done** in tetration 0.1.12 ([THI-23](https://linear.app/thicclatka/issue/THI-23)) |
-| Integer `write_dataset` | **Done** ([THI-26](https://linear.app/thicclatka/issue/THI-26)) |
-| `tet.convert` (h5py, zarr, …) | [tet-py#10](https://github.com/Latka-Industries/tet-py/issues/10) |
+| `tet.convert` extras (h5/netcdf/zarr/…) | Scaffolded stubs in 0.1.2; use **`tet convert`** CLI for full import |
 
-Use **`tet convert`** today for HDF5 / NetCDF / Zarr import when native libs are available.
+`.npy` / `.npz` convert via `tet.convert` is available in **0.1.2**. Use the **`tet convert`** CLI for HDF5 / NetCDF / Zarr when native libs are available.

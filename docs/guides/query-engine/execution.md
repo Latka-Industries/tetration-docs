@@ -157,7 +157,7 @@ timestamp = false
 
 Sidecar filename default: `{stem}.{method}.{timestamp}.tet`. Set `"timestamp": false` / `timestamp = false` for stable names. Requires `-t` with a source `.tet` path.
 
-Conceptually, sidecar is **persist a materialized transform as `.tet`** with engine-chosen defaults (name, metadata, publish beside source) — the same bytes could be written via `TetWriterSession`, but v1 uses a dedicated query-engine path ([THI-61](https://linear.app/thicclatka/issue/THI-61) tracks unification).
+Conceptually, sidecar is **persist a materialized transform as `.tet`** with engine-chosen defaults (name, metadata, publish beside source). As of tetration **0.1.12**, sidecar drafts route through `TetWriterSession` (same writer path as programmatic authoring).
 
 ## GPU routing (experimental)
 

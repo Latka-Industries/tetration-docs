@@ -30,7 +30,7 @@ session.push_dataset(ds)?;
 let path = session.commit()?;
 ```
 
-## Dtype builders (0.1.10)
+## Dtype builders (0.1.10+)
 
 `f32_row_major` and `f64_row_major` are thin wrappers. `row_major` takes any layout-v1 wire dtype tag and stores the tensor with the raw chunk codec. Byte length must match `shape` and the dtype width (little-endian, row-major).
 

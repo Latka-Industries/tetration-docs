@@ -190,4 +190,5 @@ Plus: `execute`, `query`, `query_execute`, `plan_only`, `dataset`, `summary`, `i
 
 | Topic | Tracking |
 |-------|----------|
-| `read_numpy` memory budget preflight | **Done** in tetration 0.1.12 ([THI-23](https://linear.app/thicclatka/issue/THI-23)) |
+| Zero-copy mmap → NumPy | [tet-py#11](https://github.com/Latka-Industries/tet-py/issues/11) |
+| Full `tet.convert` extras (h5/netcdf/zarr/…) | Scaffolded in 0.1.2; CLI `tet convert` for production import |
