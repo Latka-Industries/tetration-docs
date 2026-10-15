@@ -8,8 +8,8 @@ The **`tet`** binary ships with the [tetration](https://github.com/Latka-Industr
 |---------|-------|------|
 | [`tet info`](/cli/info) | — | Summarize a file (default: dataset table) |
 | [`tet query`](/cli/query) | `q` | Validate and execute JSON/TOML queries |
-| [`tet verify`](/cli/verify-repair) | — | Layout health check (exit 1 on failure) |
-| [`tet repair`](/cli/verify-repair) | — | Plan or apply safe in-place fixes |
+| [`tet verify`](/cli/verify-repair) | — | Layout / `.tet.d` package health check (exit 1 on failure) |
+| [`tet repair`](/cli/verify-repair) | — | Plan or apply safe in-place fixes (footer, stale publish) |
 | [`tet convert`](/cli/convert-export) | — | HDF5 / NetCDF / Zarr v3 → `.tet` |
 | [`tet export`](/cli/convert-export) | — | `.tet` → Zarr v3 directory store |
 | [`tet qhist`](/cli/qhist) | `hist` | Recent queries (platform cache) |
