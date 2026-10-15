@@ -30,7 +30,7 @@ Tetration is still in development. Layout v1 and query JSON/TOML may change befo
 
 ## Concurrency model
 
-v1 has **no** on-disk locking or live-append protocol:
+A **sealed** layout-v1 `.tet` has **no** on-disk locking or live-append protocol:
 
 | Pattern | Supported? |
 |---------|------------|
@@ -39,7 +39,9 @@ v1 has **no** on-disk locking or live-append protocol:
 | Parallel writers on one file | No (undefined behavior) |
 | Read while another process writes | No (undefined behavior) |
 
-Scale comes from **immutable files + mmap readers**, not concurrent writers.
+Scale for a sealed file comes from **immutable bytes + mmap readers**.
+
+**Multi-writer (0.2 draft):** concurrent ingest uses **immutable shards → single publish → sealed generation**, then readers pin that generation (optionally via a packed `.tet`). See the upstream [writer protocol v2 RFC](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md).
 
 ## Verification
 
