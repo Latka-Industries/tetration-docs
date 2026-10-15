@@ -21,10 +21,10 @@ with tet.open("data.tet") as f:
     arr = f.read_numpy("a", selection=tet.selection_slices(tet.axis_slice(0, 100)))
 ```
 
-Integer dtypes (`i32`, `u8`, …) work where the engine materializes them. `f16` / `u32` / `u64` export is not yet available ([tetration#20](https://github.com/Latka-Industries/tetration/issues/20)).
+Integer dtypes (`i32`, `u8`, `u32`, …) and `f16` / `u64` export work with tetration **0.1.12+** (linked on tet-py `main`).
 
-::: warning No preflight on read_numpy
-`read_numpy` decodes the **full logical selection** with no memory-budget check. For huge tensors, slice the selection or use [read_spill](#read-spill).
+::: tip Preflight on read_numpy (0.1.12+)
+`read_numpy` refuses selections larger than the resolved `memory_budget_bytes`. Slice the selection or use [read_spill](#read-spill) when RAM is tight.
 :::
 
 ## Transform — ram / spill / sidecar
@@ -126,7 +126,7 @@ Inspect the resolved budget via `raw=True` → `execution.memory_budget_bytes`.
 | `mean`, `sum`, streaming folds | Chunk streaming — no full dense buffer |
 | `median`, `quantile`, `histogram` | Temp spill materialize or refuse |
 | `transform.to_numpy` | **Refuse** — use `to_spill` |
-| `read_numpy` | **No preflight** — slice or `read_spill` |
+| `read_numpy` | **Preflight** refuse when over budget (0.1.12+); else slice or `read_spill` |
 
 ## Write
 
@@ -177,7 +177,7 @@ Integer write dtypes beyond f32/f64 are planned ([tet-py#8](https://github.com/L
 | Topic | Tracking |
 |-------|----------|
 | Zero-copy mmap → NumPy | [tet-py#11](https://github.com/Latka-Industries/tet-py/issues/11) |
-| `read_numpy` preflight | [tet-py#9](https://github.com/Latka-Industries/tet-py/issues/9) |
+| `read_numpy` preflight | **Done** in tetration 0.1.12 ([THI-23](https://linear.app/thicclatka/issue/THI-23)) |
 | Integer `write_dataset` | [tet-py#8](https://github.com/Latka-Industries/tet-py/issues/8) |
 | `tet.convert` (h5py, zarr, …) | [tet-py#10](https://github.com/Latka-Industries/tet-py/issues/10) |
 
