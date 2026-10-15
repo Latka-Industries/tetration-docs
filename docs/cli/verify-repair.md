@@ -62,6 +62,24 @@ tet verify data.tet --repair
 
 Missing staging parts after a sealed publish are **OK** when `packed.tet` verifies.
 
+### Package finding `check` names
+
+JSON reports (`tet verify --json`) use these `findings[].check` strings:
+
+| `check` | Severity | Typical cause |
+| ------- | -------- | ------------- |
+| `protocol` | Error | Missing / bad `PROTOCOL` or `protocol_version ≠ 2` |
+| `current` | Error | Unparseable `CURRENT`, or absent while sealed generations exist |
+| `current_packed` / `generation_packed` | Error | Missing `packed.tet` for that generation |
+| `current_manifest` / `generation_manifest` | Error | Missing / unreadable `MANIFEST.json` |
+| `manifest_generation` / `manifest_protocol` | Error | MANIFEST id or protocol mismatch |
+| `manifest_byte_len` / `manifest_sha256` | Error | Length or SHA-256 mismatch vs `packed.tet` |
+| `packed_layout` | Error | Sealed image failed layout-v1 verify |
+| `chunk_coords` | Error | Duplicate chunk coordinates inside `packed.tet` |
+| `publishing_incomplete` | Warn | Live publish lock (prior `CURRENT` still valid) |
+| `publishing_stale` | Warn | Stale lock — repair with `quarantine_publish` |
+| `publishing` / `staging` / `generations` | Warn / Ok | Quarantine leftovers, orphan staging, odd dir names |
+
 ## tet repair
 
 Plan or apply safe in-place fixes from verify recommendations.
