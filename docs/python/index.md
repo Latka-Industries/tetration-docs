@@ -30,7 +30,7 @@ Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI 
 | NumPy **ram** — `read_numpy`, `transform.to_numpy` | ✅ |
 | NumPy **spill** — `read_spill`, `transform.to_spill` | ✅ |
 | NumPy **sidecar** — `transform.to_sidecar.*` | ✅ |
-| NumPy **write** — `TetWriter`, `write_dataset` (f32/f64) | ✅ |
+| NumPy **write** — `TetWriter`, `write_dataset` (layout-v1 floats + integers) | ✅ |
 | `tet.convert` extras (h5py, zarr, …) | Planned |
 | Zero-copy mmap → NumPy | Planned |
 | Object-store paths (`s3://…`) | Upstream tetration Phase 12 |

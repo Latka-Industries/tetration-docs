@@ -21,7 +21,7 @@
 |--------|-----------------|-------|
 | **0.1.0** | **0.1.9** | Initial PyPI release; query + NumPy ram/spill/sidecar + f32/f64 write |
 | **0.1.1** | **0.1.9** | Query preview: `preview=N`, `QueryResult.preview` |
-| **main** (unreleased) | **0.1.12** | `read_numpy` preflight, f16/u32/u64 export, `f64_row_major` writer |
+| **main** (unreleased) | **0.1.12** | `read_numpy` preflight, f16/u32/u64 export, integer/`f16` `write_dataset` |
 
 **tetration 0.1.12** adds selection memory-budget preflight for dense materialize, `DenseBuffer` variants for f16/u32/u64, and earlier 0.1.10 catalog helpers (`f64_row_major` / `row_major`). See [Write path](/rust/write-path).
 

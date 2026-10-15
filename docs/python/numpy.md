@@ -130,7 +130,7 @@ Inspect the resolved budget via `raw=True` → `execution.memory_budget_bytes`.
 
 ## Write
 
-Row-major **`float32` / `float64`** NumPy arrays via `TetWriterSession`:
+Row-major layout-v1 NumPy arrays via `TetWriterSession` (`float16`/`32`/`64`, `int16`/`32`/`64`, `uint8`/`16`/`32`/`64`):
 
 ```python
 import numpy as np
@@ -162,7 +162,7 @@ w.commit()
 
 On `commit`, footer `tool` is set to `tet-py`. Roundtrip: `write_dataset` → `read_numpy` → reductions.
 
-Integer write dtypes beyond f32/f64 are planned ([tet-py#8](https://github.com/Latka-Industries/tet-py/issues/8)).
+Integer and `float16` write dtypes are supported on tet-py `main` ([THI-26](https://linear.app/thicclatka/issue/THI-26)).
 
 ## Sink summary
 
@@ -178,7 +178,7 @@ Integer write dtypes beyond f32/f64 are planned ([tet-py#8](https://github.com/L
 |-------|----------|
 | Zero-copy mmap → NumPy | [tet-py#11](https://github.com/Latka-Industries/tet-py/issues/11) |
 | `read_numpy` preflight | **Done** in tetration 0.1.12 ([THI-23](https://linear.app/thicclatka/issue/THI-23)) |
-| Integer `write_dataset` | [tet-py#8](https://github.com/Latka-Industries/tet-py/issues/8) |
+| Integer `write_dataset` | **Done** ([THI-26](https://linear.app/thicclatka/issue/THI-26)) |
 | `tet.convert` (h5py, zarr, …) | [tet-py#10](https://github.com/Latka-Industries/tet-py/issues/10) |
 
 Use **`tet convert`** today for HDF5 / NetCDF / Zarr import when native libs are available.
