@@ -1,6 +1,6 @@
 # NumPy interchange
 
-tet-py materializes dense selections and transforms through the same three sinks as the tetration query engine: **ram**, **spill**, and **sidecar**. Decode stays in Rust; Python receives `numpy.ndarray` (copy path in 0.1.x).
+tet-py materializes dense selections and transforms through the same three sinks as the tetration query engine: **ram**, **spill**, and **sidecar**. Decode stays in Rust; Python receives `numpy.ndarray` (or a read-only `numpy.memmap` for eligible zero-copy reads).
 
 For a **small sample** while running a reduction (not full materialization), use [`preview=N`](/python/operations#preview-samples-previewn) on `mean` / `query_execute` — `QueryResult.preview` returns a 1-D capped array (`tet query -x --preview N`).
 
@@ -21,10 +21,12 @@ with tet.open("data.tet") as f:
     arr = f.read_numpy("a", selection=tet.selection_slices(tet.axis_slice(0, 100)))
 ```
 
-Integer dtypes (`i32`, `u8`, `u32`, …) and `f16` / `u64` export work with tetration **0.1.12+** (linked by tet-py **0.1.2**).
+**Zero-copy (0.2.0+):** when the selection is a **single raw** (uncompressed) chunk whose payload equals the logical row-major selection, `read_numpy` returns a read-only `numpy.memmap` over that region (independent of the `TetFile` handle). Multi-chunk, zstd, strided, and partial-tile plans still copy.
 
-::: tip Preflight on read_numpy (0.1.12+)
-`read_numpy` refuses selections larger than the resolved `memory_budget_bytes`. Slice the selection or use [read_spill](#read-spill) when RAM is tight.
+Integer dtypes (`i32`, `u8`, `u32`, …) and `f16` / `u64` export are supported.
+
+::: tip Preflight on copy path
+The copy path refuses selections larger than the resolved `memory_budget_bytes`. Slice the selection or use [read_spill](#read-spill) when RAM is tight. Zero-copy memmap views do not allocate a dense buffer.
 :::
 
 ## Transform — ram / spill / sidecar

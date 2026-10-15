@@ -3,7 +3,7 @@
 **[tet-py](https://github.com/Latka-Industries/tet-py)** is the official Python package for Tetration. Install from PyPI, `import tet`, and use the same query engine and `.tet` layout as the Rust crate and `tet` CLI.
 
 ::: tip PyPI
-**tet-py 0.1.2** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/0.1.2/)
+**tet-py 0.2.0** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
 
 Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 :::
@@ -14,12 +14,12 @@ Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 |------|-------|
 | PyPI / GitHub | **`tet-py`** |
 | Import | **`import tet`** |
-| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.1.12** (linked at build time) |
+| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.2.0** (linked at build time) |
 | Native extension | `tet._native` (PyO3 / maturin, abi3 `cp311+`) |
 
 Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI remains in the tetration repo for Julia/R/Go embedders.
 
-## What's shipped (0.1.2)
+## What's shipped (0.2.0)
 
 | Topic | Status |
 |-------|--------|
@@ -32,10 +32,10 @@ Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI 
 | NumPy **spill** — `read_spill`, `transform.to_spill` | ✅ |
 | NumPy **sidecar** — `transform.to_sidecar.*` | ✅ |
 | NumPy **write** — `TetWriter`, `write_dataset` (layout-v1 floats + integers + `f16`) | ✅ |
+| Zero-copy `read_numpy` — single-chunk raw → `numpy.memmap` | ✅ |
 | `tet.convert` — `.npy` / `.npz` | ✅ |
 | `tet.convert` extras (h5py, zarr, …) | Stubbed (use `tet convert` CLI) |
-| Zero-copy mmap → NumPy | Planned |
-| Object-store paths (`s3://…`) | Upstream tetration Phase 12 |
+| Object-store paths (`s3://…`) | Upstream — see [Roadmap](/roadmap) |
 
 ## Sections
 
@@ -84,4 +84,5 @@ with tet.open("data.tet") as f:
 - [Getting started](/getting-started) — CLI install and first queries
 - [Query engine guide](/guides/query-engine/) — wire document schema (shared with CLI)
 - [Rust crate](/rust/) — underlying implementation
-- [tet-py repo](https://github.com/Latka-Industries/tet-py) — source, CI, issue tracker (Linear canonical)
+- [tet-py repo](https://github.com/Latka-Industries/tet-py) — source, CI, issues
+- [Roadmap](/roadmap) — shipped index and prospective directions

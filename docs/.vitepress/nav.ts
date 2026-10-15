@@ -59,5 +59,6 @@ export const mainNav: DefaultTheme.NavItem[] = [
       { text: 'Mmap read patterns', link: '/guides/mmap-patterns' },
     ],
   },
+  { text: 'Roadmap', link: '/roadmap' },
   { text: 'Contact', link: '/contact' },
 ]

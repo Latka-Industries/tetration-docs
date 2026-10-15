@@ -17,3 +17,4 @@ Practical docs for choosing Tetration, reading data efficiently, and running que
 - [Python (tet-py)](/python/) — PyPI install, query API, NumPy
 - [Format spec](/format/) — on-disk layout
 - [CLI reference](/cli/) — all `tet` commands
+- [Roadmap](/roadmap) — shipped index and prospective directions

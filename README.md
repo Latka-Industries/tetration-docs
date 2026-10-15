@@ -45,4 +45,5 @@ DNS: point `docs.tetration.sh` at GitHub Pages and set the custom domain on the 
 | `/rust/` | Rust crate usage (links to docs.rs) |
 | `/python/` | tet-py install, query API, NumPy ram/spill/sidecar |
 | `/guides/` | Query engine, cookbook, comparisons |
+| `/roadmap` | Shipped index + prospective directions (no release schedule) |
 | `/contact` | Email and GitHub issue links |
