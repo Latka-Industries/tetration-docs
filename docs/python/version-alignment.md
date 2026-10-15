@@ -15,12 +15,11 @@
 
 ## Alignment policy
 
+From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **0.2.x** ↔ tetration **0.2.x**).
+
 | tet-py | tetration crate | Notes |
 |--------|-----------------|-------|
-| **0.1.0** | **0.1.9** | Initial PyPI; query + NumPy ram/spill/sidecar + f32/f64 write |
-| **0.1.1** | **0.1.9** | Query preview: `preview=N`, `QueryResult.preview` |
-| **0.1.2** | **0.1.12** | Budgets, TOML, f16/u32/u64 export, integer write, convert npy/npz |
-| **0.2.0** | **0.2.0** | Aligned minor; zero-copy `read_numpy` (single-chunk raw → `memmap`); writer protocol v2 in core |
+| **0.2.0** | **0.2.0** | Zero-copy `read_numpy` (single-chunk raw → `memmap`); writer protocol v2 in core |
 
 - **Patch** tet-py releases may bump the pinned crate for bug fixes.
 - **Minor** tet-py releases may add Python API or query wrappers without layout changes.
@@ -56,14 +55,8 @@ tetration = "0.2"
 assert(tet_abi_version() == TET_ABI_VERSION);
 ```
 
-## Upgrade notes
+## Keeping in sync
 
-When upgrading tet-py:
-
-1. Check the [tet-py releases](https://github.com/Latka-Industries/tet-py/releases) page for the pinned tetration version.
-2. Re-run tests that depend on query wire shape or materialized dtypes.
-3. If you also embed Rust directly, keep the **same tetration minor** as `tet.core_version()` unless you know the diff is compatible.
-
-::: tip
-Watch [tetration releases](https://github.com/Latka-Industries/tetration/releases) for layout and query engine changes that affect both the CLI and tet-py.
-:::
+1. Prefer the [tet-py releases](https://github.com/Latka-Industries/tet-py/releases) page for the pinned tetration version.
+2. If you also embed Rust directly, keep the **same tetration minor** as `tet.core_version()`.
+3. Watch [tetration releases](https://github.com/Latka-Industries/tetration/releases) for layout and query engine changes that affect both the CLI and tet-py.
