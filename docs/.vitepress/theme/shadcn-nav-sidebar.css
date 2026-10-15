@@ -48,6 +48,29 @@
   }
 }
 
+/* Wide layout: VitePress grows the fixed sidebar across the left gutter.
+   Pull it back into a card in the sidebar column so the lattice shows around it.
+   Scoped styles in VPSidebar.vue win on equal selectors, so geometry uses !important. */
+@media (min-width: 1440px) {
+  aside.VPSidebar {
+    top: calc(var(--vp-nav-height) + 12px) !important;
+    bottom: 16px !important;
+    left: calc((100vw - var(--vp-layout-max-width)) / 2 + 8px) !important;
+    width: calc(var(--vp-sidebar-width) - 16px) !important;
+    max-width: calc(var(--vp-sidebar-width) - 16px) !important;
+    height: auto !important;
+    padding: 12px 14px 20px !important;
+    border: 1px solid color-mix(in srgb, hsl(var(--sidebar-border)) 55%, transparent) !important;
+    border-radius: 16px;
+    box-shadow: 0 16px 48px hsl(var(--background) / 0.45);
+    overflow: auto;
+  }
+
+  aside.VPSidebar .curtain {
+    display: none;
+  }
+}
+
 .shadcn-sidebar-nav + .group {
   display: none;
 }
