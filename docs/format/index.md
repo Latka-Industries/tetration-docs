@@ -40,10 +40,11 @@ Booleans from HDF5, Zarr, and similar sources import as **`u8`** (0/1).
 - [Chunks](/format/chunks) — index entries, codecs, mmap access
 - [Versioning](/format/versioning) — format version field and compatibility policy
 - [Design rationale](/format/design-rationale) — why `.tet` vs directory stores
+- [Writer protocol v2 (draft)](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md) — multi-writer shards + publish (upstream RFC)
 
 ## Canonical source
 
-The Rust crate in [Latka-Industries/tetration](https://github.com/Latka-Industries/tetration) is the reference implementation. The upstream [`docs/layout_v1.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/layout_v1.md) tracks byte-level details as the format evolves.
+The Rust crate in [Latka-Industries/tetration](https://github.com/Latka-Industries/tetration) is the reference implementation. The upstream [`docs/layout_v1.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/layout_v1.md) tracks byte-level details as the format evolves. Writer concurrency beyond one sealed file: [`docs/writer_protocol_v2.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md).
 
 ::: warning Pre-1.0
 Layout v1 and query JSON/TOML may change before the 1.0 release. Check the tetration repo for the latest guarantees.

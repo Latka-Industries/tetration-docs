@@ -9,7 +9,8 @@ Tetration combines **HDF5-shaped persistence** (many large arrays in one durable
 | **Single-file portability** | One file to copy, archive, or attach to object storage |
 | **Partial I/O by default** | Chunk index → mmap only intersecting payloads |
 | **Query-friendly metadata** | JSON/TOML control plane; footer carries axis names and attrs |
-| **Read-many / write-once** | Immutable sealed files; unlimited concurrent readers |
+| **Read-many / write-once (sealed)** | Immutable sealed files or generations; unlimited concurrent readers |
+| **Multi-writer (0.2+)** | Immutable shards → single publish → sealed generation — not parallel updates to one live file ([writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md)) |
 
 ## When to use `.tet`
 
@@ -22,7 +23,7 @@ Good fits:
 Less ideal:
 
 - Tabular analytics with heavy columnar filtering → consider **Parquet**
-- Cloud-native sharded writes with many concurrent writers → consider **Zarr**
+- Cloud object-store backends before Tetration 0.3 → consider **Zarr** (0.2 local multi-writer is shards + publish; see [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md))
 - Simple single-array interchange → **NPY** may suffice
 - SQL-on-files or ad-hoc relational queries → not a v1 goal
 
@@ -39,9 +40,10 @@ Query documents are **flat** — e.g. `"mean": []` / `mean = []`. Nested `"opera
 - SQL-on-files
 - Arbitrary codec plugins in the file format
 - GPU codecs in the on-disk layout (optional GPU is a query-time execution concern)
-- Multiple concurrent writers on one file
+- Multiple concurrent writers on **one live** `.tet` / TIDX (still forbidden; use writer protocol v2 for multi-writer)
 
 ## Further reading
 
 - [tetration README — Design stance](https://github.com/Latka-Industries/tetration#design-stance-short)
 - [Query engine docs](https://github.com/Latka-Industries/tetration/blob/main/docs/query_engine.md) in the tetration repo
+- [Writer protocol v2 (draft RFC)](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md) — shards, generations, publish
