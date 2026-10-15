@@ -35,6 +35,10 @@
   /* Same shell wash shape as ublx-docs (top+bottom primary fade). */
   --shell-wash: 0.07;
   --shell-wash-inset: 28%;
+
+  /* Lattice under the shell wash */
+  --lattice-size: 88px;
+  --lattice-line: hsl(var(--foreground) / 0.045);
 }
 
 .dark {
@@ -67,6 +71,8 @@
   --sidebar-ring: 240 4.9% 83.9%;
   --shell-wash: 0.07;
   --shell-wash-inset: 28%;
+
+  --lattice-line: color-mix(in oklab, var(--vp-c-brand-1) 14%, transparent);
 }
 
 @theme inline {

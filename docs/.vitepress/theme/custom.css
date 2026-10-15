@@ -4,6 +4,9 @@
  * while the gradient shape matches ublx. Content stays transparent; sidebar stays glass.
  */
 :root {
+  --lattice-veil-mid: 0.82;
+  --lattice-veil-outer: 0.98;
+
   --tetration-shell-bg:
     linear-gradient(
       180deg,
@@ -22,6 +25,29 @@
         )
         100%
     ),
+    radial-gradient(
+      ellipse 85% 65% at 50% 22%,
+      transparent 0%,
+      hsl(var(--background) / var(--lattice-veil-mid)) 42%,
+      hsl(var(--background) / var(--lattice-veil-outer)) 72%,
+      hsl(var(--background)) 100%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent calc(var(--lattice-size) - 3px),
+      color-mix(in oklab, var(--lattice-line) 35%, transparent) calc(var(--lattice-size) - 2px),
+      var(--lattice-line) calc(var(--lattice-size) - 1px),
+      color-mix(in oklab, var(--lattice-line) 35%, transparent) var(--lattice-size)
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent calc(var(--lattice-size) - 3px),
+      color-mix(in oklab, var(--lattice-line) 35%, transparent) calc(var(--lattice-size) - 2px),
+      var(--lattice-line) calc(var(--lattice-size) - 1px),
+      color-mix(in oklab, var(--lattice-line) 35%, transparent) var(--lattice-size)
+    ),
     hsl(var(--background));
   --vp-nav-bg-color: hsl(var(--background));
   --vp-local-nav-bg-color: hsl(var(--background));
@@ -29,6 +55,23 @@
   --vp-local-search-bg: var(--tetration-shell-bg);
   --vp-local-search-result-bg: hsl(var(--background));
   --vp-local-search-result-selected-bg: hsl(var(--muted));
+}
+
+html.dark {
+  --lattice-veil-mid: 0.74;
+  --lattice-veil-outer: 0.97;
+}
+
+html:has(.VPHome) {
+  --lattice-veil-mid: 0.72;
+  --lattice-veil-outer: 0.97;
+  --lattice-line: hsl(var(--foreground) / 0.07);
+}
+
+html.dark:has(.VPHome) {
+  --lattice-veil-mid: 0.62;
+  --lattice-veil-outer: 0.95;
+  --lattice-line: color-mix(in oklab, var(--vp-c-brand-1) 22%, transparent);
 }
 
 html,
