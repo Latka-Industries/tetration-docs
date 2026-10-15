@@ -104,7 +104,9 @@ write_raw_array_file(
 
 ## Concurrency
 
-v1 supports **one writer, then many readers**. Finish `commit()` before other processes read the file. There is no on-disk locking or live-append protocol.
+v1 standalone `.tet` supports **one writer, then many readers**. Finish `commit()` before other processes read the file. There is no on-disk locking or live-append protocol on one live file.
+
+For **multi-writer ingest** into a `.tet.d` package, use [`TetShardWriter`](https://docs.rs/tetration/latest/tetration/catalog/struct.TetShardWriter.html) (staging `part-*.tet` + `PART_META.json`) and publish separately — see the upstream [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md). Prefer classic [`TetWriterSession`](https://docs.rs/tetration/latest/tetration/catalog/struct.TetWriterSession.html) when you only need a single sealed `.tet`.
 
 ## Examples
 
