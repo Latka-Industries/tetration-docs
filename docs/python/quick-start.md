@@ -47,6 +47,12 @@ r = f.execute(doc)                         # QueryResult
 r = f.execute(doc, preview=32)             # QueryResult with r.preview (ndarray)
 wire = f.execute(doc, raw=True)            # full JSON dict (CLI -x parity)
 
+# TOML strings work too (same Auto detect as `tet query`)
+r = f.execute('dataset = "temperature"\nmean = []\n')
+
+# Optional execution hints (CLI parity)
+f.mean("temperature", memory_budget_percent=40, device="cpu")
+
 f.plan_only(doc)                           # plan without executing
 ```
 
