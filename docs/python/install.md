@@ -12,8 +12,8 @@ Verify:
 
 ```python
 import tet
-print(tet.__version__)       # tet-py release, e.g. 0.1.2
-print(tet.core_version())    # linked tetration crate, e.g. 0.1.12
+print(tet.__version__)       # tet-py release, e.g. 0.2.1
+print(tet.core_version())    # linked tetration crate, e.g. 0.2.1
 ```
 
 ::: warning PyPI name collision

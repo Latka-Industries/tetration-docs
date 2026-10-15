@@ -3,7 +3,7 @@
 **[tet-py](https://github.com/Latka-Industries/tet-py)** is the official Python package for Tetration. Install from PyPI, `import tet`, and use the same query engine and `.tet` layout as the Rust crate and `tet` CLI.
 
 ::: tip PyPI
-**tet-py 0.2.0** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
+**tet-py 0.2.1** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
 
 Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 :::
@@ -14,12 +14,14 @@ Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 |------|-------|
 | PyPI / GitHub | **`tet-py`** |
 | Import | **`import tet`** |
-| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.2.0** (linked at build time) |
+| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.2.1** (linked at build time) |
 | Native extension | `tet._native` (PyO3 / maturin, abi3 `cp311+`) |
 
 Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI remains in the tetration repo for Julia/R/Go embedders.
 
-## What's shipped (0.2.0)
+## What's shipped (0.2.x)
+
+**0.2.1** pins tetration **0.2.1**. No new Python API. The table below is the 0.2 feature set (introduced in **0.2.0**).
 
 | Topic | Status |
 |-------|--------|
