@@ -13,7 +13,7 @@ Verify:
 ```python
 import tet
 print(tet.__version__)       # tet-py release, e.g. 0.1.1
-print(tet.core_version())    # linked tetration crate, e.g. 0.1.9
+print(tet.core_version())    # linked tetration crate, e.g. 0.1.12
 ```
 
 ::: warning PyPI name collision
@@ -51,7 +51,7 @@ Build requirements:
 - Rust **1.95+**
 - [maturin](https://www.maturin.rs/) **1.7+**
 
-Release builds pin **`tetration = "0.1.9"`** from [crates.io](https://crates.io/crates/tetration) — no sibling tetration checkout required.
+Release builds pin **`tetration`** from [crates.io](https://crates.io/crates/tetration) (PyPI **0.1.1** → 0.1.9; `main` → **0.1.12**) — no sibling tetration checkout required.
 
 ## Install the CLI (optional)
 
