@@ -6,7 +6,7 @@
 |---------|--------|--------|
 | `tet verify` | All checks pass | Verification failed |
 | `tet query` | Success | Parse, validation, or execution error |
-| `tet convert` / `tet export` | Success | I/O or format error |
+| `tet convert` / `tet export` | Success | I/O, format error, or `tet convert --strict` when any array was skipped |
 | `tet repair` | Success | Repair failed or invalid code |
 | `tet info` | Success | File not found or unreadable |
 

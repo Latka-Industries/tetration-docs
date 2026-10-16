@@ -23,6 +23,9 @@ tet convert [OPTIONS] <INPUT> <OUTPUT>
 | Flag | Effect |
 |------|--------|
 | `--jobs N` | Parallel chunk read workers (`0` = host `available_parallelism`, capped at 64) |
+| `--strict` | Exit with an error and do not write the `.tet` if any source array is skipped |
+
+Unsupported arrays (strings, compounds, empty datasets, scalars) are left out of the file. Their paths and reasons are printed on stderr and included as `skipped` in the JSON report. Without `--strict`, convert still succeeds when at least one numeric array was written.
 
 ### Examples
 
