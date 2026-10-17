@@ -35,4 +35,20 @@ Entry points: `pin_packed_tet`, `execute_query_with_store`, `execute_query_on_st
 - No local block cache yet (planned 0.3.3).
 - `s3://` is recognized in URI parse only until 0.3.1.
 
-Normative detail: [query engine — store-backed reads](https://github.com/Latka-Industries/tetration/blob/main/docs/query_engine.md#store-backed-reads-030--phase-12-foundation) in the crate repo.
+## Python (tet-py)
+
+```python
+import tet
+
+with tet.open("climate.tet.d") as f:          # pins CURRENT
+    print(f.generation, f.mean("temp"))
+
+with tet.open("climate.tet.d?generation=1") as f:
+    arr = f.read_numpy("temp")
+
+store = tet.MemoryStore.from_package("climate.tet.d")
+with store.open("memory://current") as f:     # in-memory pin; no S3
+    assert f.generation == 1
+```
+
+Advancing `CURRENT` under an open handle does not retarget that handle. Normative Rust detail: [query engine — store-backed reads](https://github.com/Latka-Industries/tetration/blob/main/docs/query_engine.md#store-backed-reads-030--phase-12-foundation).
