@@ -158,7 +158,7 @@ axis_slice(start_label="2020", stop_label="2024")
 | `QueryResult.preview` | capped `execution.*_preview` → `ndarray` |
 | `f.execute(doc, plan=True)` | plan only |
 | `f.execute(toml_string)` | TOML query document (Auto detect) |
-| `tet.convert(src, dst.tet)` | `.npy`/`.npz`/`.csv`/`.tsv`; h5/netcdf/zarr/parquet extras |
+| `tet.convert(src, dst.tet)` | local path or single-file `s3://bucket/file`; `.npy`/`.npz`/`.csv`/`.tsv`; h5/netcdf/zarr/parquet extras |
 | `tet.export(src.tet, dst)` / `f.export(dst)` | `.tet` → h5/netcdf/zarr via extras (`[export]` or per-format) |
 | `tet.ingest` / `tet.publish` | Stage / seal `.tet.d` package parts |
 | `S3Store.connect` / `.ingest` / `.publish` / `.open` | S3-compatible store ingest + pin |
