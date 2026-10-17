@@ -12,7 +12,7 @@ Tetration already covers efficient **partial I/O** over a local mmap-friendly `.
 | ---- | ----- |
 | Layout v1 | Superblock, catalog, chunk index, raw/zstd — [Format](/format/) |
 | Query engine | Reductions, transforms, spill/sidecar, selections — [Query engine](/guides/query-engine/) |
-| Convert / export | HDF5, NetCDF, Zarr v3 — [CLI convert](/cli/convert-export) |
+| Convert / export | HDF5, NetCDF, Zarr — [CLI convert & export](/cli/convert-export); Python `tet.convert` / `tet.export` |
 | Verify / repair | Quick + deep decode — [CLI verify](/cli/verify-repair) |
 | Optional GPU | Experimental device routing for tier-A/B `f32`/`f16` |
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |

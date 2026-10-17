@@ -15,7 +15,7 @@ This site covers usage patterns and cookbooks. Prefer docs.rs for struct fields,
 | `catalog` | File layout, `TetFile`, `TetWriterSession`, catalog summary |
 | `query` | JSON/TOML parse, plan, execute, materialize |
 | `convert` | HDF5 / NetCDF / Zarr v3 import |
-| `export` | Zarr v3 export |
+| `export` | Zarr / HDF5 / NetCDF export |
 | `verify` / `repair` | File health |
 | `ffi` | C ABI behind `tetration-ffi` feature |
 
@@ -23,7 +23,7 @@ This site covers usage patterns and cookbooks. Prefer docs.rs for struct fields,
 
 ```toml
 [dependencies]
-tetration = "0.2.2"
+tetration = "0.2.3"
 ```
 
 Requires **Rust 1.95+**.

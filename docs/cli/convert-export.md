@@ -1,10 +1,10 @@
 # tet convert & export
 
-Import external array formats into `.tet`, or export back to Zarr v3.
+Import external array formats into `.tet`, or export back to Zarr / HDF5 / NetCDF.
 
 ## tet convert
 
-Convert HDF5, NetCDF, or Zarr v3 into a `.tet` file.
+Convert HDF5, NetCDF, or Zarr into a `.tet` file.
 
 ```bash
 tet convert [OPTIONS] <INPUT> <OUTPUT>
@@ -16,7 +16,7 @@ tet convert [OPTIONS] <INPUT> <OUTPUT>
 |--------|-------------------|
 | HDF5 | `.h5`, `.hdf5`, `.hdf`, `.he2`, `.he5`, or file signature |
 | NetCDF | `.nc`, `.netcdf`, `.nc4`, `.nc3`, `.cdf`, or signature |
-| Zarr v3 | Directory with root `zarr.json` |
+| Zarr v2 / v3 | Directory store (v3 root `zarr.json`, or v2 `.zarray` / `.zgroup`) |
 
 ### Flags
 
@@ -44,7 +44,7 @@ HDF5 and NetCDF convert require the `tetration-hdf5` and `tetration-netcdf` crat
 
 ## tet export
 
-Export a `.tet` file to a Zarr v3 directory store.
+Export a `.tet` file to Zarr, HDF5, or NetCDF. Format is inferred from the output path (or use an explicit directory for Zarr).
 
 ```bash
 tet export <INPUT> <OUTPUT>
@@ -53,16 +53,25 @@ tet export <INPUT> <OUTPUT>
 | Arg | Effect |
 |-----|--------|
 | `<INPUT>` | Source `.tet` file |
-| `<OUTPUT>` | Zarr v3 directory; must be missing or **empty** |
+| `<OUTPUT>` | Destination: Zarr directory (must be missing or **empty**), `.h5` / `.hdf5`, or `.nc` / `.netcdf` |
 
-Preserves per-dataset **raw** or **zstd** chunk bytes. Slash-separated dataset names become nested groups (`primary/f32`).
+| Format | Behavior |
+|--------|----------|
+| **Zarr v3** | Preserves per-dataset **raw** or **zstd** chunk bytes; slash-separated names become nested groups |
+| **HDF5** / **NetCDF** | Densifies each dataset (decode + scatter), then writes; carries `dim_names` and basic string attrs |
 
-### Example
+### Examples
 
 ```bash
 tet export volume.tet volume.zarr/
+tet export volume.tet volume.h5
+tet export volume.tet volume.nc
 ```
 
-Progress (dataset count, chunks written, elapsed seconds) goes to stderr.
+Progress (dataset count, chunks/arrays written, elapsed seconds) goes to stderr.
 
-In Rust: [`export_tet_to_zarr`](https://docs.rs/tetration/latest/tetration/export/fn.export_tet_to_zarr.html).
+In Rust: [`export_tet`](https://docs.rs/tetration/latest/tetration/export/fn.export_tet.html) (dispatches by path), plus [`export_tet_to_zarr`](https://docs.rs/tetration/latest/tetration/export/fn.export_tet_to_zarr.html), [`export_tet_to_hdf5`](https://docs.rs/tetration/latest/tetration/export/fn.export_tet_to_hdf5.html), and [`export_tet_to_netcdf`](https://docs.rs/tetration/latest/tetration/export/fn.export_tet_to_netcdf.html).
+
+::: info Dependencies
+HDF5 and NetCDF export need the same `tetration-hdf5` / `tetration-netcdf` features as convert (default). Zarr export is always available.
+:::

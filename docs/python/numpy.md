@@ -176,7 +176,7 @@ Integer and `float16` write dtypes are supported in tet-py **0.1.2** ([THI-26](h
 | **spill** | `read_spill` → `.to_numpy()` | `transform.to_spill.*` → `.to_numpy()` | — |
 | **sidecar** | Reopen via `SidecarTransformResult.open()` or `tet.open(path)` | `transform.to_sidecar.*` → `.to_numpy(f)` | — (use `TetWriter` for author-written files) |
 
-## Convert
+## Convert & export
 
 ```python
 import tet
@@ -185,6 +185,10 @@ tet.convert("array.npy", "out.tet")
 tet.convert("table.csv", "out.tet")          # or .tsv
 tet.convert("volume.h5", "out.tet")          # needs tet-py[h5]
 tet.convert("store.zarr", "out.tet")         # needs tet-py[zarr]
+
+tet.export("out.tet", "out.h5")              # needs tet-py[h5]
+tet.export("out.tet", "out.nc")              # needs tet-py[netcdf]
+tet.export("out.tet", "out.zarr")            # needs tet-py[zarr]
 ```
 
-Core formats: `.npy`, multi-array `.npz`, `.csv`, `.tsv`. Optional extras: `[h5]`, `[netcdf]`, `[zarr]`, `[parquet]` (or `[convert]` for all). The **`tet convert`** CLI remains available for native HDF5/NetCDF/Zarr without Python deps — see [Install](/python/install).
+Core convert formats: `.npy`, multi-array `.npz`, `.csv`, `.tsv`. Optional extras: `[h5]`, `[netcdf]`, `[zarr]`, `[parquet]` (or `[convert]` / `[export]`). Values are densified via `read_numpy`. Prefer the **`tet convert`** / **`tet export`** CLI for native HDF5/NetCDF or chunk-preserving Zarr — see [Install](/python/install) and [CLI convert & export](/cli/convert-export).

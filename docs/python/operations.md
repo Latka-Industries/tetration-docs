@@ -159,6 +159,7 @@ axis_slice(start_label="2020", stop_label="2024")
 | `f.execute(doc, plan=True)` | plan only |
 | `f.execute(toml_string)` | TOML query document (Auto detect) |
 | `tet.convert(src, dst.tet)` | `.npy`/`.npz`/`.csv`/`.tsv`; h5/netcdf/zarr/parquet extras |
+| `tet.export(src.tet, dst)` / `f.export(dst)` | `.tet` → h5/netcdf/zarr via extras (`[export]` or per-format) |
 | `tet.ingest` / `tet.publish` | Stage / seal `.tet.d` package parts |
 | `tet.open("pkg.tet.d")` | Open package via `CURRENT` → packed generation |
 | `f.read_numpy(...)` | Materialize selection → ndarray |

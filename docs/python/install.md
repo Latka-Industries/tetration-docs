@@ -12,18 +12,19 @@ Verify:
 
 ```python
 import tet
-print(tet.__version__)       # tet-py release, e.g. 0.2.2
-print(tet.core_version())    # linked tetration crate, e.g. 0.2.2
+print(tet.__version__)       # tet-py release, e.g. 0.2.3
+print(tet.core_version())    # linked tetration crate, e.g. 0.2.3
 ```
 
-Optional convert extras (install what you need):
+Optional convert / export extras (install what you need):
 
 ```bash
-pip install "tet-py[h5]"        # HDF5 via h5py
-pip install "tet-py[netcdf]"    # NetCDF via netCDF4
-pip install "tet-py[zarr]"      # Zarr v3
-pip install "tet-py[parquet]"   # Parquet via pyarrow
-pip install "tet-py[convert]"   # all of the above
+pip install "tet-py[h5]"        # HDF5 via h5py (convert + export)
+pip install "tet-py[netcdf]"    # NetCDF via netCDF4 (convert + export)
+pip install "tet-py[zarr]"      # Zarr (convert + export)
+pip install "tet-py[parquet]"   # Parquet via pyarrow (convert only)
+pip install "tet-py[export]"    # h5 + netcdf + zarr (export side)
+pip install "tet-py[convert]"   # all convert extras (includes parquet)
 ```
 
 Core `.npy` / `.npz` / `.csv` / `.tsv` convert needs no extras.
@@ -63,7 +64,7 @@ Build requirements:
 - Rust **1.95+**
 - [maturin](https://www.maturin.rs/) **1.7+**
 
-Release builds pin **`tetration`** from [crates.io](https://crates.io/crates/tetration) (currently **0.2.2**) — no sibling tetration checkout required.
+Release builds pin **`tetration`** from [crates.io](https://crates.io/crates/tetration) (currently **0.2.3**) — no sibling tetration checkout required.
 
 ## Install the CLI (optional)
 

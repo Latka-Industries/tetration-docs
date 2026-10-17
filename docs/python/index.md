@@ -3,7 +3,7 @@
 **[tet-py](https://github.com/Latka-Industries/tet-py)** is the official Python package for Tetration. Install from PyPI, `import tet`, and use the same query engine and `.tet` layout as the Rust crate and `tet` CLI.
 
 ::: tip PyPI
-**tet-py 0.2.2** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
+**tet-py 0.2.3** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
 
 Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 :::
@@ -14,14 +14,14 @@ Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 |------|-------|
 | PyPI / GitHub | **`tet-py`** |
 | Import | **`import tet`** |
-| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.2.2** (linked at build time) |
+| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.2.3** (linked at build time) |
 | Native extension | `tet._native` (PyO3 / maturin, abi3 `cp311+`) |
 
 Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI remains in the tetration repo for Julia/R/Go embedders.
 
 ## What's shipped (0.2.x)
 
-**0.2.2** pins tetration **0.2.2** and adds convert extras, package open/ingest/publish, and multi-chunk zero-copy reads. The table below is the full 0.2 feature set.
+**0.2.3** pins tetration **0.2.3** and adds `tet.export` (HDF5 / NetCDF / Zarr via extras). The table below is the full 0.2 feature set.
 
 | Topic | Status |
 |-------|--------|
@@ -39,6 +39,7 @@ Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI 
 | Zero-copy `read_numpy` — single-chunk or full-width multi-chunk raw → `numpy.memmap` | ✅ |
 | `tet.convert` — `.npy` / `.npz` / `.csv` / `.tsv` | ✅ |
 | `tet.convert` extras (`[h5]`, `[netcdf]`, `[zarr]`, `[parquet]`) | ✅ (optional deps) |
+| `tet.export` / `TetFile.export` (`[h5]`, `[netcdf]`, `[zarr]`, or `[export]`) | ✅ (optional deps) |
 | Object-store paths (`s3://…`) | Upstream — see [Roadmap](/roadmap) |
 
 ## Sections
@@ -94,8 +95,9 @@ with tet.open("demo.tet.d") as f:
 | Need | Use |
 |------|-----|
 | Python notebooks / NumPy / pandas | **tet-py** |
-| HDF5 / NetCDF / Zarr / Parquet from Python | **`tet.convert`** with the matching optional extra |
-| Fast native convert without Python deps | **`tet convert`** CLI |
+| HDF5 / NetCDF / Zarr / Parquet → `.tet` from Python | **`tet.convert`** with the matching optional extra |
+| `.tet` → HDF5 / NetCDF / Zarr from Python | **`tet.export`** with `[h5]` / `[netcdf]` / `[zarr]` / `[export]` |
+| Fast native convert / export without Python deps | **`tet convert`** / **`tet export`** CLI |
 | Custom Rust service or lowest-level control | **`tetration`** crate |
 | Other language bindings | [C ABI / FFI](/rust/ffi) |
 
