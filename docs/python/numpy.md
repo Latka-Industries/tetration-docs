@@ -21,7 +21,9 @@ with tet.open("data.tet") as f:
     arr = f.read_numpy("a", selection=tet.selection_slices(tet.axis_slice(0, 100)))
 ```
 
-**Zero-copy (0.2.0+):** when the selection is a **single raw** (uncompressed) chunk whose payload equals the logical row-major selection, `read_numpy` returns a read-only `numpy.memmap` over that region (independent of the `TetFile` handle). Multi-chunk, zstd, strided, and partial-tile plans still copy.
+**Zero-copy (0.2.0+):** when the selection is a **single raw** (uncompressed) chunk whose payload equals the logical row-major selection, `read_numpy` returns a read-only `numpy.memmap` over that region (independent of the `TetFile` handle).
+
+**Multi-chunk slabs (0.2.2+):** a contiguous full-width selection spanning multiple abutting raw chunks can also return a memmap when the payloads form one linear slab. Zstd, strided, and partial-tile plans still copy.
 
 Integer dtypes (`i32`, `u8`, `u32`, …) and `f16` / `u64` export are supported.
 
@@ -174,11 +176,15 @@ Integer and `float16` write dtypes are supported in tet-py **0.1.2** ([THI-26](h
 | **spill** | `read_spill` → `.to_numpy()` | `transform.to_spill.*` → `.to_numpy()` | — |
 | **sidecar** | Reopen via `SidecarTransformResult.open()` or `tet.open(path)` | `transform.to_sidecar.*` → `.to_numpy(f)` | — (use `TetWriter` for author-written files) |
 
-## Planned
+## Convert
 
-| Topic | Tracking |
-|-------|----------|
-| Zero-copy mmap → NumPy | [tet-py#11](https://github.com/Latka-Industries/tet-py/issues/11) |
-| `tet.convert` extras (h5/netcdf/zarr/…) | Scaffolded stubs in 0.1.2; use **`tet convert`** CLI for full import |
+```python
+import tet
 
-`.npy` / `.npz` convert via `tet.convert` is available in **0.1.2**. Use the **`tet convert`** CLI for HDF5 / NetCDF / Zarr when native libs are available.
+tet.convert("array.npy", "out.tet")
+tet.convert("table.csv", "out.tet")          # or .tsv
+tet.convert("volume.h5", "out.tet")          # needs tet-py[h5]
+tet.convert("store.zarr", "out.tet")         # needs tet-py[zarr]
+```
+
+Core formats: `.npy`, multi-array `.npz`, `.csv`, `.tsv`. Optional extras: `[h5]`, `[netcdf]`, `[zarr]`, `[parquet]` (or `[convert]` for all). The **`tet convert`** CLI remains available for native HDF5/NetCDF/Zarr without Python deps — see [Install](/python/install).

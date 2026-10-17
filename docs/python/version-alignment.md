@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.2.1**](https://pypi.org/project/tet-py/0.2.1/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.2.1**](https://crates.io/crates/tetration/0.2.1) |
+| **tet-py** (PyPI) | [**0.2.2**](https://pypi.org/project/tet-py/0.2.2/) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.2.2**](https://crates.io/crates/tetration/0.2.2) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -19,6 +19,7 @@ From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **
 
 | tet-py | tetration crate | Notes |
 |--------|-----------------|-------|
+| **0.2.2** | **0.2.2** | Convert extras (h5/netcdf/zarr/parquet) + CSV/TSV; `.tet.d` open/ingest/publish; multi-chunk zero-copy `read_numpy` |
 | **0.2.1** | **0.2.1** | Pin alignment only (package verify hardening + package fuzz in core; no Python API change) |
 | **0.2.0** | **0.2.0** | Zero-copy `read_numpy` (single-chunk raw → `memmap`); writer protocol v2 in core |
 

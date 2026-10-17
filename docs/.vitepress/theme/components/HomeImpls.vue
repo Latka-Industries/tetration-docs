@@ -44,20 +44,20 @@ const repos: Array<{
       { src: 'https://img.shields.io/crates/v/tetration.svg', alt: 'tetration on crates.io' },
       { src: 'https://img.shields.io/docsrs/tetration', alt: 'tetration on docs.rs' },
       {
-        src: 'https://github.com/Latka-Industries/tetration/workflows/Build/badge.svg',
-        alt: 'tetration build status',
+        src: 'https://github.com/Latka-Industries/tetration/actions/workflows/ci.yml/badge.svg',
+        alt: 'tetration CI',
       },
     ],
     icon: RustIcon,
     iconClass: 'size-5 text-[#DEA584]',
     iconBoxClass: 'border-[#DEA584]/20 bg-[#DEA584]/10',
     badges: topicBadges([
-      'tensor',
+      'tensors',
       'mmap',
-      'cli',
       'chunked-storage',
       'query-engine',
-      'rust',
+      'hdf5',
+      'zarr',
     ]),
   },
   {
@@ -79,7 +79,7 @@ const repos: Array<{
     icon: PythonIcon,
     iconClass: 'size-5 text-[#3776AB]',
     iconBoxClass: 'border-[#3776AB]/20 bg-[#3776AB]/10',
-    badges: topicBadges(['python', 'bindings', 'numpy', 'tet-format', 'pyo3', 'scientific']),
+    badges: topicBadges(['python', 'numpy', 'pyo3', 'hdf5', 'zarr', 'bindings']),
   },
 ]
 

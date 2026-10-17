@@ -12,9 +12,21 @@ Verify:
 
 ```python
 import tet
-print(tet.__version__)       # tet-py release, e.g. 0.2.1
-print(tet.core_version())    # linked tetration crate, e.g. 0.2.1
+print(tet.__version__)       # tet-py release, e.g. 0.2.2
+print(tet.core_version())    # linked tetration crate, e.g. 0.2.2
 ```
+
+Optional convert extras (install what you need):
+
+```bash
+pip install "tet-py[h5]"        # HDF5 via h5py
+pip install "tet-py[netcdf]"    # NetCDF via netCDF4
+pip install "tet-py[zarr]"      # Zarr v3
+pip install "tet-py[parquet]"   # Parquet via pyarrow
+pip install "tet-py[convert]"   # all of the above
+```
+
+Core `.npy` / `.npz` / `.csv` / `.tsv` convert needs no extras.
 
 ::: warning PyPI name collision
 Install **`tet-py`**, not `tetration`. The PyPI project named `tetration` is unrelated.
@@ -51,7 +63,7 @@ Build requirements:
 - Rust **1.95+**
 - [maturin](https://www.maturin.rs/) **1.7+**
 
-Release builds pin **`tetration`** from [crates.io](https://crates.io/crates/tetration) (PyPI **0.1.2** → **0.1.12**) — no sibling tetration checkout required.
+Release builds pin **`tetration`** from [crates.io](https://crates.io/crates/tetration) (currently **0.2.2**) — no sibling tetration checkout required.
 
 ## Install the CLI (optional)
 
