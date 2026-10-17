@@ -158,7 +158,9 @@ axis_slice(start_label="2020", stop_label="2024")
 | `QueryResult.preview` | capped `execution.*_preview` → `ndarray` |
 | `f.execute(doc, plan=True)` | plan only |
 | `f.execute(toml_string)` | TOML query document (Auto detect) |
-| `tet.convert(src.npy, dst.tet)` | NumPy `.npy`/`.npz` → `.tet` |
+| `tet.convert(src, dst.tet)` | `.npy`/`.npz`/`.csv`/`.tsv`; h5/netcdf/zarr/parquet extras |
+| `tet.ingest` / `tet.publish` | Stage / seal `.tet.d` package parts |
+| `tet.open("pkg.tet.d")` | Open package via `CURRENT` → packed generation |
 | `f.read_numpy(...)` | Materialize selection → ndarray |
 | `f.read_spill(...)` | Spill selection → `SpillReadResult` |
 
@@ -186,9 +188,17 @@ read_numpy, read_spill
 
 Plus: `execute`, `query`, `query_execute`, `plan_only`, `dataset`, `summary`, `info`.
 
-## Planned
+## Packages
 
-| Topic | Tracking |
-|-------|----------|
-| Zero-copy mmap → NumPy | [tet-py#11](https://github.com/Latka-Industries/tet-py/issues/11) |
-| Full `tet.convert` extras (h5/netcdf/zarr/…) | Scaffolded in 0.1.2; CLI `tet convert` for production import |
+```python
+import tet
+from tet import write_dataset
+
+write_dataset("part.tet", "values", arr)
+tet.ingest("demo.tet.d", "part.tet", create=True)
+tet.publish("demo.tet.d", ["part"])
+with tet.open("demo.tet.d") as f:
+    f.mean("values")
+```
+
+See [CLI packages](/cli/package) for the on-disk layout.

@@ -3,7 +3,7 @@
 **[tet-py](https://github.com/Latka-Industries/tet-py)** is the official Python package for Tetration. Install from PyPI, `import tet`, and use the same query engine and `.tet` layout as the Rust crate and `tet` CLI.
 
 ::: tip PyPI
-**tet-py 0.2.1** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
+**tet-py 0.2.2** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
 
 Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 :::
@@ -14,19 +14,21 @@ Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 |------|-------|
 | PyPI / GitHub | **`tet-py`** |
 | Import | **`import tet`** |
-| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.2.1** (linked at build time) |
+| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.2.2** (linked at build time) |
 | Native extension | `tet._native` (PyO3 / maturin, abi3 `cp311+`) |
 
 Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI remains in the tetration repo for Julia/R/Go embedders.
 
 ## What's shipped (0.2.x)
 
-**0.2.1** pins tetration **0.2.1**. No new Python API. The table below is the 0.2 feature set (introduced in **0.2.0**).
+**0.2.2** pins tetration **0.2.2** and adds convert extras, package open/ingest/publish, and multi-chunk zero-copy reads. The table below is the full 0.2 feature set.
 
 | Topic | Status |
 |-------|--------|
 | PyPI wheels (Linux, macOS, Windows) | ✅ |
 | Open `.tet`, catalog, `info()` / `summary()` | ✅ |
+| Open `.tet.d` packages (`CURRENT` → packed generation) | ✅ |
+| `tet.ingest` / `tet.publish` | ✅ |
 | Reductions + `QueryResult` (`preview=N` → `.preview` ndarray) | ✅ |
 | TOML query strings + `memory_budget_*` kwargs | ✅ |
 | `build_query`, selections | ✅ |
@@ -34,9 +36,9 @@ Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI 
 | NumPy **spill** — `read_spill`, `transform.to_spill` | ✅ |
 | NumPy **sidecar** — `transform.to_sidecar.*` | ✅ |
 | NumPy **write** — `TetWriter`, `write_dataset` (layout-v1 floats + integers + `f16`) | ✅ |
-| Zero-copy `read_numpy` — single-chunk raw → `numpy.memmap` | ✅ |
-| `tet.convert` — `.npy` / `.npz` | ✅ |
-| `tet.convert` extras (h5py, zarr, …) | Stubbed (use `tet convert` CLI) |
+| Zero-copy `read_numpy` — single-chunk or full-width multi-chunk raw → `numpy.memmap` | ✅ |
+| `tet.convert` — `.npy` / `.npz` / `.csv` / `.tsv` | ✅ |
+| `tet.convert` extras (`[h5]`, `[netcdf]`, `[zarr]`, `[parquet]`) | ✅ (optional deps) |
 | Object-store paths (`s3://…`) | Upstream — see [Roadmap](/roadmap) |
 
 ## Sections
@@ -72,12 +74,28 @@ with tet.open("data.tet") as f:
     arr = side.to_numpy(f)
 ```
 
+## Packages
+
+```python
+import tet
+from tet import write_dataset
+
+write_dataset("part.tet", "values", arr)
+tet.ingest("demo.tet.d", "part.tet", create=True)
+tet.publish("demo.tet.d", ["part"])
+with tet.open("demo.tet.d") as f:
+    f.mean("values")
+```
+
+`tet.open` on a `.tet.d` directory follows `CURRENT` and mmaps that generation's `packed.tet`. See [CLI packages](/cli/package) for the on-disk layout.
+
 ## When to use what
 
 | Need | Use |
 |------|-----|
 | Python notebooks / NumPy / pandas | **tet-py** |
-| Fast HDF5/NetCDF/Zarr import on a machine with native libs | **`tet convert`** CLI |
+| HDF5 / NetCDF / Zarr / Parquet from Python | **`tet.convert`** with the matching optional extra |
+| Fast native convert without Python deps | **`tet convert`** CLI |
 | Custom Rust service or lowest-level control | **`tetration`** crate |
 | Other language bindings | [C ABI / FFI](/rust/ffi) |
 

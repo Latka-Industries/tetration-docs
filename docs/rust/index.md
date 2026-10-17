@@ -23,7 +23,7 @@ This site covers usage patterns and cookbooks. Prefer docs.rs for struct fields,
 
 ```toml
 [dependencies]
-tetration = "0.1.12"
+tetration = "0.2.2"
 ```
 
 Requires **Rust 1.95+**.
