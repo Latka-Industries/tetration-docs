@@ -27,13 +27,9 @@ Near-term polish continues in the [query hardening notes](/guides/query-engine/)
 
 ### Cloud-native reads
 
-**Today:** queries assume a **local** `.tet` path; the engine mmaps a sealed byte image.
+**Shipped in 0.3.0:** `PackageStore` (local + in-memory), URI parse, range-read planner (catalog then chunks), and generation pins so a handle keeps one sealed `packed.tet` when `CURRENT` advances. See [Store-backed reads](/rust/store-backed-reads).
 
-**Direction:** object stores (S3, GCS, Azure Blob) as first-class targets — URI-shaped opens and range reads aligned to chunk boundaries, without downloading whole files.
-
-**Why it is hard:** object stores are not POSIX. Latency, caching, and consistency differ from mmap. Needs a planner that minimizes round trips (index + footer first, then payload ranges) and clear semantics when the object is replaced mid-read.
-
-Chunk index + fixed payload offsets are a good foundation; the gap is transport and cache policy.
+**Still open:** open real `s3://` backends (0.3.1+), multi-host publish, local block cache. Object stores are not POSIX — latency, caching, and CAS publish remain the hard parts.
 
 ### Smarter indexing
 

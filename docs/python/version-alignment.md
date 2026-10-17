@@ -7,7 +7,8 @@
 | Component | Version |
 |-----------|---------|
 | **tet-py** (PyPI) | [**0.2.3**](https://pypi.org/project/tet-py/0.2.3/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.2.3**](https://crates.io/crates/tetration/0.2.3) |
+| **tetration** crate (CLI / Rust) | [**0.3.0**](https://crates.io/crates/tetration/0.3.0) |
+| **tetration** linked by tet-py **0.2.3** | **0.2.3** (tet-py **0.3.0** will pin **0.3.0**) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -15,10 +16,11 @@
 
 ## Alignment policy
 
-From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **0.2.x** ↔ tetration **0.2.x**).
+From **0.2.0** onward, tet-py and tetration share the same minor once the Python release lands (e.g. tet-py **0.3.x** ↔ tetration **0.3.x**). Until tet-py **0.3.0**, PyPI wheels still link **0.2.3**.
 
 | tet-py | tetration crate | Notes |
 |--------|-----------------|-------|
+| *(pending)* **0.3.0** | **0.3.0** | Core: `PackageStore`, range planner, `TetPackagePin` |
 | **0.2.3** | **0.2.3** | `tet.export` (h5/netcdf/zarr extras); pin CLI export HDF5/NetCDF |
 | **0.2.2** | **0.2.2** | Convert extras (h5/netcdf/zarr/parquet) + CSV/TSV; `.tet.d` open/ingest/publish; multi-chunk zero-copy `read_numpy` |
 | **0.2.1** | **0.2.1** | Pin alignment only (package verify hardening + package fuzz in core; no Python API change) |
@@ -48,7 +50,7 @@ tet --version
 
 ```toml
 [dependencies]
-tetration = "0.2"
+tetration = "0.3"
 ```
 
 **C ABI:**

@@ -14,7 +14,7 @@ Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 |------|-------|
 | PyPI / GitHub | **`tet-py`** |
 | Import | **`import tet`** |
-| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.2.3** (linked at build time) |
+| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.2.3** linked in wheels; crate **0.3.0** is current (tet-py **0.3.0** pending) |
 | Native extension | `tet._native` (PyO3 / maturin, abi3 `cp311+`) |
 
 Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI remains in the tetration repo for Julia/R/Go embedders.

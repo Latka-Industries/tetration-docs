@@ -12,7 +12,7 @@ tet pack climate.tet.d -o climate.tet
 tet verify climate.tet.d
 ```
 
-`tet info` / `tet query -t` accept a `.tet.d` path and pin the generation named by `CURRENT`.
+`tet info` / `tet query -t` accept a `.tet.d` path and pin the generation named by `CURRENT` once (advancing `CURRENT` mid-process does not retarget an open reader). Library: `TetPackagePin` / [store-backed reads](/rust/store-backed-reads).
 
 ## tet ingest
 

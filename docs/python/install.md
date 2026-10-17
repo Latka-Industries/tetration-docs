@@ -64,7 +64,7 @@ Build requirements:
 - Rust **1.95+**
 - [maturin](https://www.maturin.rs/) **1.7+**
 
-Release builds pin **`tetration`** from [crates.io](https://crates.io/crates/tetration) (currently **0.2.3**) — no sibling tetration checkout required.
+Release builds pin **`tetration`** from [crates.io](https://crates.io/crates/tetration) (tet-py **0.2.3** → crate **0.2.3**; Rust/CLI current is **0.3.0**) — no sibling tetration checkout required.
 
 ## Install the CLI (optional)
 
