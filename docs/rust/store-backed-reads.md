@@ -1,6 +1,6 @@
 # Store-backed reads (0.3.x)
 
-**0.3.0** adds a package blob store and a range-read planner so embedders can query a sealed `packed.tet` without assuming a full local mmap up front. **0.3.1** adds an optional S3-compatible backend and store ingest / CAS publish. **0.3.2** adds an exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover). Local `.tet` / `.tet.d` CLI paths are unchanged.
+**0.3.0** adds a package blob store and a range-read planner so embedders can query a sealed `packed.tet` without assuming a full local mmap up front. **0.3.1** adds an optional S3-compatible backend and store ingest / CAS publish. **0.3.2** adds an exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover). **0.3.3** adds an optional in-memory block cache and single-file `s3://` convert. Local `.tet` / `.tet.d` CLI paths are unchanged.
 
 ## What shipped
 
@@ -12,6 +12,7 @@
 | `S3Store` / `S3Config` | S3-compatible backend (`tetration-s3`; path-style, ETag conditional put) |
 | `stage_part` / `publish_staged_parts` | N writers upload parts; one CAS publish (0.3.1) |
 | `publishing/<G>` claim | Exclusive cross-host publish lock: heartbeat, stale window, force-only takeover (0.3.2) |
+| `BlockCache` / `CachingStore` | Optional packed-range cache keyed by `(generation, offset)`. A new pin does not reuse another generation. Off unless the store is wrapped (0.3.3) |
 | `parse_tet_uri` | Paths, `file://`, `memory://`, `s3://` shape |
 | `pin_packed_tet` / `TetPackagePin` | Resolve `CURRENT` once (or an explicit generation) and keep that object |
 
@@ -36,8 +37,9 @@ Entry points: `pin_packed_tet`, `execute_query_with_store`, `execute_query_on_st
 ## Limits
 
 - Assemble path caps at 64 MiB (sparse in-memory image). Larger objects need a non-assembling path later.
-- No local block cache yet (planned 0.3.3).
-- `tet open s3://…` / convert-from-`s3://` are not wired yet (planned 0.3.3). Use `S3Store::connect` (or tet-py `S3Store.connect`) with endpoint + credentials.
+- The block cache is optional and in-memory. Wrap the store to turn it on.
+- `tet query` and `tet.open("s3://…")` do not open an `s3://` package. Use `S3Store::connect` (or tet-py `S3Store.connect`) with endpoint + credentials.
+- `tet convert s3://bucket/file.ext` (and tet-py `tet.convert`) downloads that one object (`TETRATION_S3_ENDPOINT`), then the existing importer. Zarr prefixes are rejected.
 
 ## Python (tet-py)
 

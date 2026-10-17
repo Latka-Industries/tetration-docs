@@ -63,7 +63,11 @@ tet convert data.nc data.tet
 tet convert zarr_store/ output.tet
 tet convert table.csv table.tet
 tet convert volume.h5 volume.tet --jobs 8
+tet convert s3://bucket/volume.h5 volume.tet
 ```
+
+A single-file `s3://bucket/object.ext` downloads the whole object, then uses the same importer. That needs the `tetration-s3` feature and `TETRATION_S3_ENDPOINT` (access key, secret, and region have MinIO defaults). A `.zarr` name or a trailing slash is rejected. Chunked Zarr-on-S3 reads are not in this release.
+
 
 #### CSV categories
 
