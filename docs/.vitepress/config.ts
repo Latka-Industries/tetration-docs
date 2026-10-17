@@ -14,6 +14,8 @@ export default defineConfig({
   // Custom domain docs.tetration.sh (GitHub Pages project site with CNAME).
   base: '/',
   head: [
+    ['link', { rel: 'icon', href: '/icon.svg', type: 'image/svg+xml' }],
+    ['link', { rel: 'apple-touch-icon', href: '/brand/tet-mark-vector.png' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     [
@@ -60,6 +62,7 @@ export default defineConfig({
     },
   },
   themeConfig: {
+    logo: '/icon.svg',
     search: {
       provider: 'local',
     },
