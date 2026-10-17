@@ -50,6 +50,7 @@
     ),
     hsl(var(--background));
   --vp-nav-bg-color: hsl(var(--background));
+  --vp-nav-screen-bg-color: hsl(var(--background));
   --vp-local-nav-bg-color: hsl(var(--background));
   --vp-c-bg: transparent;
   --vp-local-search-bg: var(--tetration-shell-bg);
@@ -88,6 +89,13 @@ body {
 .VPLocalNav {
   background: var(--tetration-shell-bg) !important;
   background-attachment: fixed !important;
+}
+
+/* Mobile hamburger panel. VitePress defaults this to --vp-c-bg, which we keep
+   transparent for the page lattice — override so landing text cannot show through. */
+.VPNavScreen {
+  background-color: hsl(var(--background)) !important;
+  background-image: none !important;
 }
 
 .VPLocalSearchBox .shell {
