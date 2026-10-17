@@ -23,7 +23,7 @@ Good fits:
 Less ideal:
 
 - Tabular analytics with heavy columnar filtering → consider **Parquet**
-- Cloud object-store backends before Tetration 0.3 → consider **Zarr** (0.2 local multi-writer is shards + publish; see [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md))
+- Full cloud object-store I/O (S3 open/publish) → still maturing after **0.3.0** store trait + planner; until then consider **Zarr** for native cloud writes (local multi-writer is shards + publish; see [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md) and [store-backed reads](/rust/store-backed-reads))
 - Simple single-array interchange → **NPY** may suffice
 - SQL-on-files or ad-hoc relational queries → not a v1 goal
 

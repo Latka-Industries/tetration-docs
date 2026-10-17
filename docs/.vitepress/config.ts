@@ -115,6 +115,7 @@ export default defineConfig({
             { text: 'Quick start', link: '/rust/quick-start' },
             { text: 'Open & inspect', link: '/rust/open-and-inspect' },
             { text: 'Chunk reads', link: '/rust/chunk-reads' },
+            { text: 'Store-backed reads', link: '/rust/store-backed-reads' },
             { text: 'Write path', link: '/rust/write-path' },
             { text: 'C ABI / FFI', link: '/rust/ffi' },
           ],

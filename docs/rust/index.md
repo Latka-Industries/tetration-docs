@@ -12,9 +12,9 @@ This site covers usage patterns and cookbooks. Prefer docs.rs for struct fields,
 
 | Module | Role |
 |--------|------|
-| `catalog` | File layout, `TetFile`, `TetWriterSession`, catalog summary |
-| `query` | JSON/TOML parse, plan, execute, materialize |
-| `convert` | HDF5 / NetCDF / Zarr v3 import |
+| `catalog` | File layout, `TetFile`, `TetWriterSession`, packages, `PackageStore` |
+| `query` | JSON/TOML parse, plan, execute, materialize, store-backed execute |
+| `convert` | HDF5 / NetCDF / Zarr / NumPy / CSV / Parquet import |
 | `export` | Zarr / HDF5 / NetCDF export |
 | `verify` / `repair` | File health |
 | `ffi` | C ABI behind `tetration-ffi` feature |
@@ -23,7 +23,7 @@ This site covers usage patterns and cookbooks. Prefer docs.rs for struct fields,
 
 ```toml
 [dependencies]
-tetration = "0.2.3"
+tetration = "0.3.0"
 ```
 
 Requires **Rust 1.95+**.
@@ -33,6 +33,7 @@ Requires **Rust 1.95+**.
 - [Quick start](/rust/quick-start) — minimal read example
 - [Open & inspect](/rust/open-and-inspect) — catalog access, dataset iteration
 - [Chunk reads](/rust/chunk-reads) — mmap and partial read patterns
+- [Store-backed reads](/rust/store-backed-reads) — `PackageStore`, URI pin, range planner (0.3.0)
 - [Write path](/rust/write-path) — creating `.tet` files programmatically
 - [C ABI / FFI](/rust/ffi) — overview for binding authors
 
