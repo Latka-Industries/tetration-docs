@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.3.1**](https://pypi.org/project/tet-py/0.3.1/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.3.1**](https://crates.io/crates/tetration/0.3.1) |
+| **tet-py** (PyPI) | [**0.3.2**](https://pypi.org/project/tet-py/0.3.2/) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.3.2**](https://crates.io/crates/tetration/0.3.2) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -19,6 +19,7 @@ From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **
 
 | tet-py | tetration crate | Notes |
 |--------|-----------------|-------|
+| **0.3.2** | **0.3.2** | Exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover). No new Python API |
 | **0.3.1** | **0.3.1** | `S3Store` ingest / publish / pin; core `tetration-s3` + `stage_part` / `publish_staged_parts` |
 | **0.3.0** | **0.3.0** | Store URI open + generation pin (`MemoryStore`, `TetFile.generation`); core `PackageStore` / range planner |
 | **0.2.3** | **0.2.3** | `tet.export` (h5/netcdf/zarr extras); pin CLI export HDF5/NetCDF |

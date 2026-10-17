@@ -36,6 +36,8 @@ Does **not** flip `CURRENT`. Overlapping dataset claims are rejected at publish 
 
 Freeze sealed staging parts → merge into `generations/<G>/packed.tet` → set `CURRENT`.
 
+**0.3.2** takes an exclusive claim on `publishing/<G>` (heartbeat, stale window, force-only takeover) so a second host cannot flip `CURRENT` while the lock is live.
+
 ```bash
 tet publish [OPTIONS] <PKG.tet.d>
 ```

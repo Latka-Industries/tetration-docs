@@ -31,7 +31,9 @@ Near-term polish continues in the [query hardening notes](/guides/query-engine/)
 
 **Shipped in 0.3.1:** optional `S3Store` (`tetration-s3`) against S3-compatible endpoints (MinIO / path-style), plus `stage_part` / `publish_staged_parts` (N writers, one CAS publish). tet-py exposes `S3Store.connect` + ingest / publish / pin. See [Store-backed reads](/rust/store-backed-reads#python-tet-py).
 
-**Still open:** `tet open s3://…` / convert-from-`s3://` (0.3.3), multi-host publish races (0.3.2), local block cache (0.3.3). Object stores are not POSIX — latency and caching remain the hard parts.
+**Shipped in 0.3.2:** exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover) so a second host cannot flip `CURRENT`. tet-py **0.3.2** picks this up from the crate; the Python API is unchanged.
+
+**Still open:** `tet open s3://…` / convert-from-`s3://` (0.3.3), local block cache (0.3.3). Object stores are not POSIX — latency and caching remain the hard parts.
 
 ### Smarter indexing
 

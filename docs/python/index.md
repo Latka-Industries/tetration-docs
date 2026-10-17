@@ -3,7 +3,7 @@
 **[tet-py](https://github.com/Latka-Industries/tet-py)** is the official Python package for Tetration. Install from PyPI, `import tet`, and use the same query engine and `.tet` layout as the Rust crate and `tet` CLI.
 
 ::: tip PyPI
-**tet-py 0.3.1** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
+**tet-py 0.3.2** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
 
 Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 :::
@@ -14,14 +14,14 @@ Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 |------|-------|
 | PyPI / GitHub | **`tet-py`** |
 | Import | **`import tet`** |
-| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.3.1** (linked at build time) |
+| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.3.2** (linked at build time) |
 | Native extension | `tet._native` (PyO3 / maturin, abi3 `cp311+`) |
 
 Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI remains in the tetration repo for Julia/R/Go embedders.
 
 ## What's shipped (0.3.x)
 
-**0.3.1** pins tetration **0.3.1** and adds `S3Store` ingest / publish / pin. **0.3.0** added store URI open + generation pins. The table includes the full 0.2 feature set plus 0.3 additions.
+**0.3.2** pins tetration **0.3.2** (exclusive cross-host `publishing/<G>` claim; no new Python API). **0.3.1** added `S3Store` ingest / publish / pin. **0.3.0** added store URI open + generation pins. The table includes the full 0.2 feature set plus 0.3 additions.
 
 | Topic | Status |
 |-------|--------|
