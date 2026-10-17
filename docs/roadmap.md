@@ -17,7 +17,7 @@ Tetration already covers efficient **partial I/O** over a local mmap-friendly `.
 | Optional GPU | Experimental device routing for tier-A/B `f32`/`f16` |
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
 | Writer protocol v2 (0.2) | `.tet.d` packages, shard writers, publish, pack — [CLI packages](/cli/package) |
-| Python (tet-py 0.3) | NumPy ram/spill/sidecar, package/URI pins, zero-copy memmap — [Python](/python/) |
+| Python (tet-py 0.3) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish — [Python](/python/) |
 
 Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo.
 
@@ -29,7 +29,9 @@ Near-term polish continues in the [query hardening notes](/guides/query-engine/)
 
 **Shipped in 0.3.0:** `PackageStore` (local + in-memory), URI parse, range-read planner (catalog then chunks), and generation pins so a handle keeps one sealed `packed.tet` when `CURRENT` advances. See [Store-backed reads](/rust/store-backed-reads).
 
-**Still open:** open real `s3://` backends (0.3.1+), multi-host publish, local block cache. Object stores are not POSIX — latency, caching, and CAS publish remain the hard parts.
+**Shipped in 0.3.1:** optional `S3Store` (`tetration-s3`) against S3-compatible endpoints (MinIO / path-style), plus `stage_part` / `publish_staged_parts` (N writers, one CAS publish). tet-py exposes `S3Store.connect` + ingest / publish / pin. See [Store-backed reads](/rust/store-backed-reads#python-tet-py).
+
+**Still open:** `tet open s3://…` / convert-from-`s3://` (0.3.3), multi-host publish races (0.3.2), local block cache (0.3.3). Object stores are not POSIX — latency and caching remain the hard parts.
 
 ### Smarter indexing
 

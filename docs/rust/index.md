@@ -23,7 +23,8 @@ This site covers usage patterns and cookbooks. Prefer docs.rs for struct fields,
 
 ```toml
 [dependencies]
-tetration = "0.3.0"
+tetration = "0.3.1"
+# optional: features = ["tetration-s3"]  # S3Store / MinIO
 ```
 
 Requires **Rust 1.95+**.
@@ -33,7 +34,7 @@ Requires **Rust 1.95+**.
 - [Quick start](/rust/quick-start) — minimal read example
 - [Open & inspect](/rust/open-and-inspect) — catalog access, dataset iteration
 - [Chunk reads](/rust/chunk-reads) — mmap and partial read patterns
-- [Store-backed reads](/rust/store-backed-reads) — `PackageStore`, URI pin, range planner (0.3.0)
+- [Store-backed reads](/rust/store-backed-reads) — `PackageStore`, `S3Store`, URI pin, range planner (0.3.x)
 - [Write path](/rust/write-path) — creating `.tet` files programmatically
 - [C ABI / FFI](/rust/ffi) — overview for binding authors
 

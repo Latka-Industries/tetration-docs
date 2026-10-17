@@ -15,7 +15,7 @@ with tet.open("data.tet") as f:
     print(ds.shape, ds.dtype)
 ```
 
-Paths support `~` expansion. Opening is read-only via mmap. A `.tet.d` package path pins `CURRENT` once (`f.generation`). URI forms: `file://…`, `path?generation=N`. Use `tet.MemoryStore.from_package(...)` for `memory://` (no S3 until 0.3.1). See [store-backed reads](/rust/store-backed-reads#python-tet-py).
+Paths support `~` expansion. Opening is read-only via mmap. A `.tet.d` package path pins `CURRENT` once (`f.generation`). URI forms: `file://…`, `path?generation=N`. Use `tet.MemoryStore` for `memory://`, and `tet.S3Store.connect(...)` for S3-compatible ingest / publish / pin (credentials are arguments; `tet.open("s3://…")` is not supported yet). See [store-backed reads](/rust/store-backed-reads#python-tet-py).
 
 ## Reductions
 

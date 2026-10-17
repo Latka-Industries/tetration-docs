@@ -3,7 +3,7 @@
 **[tet-py](https://github.com/Latka-Industries/tet-py)** is the official Python package for Tetration. Install from PyPI, `import tet`, and use the same query engine and `.tet` layout as the Rust crate and `tet` CLI.
 
 ::: tip PyPI
-**tet-py 0.3.0** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
+**tet-py 0.3.1** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
 
 Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 :::
@@ -14,14 +14,14 @@ Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 |------|-------|
 | PyPI / GitHub | **`tet-py`** |
 | Import | **`import tet`** |
-| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.3.0** (linked at build time) |
+| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.3.1** (linked at build time) |
 | Native extension | `tet._native` (PyO3 / maturin, abi3 `cp311+`) |
 
 Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI remains in the tetration repo for Julia/R/Go embedders.
 
 ## What's shipped (0.3.x)
 
-**0.3.0** pins tetration **0.3.0** and adds store URI open + generation pins. The table includes the full 0.2 feature set plus 0.3 additions.
+**0.3.1** pins tetration **0.3.1** and adds `S3Store` ingest / publish / pin. **0.3.0** added store URI open + generation pins. The table includes the full 0.2 feature set plus 0.3 additions.
 
 | Topic | Status |
 |-------|--------|
@@ -29,6 +29,7 @@ Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI 
 | Open `.tet`, catalog, `info()` / `summary()` | ✅ |
 | Open `.tet.d` packages (pin `CURRENT` once; `TetFile.generation`) | ✅ |
 | URI open (`file://`, `?generation=N`); `MemoryStore` + `memory://` | ✅ |
+| `S3Store.connect` + ingest / publish / pin open | ✅ |
 | `tet.ingest` / `tet.publish` | ✅ |
 | Reductions + `QueryResult` (`preview=N` → `.preview` ndarray) | ✅ |
 | TOML query strings + `memory_budget_*` kwargs | ✅ |
@@ -41,7 +42,7 @@ Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI 
 | `tet.convert` — `.npy` / `.npz` / `.csv` / `.tsv` | ✅ |
 | `tet.convert` extras (`[h5]`, `[netcdf]`, `[zarr]`, `[parquet]`) | ✅ (optional deps) |
 | `tet.export` / `TetFile.export` (`[h5]`, `[netcdf]`, `[zarr]`, or `[export]`) | ✅ (optional deps) |
-| Object-store paths (`s3://…`) | 0.3.1+ — see [Roadmap](/roadmap) |
+| `tet.open("s3://…")` / convert from `s3://` | 0.3.3 — see [Roadmap](/roadmap) |
 
 ## Sections
 
@@ -90,6 +91,27 @@ with tet.open("demo.tet.d") as f:
 ```
 
 `tet.open` on a `.tet.d` directory follows `CURRENT` and mmaps that generation's `packed.tet`. See [CLI packages](/cli/package) for the on-disk layout.
+
+### S3-compatible store
+
+```python
+from tet import S3Store, write_dataset
+
+write_dataset("part.tet", "values", arr)
+store = S3Store.connect(
+    endpoint="http://127.0.0.1:9000",
+    bucket="tetration-test",
+    access_key_id="tetration",
+    secret_access_key="tetration-secret",
+    prefix="demo",
+)
+store.ingest("part.tet", session_id="s0", part_id="values")
+store.publish(["values"])
+pinned = store.open("current")   # pin; later publish does not retarget
+assert pinned.generation == 1
+```
+
+Endpoint and credentials are arguments (not embedded in a URI). `tet.open("s3://…")` is not supported yet. See [store-backed reads](/rust/store-backed-reads#python-tet-py).
 
 ## When to use what
 

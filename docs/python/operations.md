@@ -161,6 +161,7 @@ axis_slice(start_label="2020", stop_label="2024")
 | `tet.convert(src, dst.tet)` | `.npy`/`.npz`/`.csv`/`.tsv`; h5/netcdf/zarr/parquet extras |
 | `tet.export(src.tet, dst)` / `f.export(dst)` | `.tet` → h5/netcdf/zarr via extras (`[export]` or per-format) |
 | `tet.ingest` / `tet.publish` | Stage / seal `.tet.d` package parts |
+| `S3Store.connect` / `.ingest` / `.publish` / `.open` | S3-compatible store ingest + pin |
 | `tet.open("pkg.tet.d")` | Open package via `CURRENT` → packed generation |
 | `f.read_numpy(...)` | Materialize selection → ndarray |
 | `f.read_spill(...)` | Spill selection → `SpillReadResult` |
@@ -202,4 +203,21 @@ with tet.open("demo.tet.d") as f:
     f.mean("values")
 ```
 
-See [CLI packages](/cli/package) for the on-disk layout.
+S3-compatible (endpoint + credentials as args):
+
+```python
+from tet import S3Store
+
+store = S3Store.connect(
+    endpoint="http://127.0.0.1:9000",
+    bucket="tetration-test",
+    access_key_id="tetration",
+    secret_access_key="tetration-secret",
+    prefix="demo",
+)
+store.ingest("part.tet", session_id="s0", part_id="values")
+store.publish(["values"])
+pinned = store.open("current")
+```
+
+See [CLI packages](/cli/package) for the on-disk layout and [store-backed reads](/rust/store-backed-reads#python-tet-py) for pins.
