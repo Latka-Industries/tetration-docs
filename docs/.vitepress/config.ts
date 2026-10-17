@@ -2,9 +2,15 @@ import { defineConfig } from 'vitepress'
 import tailwindcss from '@tailwindcss/vite'
 import { mainNav } from './nav'
 
+const SITE_URL = 'https://docs.tetration.sh'
+const SITE_TITLE = 'Tetration'
+const SITE_DESCRIPTION =
+  'Documentation for the Tetration .tet tensor store, tet CLI, and tet-py.'
+const OG_IMAGE = `${SITE_URL}/og.png`
+
 export default defineConfig({
-  title: 'Tetration',
-  description: 'Documentation for the Tetration .tet tensor store, tet CLI, and tet-py.',
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
   // Custom domain docs.tetration.sh (GitHub Pages project site with CNAME).
   base: '/',
   head: [
@@ -17,7 +23,36 @@ export default defineConfig({
         href: 'https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap',
       },
     ],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: SITE_TITLE }],
+    ['meta', { property: 'og:url', content: `${SITE_URL}/` }],
+    ['meta', { property: 'og:image', content: OG_IMAGE }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { property: 'og:image:alt', content: `${SITE_TITLE} documentation` }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: OG_IMAGE }],
+    ['meta', { name: 'twitter:image:alt', content: `${SITE_TITLE} documentation` }],
   ],
+  transformPageData(pageData) {
+    const title = pageData.title
+      ? `${pageData.title} | ${SITE_TITLE}`
+      : SITE_TITLE
+    const description = pageData.description || SITE_DESCRIPTION
+    const path = pageData.relativePath
+      .replace(/(^|\/)index\.md$/, '$1')
+      .replace(/\.md$/, '')
+    const url = path ? `${SITE_URL}/${path}` : `${SITE_URL}/`
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push(
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: description }],
+      ['meta', { property: 'og:url', content: url }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: description }],
+    )
+  },
   vite: {
     plugins: [tailwindcss()],
     server: {

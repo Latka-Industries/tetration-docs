@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="wash" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5672cd" stop-opacity="0.16"/>
+      <stop offset="28%" stop-color="#09090b" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#09090b" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#5672cd" stop-opacity="0.12"/>
+    </linearGradient>
+    <pattern id="lattice" width="88" height="88" patternUnits="userSpaceOnUse">
+      <path d="M88 0H0M0 0V88" stroke="#f4f4f5" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="#09090b"/>
+  <rect width="1200" height="630" fill="url(#lattice)"/>
+  <rect width="1200" height="630" fill="url(#wash)"/>
+
+  <text x="96" y="250"
+        font-family="Geist, ui-sans-serif, system-ui, sans-serif"
+        font-size="96" font-weight="700" fill="#fafafa"
+        letter-spacing="-2.5">Tetration</text>
+
+  <text x="96" y="340"
+        font-family="Geist, ui-sans-serif, system-ui, sans-serif"
+        font-size="36" font-weight="500" fill="#c4c4cc">
+    Single-file chunked tensor store.
+  </text>
+
+  <text x="96" y="410"
+        font-family="Geist, ui-sans-serif, system-ui, sans-serif"
+        font-size="26" font-weight="400" fill="#8b8b98">
+    Docs for the .tet format, tet CLI, Rust crate, and tet-py
+  </text>
+
+  <g font-family="Geist, ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="600">
+    <text x="96" y="520" fill="#5672cd">Format</text>
+    <text x="204" y="520" fill="#5a5a6a">/</text>
+    <text x="232" y="520" fill="#a1a1aa">CLI</text>
+    <text x="292" y="520" fill="#5a5a6a">/</text>
+    <text x="320" y="520" fill="#5672cd">Rust</text>
+    <text x="400" y="520" fill="#5a5a6a">/</text>
+    <text x="428" y="520" fill="#a1a1aa">Python</text>
+  </g>
+
+  <text x="1104" y="520" text-anchor="end"
+        font-family="Geist, ui-sans-serif, system-ui, sans-serif"
+        font-size="22" font-weight="500" fill="#5a5a6a">docs.tetration.sh</text>
+</svg>
