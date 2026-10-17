@@ -15,7 +15,7 @@ with tet.open("data.tet") as f:
     print(ds.shape, ds.dtype)
 ```
 
-Paths support `~` expansion. Opening is read-only via mmap (local filesystem only in 0.1.x).
+Paths support `~` expansion. Opening is read-only via mmap. A `.tet.d` package path pins `CURRENT` once (`f.generation`). URI forms: `file://…`, `path?generation=N`. Use `tet.MemoryStore.from_package(...)` for `memory://` (no S3 until 0.3.1). See [store-backed reads](/rust/store-backed-reads#python-tet-py).
 
 ## Reductions
 

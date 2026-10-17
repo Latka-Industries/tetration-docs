@@ -17,7 +17,7 @@ Tetration already covers efficient **partial I/O** over a local mmap-friendly `.
 | Optional GPU | Experimental device routing for tier-A/B `f32`/`f16` |
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
 | Writer protocol v2 (0.2) | `.tet.d` packages, shard writers, publish, pack — [CLI packages](/cli/package) |
-| Python (tet-py 0.2) | NumPy ram/spill/sidecar, zero-copy memmap for single-chunk raw — [Python](/python/) |
+| Python (tet-py 0.3) | NumPy ram/spill/sidecar, package/URI pins, zero-copy memmap — [Python](/python/) |
 
 Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo.
 
