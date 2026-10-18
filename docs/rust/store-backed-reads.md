@@ -1,6 +1,6 @@
 # Store-backed reads (0.3.x)
 
-**0.3.0** adds a package blob store and a range-read planner so embedders can query a sealed `packed.tet` without assuming a full local mmap up front. **0.3.1** adds an optional S3-compatible backend and store ingest / CAS publish. **0.3.2** adds an exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover). **0.3.3** adds an optional in-memory block cache and single-file `s3://` convert. **0.3.4** opens a pinned `s3://bucket/prefix` package through that planner (`tet query -t`, `open_s3_package`, tet-py `tet.open`). Local `.tet` / `.tet.d` paths are unchanged.
+**0.3.0** adds a package blob store and a range-read planner so embedders can query a sealed `packed.tet` without assuming a full local mmap up front. **0.3.1** adds an optional S3-compatible backend and store ingest / CAS publish. **0.3.2** adds an exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover). **0.3.3** adds an optional in-memory block cache and single-file `s3://` convert. **0.3.4** opens a pinned `s3://bucket/prefix` package through that planner (`tet query -t`, `open_s3_package`, tet-py `tet.open`). **0.3.5** converts a Zarr prefix on `s3://` one chunk at a time. Local `.tet` / `.tet.d` paths are unchanged.
 
 ## What shipped
 
@@ -41,7 +41,7 @@ Entry points: `pin_packed_tet`, `execute_query_with_store`, `execute_query_on_st
 - The block cache is optional and in-memory. Wrap the store to turn it on.
 - `tet query -t s3://bucket/prefix` and tet-py `tet.open("s3://bucket/prefix")` pin that package and range-read. `?generation=N` pins an explicit generation; otherwise `CURRENT` is read once. Credentials are `TETRATION_S3_*` (`ENDPOINT` required). The CLI needs the `tetration-s3` feature.
 - `S3Store.open` (Rust and tet-py) still downloads the whole `packed.tet`.
-- `tet convert s3://bucket/file.ext` (and tet-py `tet.convert`) downloads that one object, then the existing importer. Zarr prefixes are rejected.
+- `tet convert s3://bucket/file.ext` (and tet-py `tet.convert`) downloads that one object, then the existing importer. A Zarr v2/v3 prefix on `s3://` is read one chunk at a time (0.3.5; tet-py needs `[zarr]`).
 
 ## Python (tet-py)
 

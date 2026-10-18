@@ -17,7 +17,7 @@ Tetration already covers efficient **partial I/O** over a local mmap-friendly `.
 | Optional GPU | Experimental device routing for tier-A/B `f32`/`f16` |
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
 | Writer protocol v2 (0.2) | `.tet.d` packages, shard writers, publish, pack — [CLI packages](/cli/package) |
-| Python (tet-py 0.3.4) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file `s3://` convert — [Python](/python/) |
+| Python (tet-py 0.3.5) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert — [Python](/python/) |
 
 Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo.
 
@@ -37,7 +37,7 @@ Near-term polish continues in the [query hardening notes](/guides/query-engine/)
 
 **Shipped in 0.3.4:** `tet query -t s3://bucket/prefix` and `open_s3_package` pin that package (`CURRENT`, or `?generation=N`) and read through the existing range planner. tet-py **0.3.4** does the same with `tet.open("s3://bucket/prefix")`. Credentials stay in `TETRATION_S3_*`. `S3Store.open` still downloads `packed.tet`.
 
-**Still open:** Zarr-on-S3 chunked convert reads are **0.3.5**. Object stores are not POSIX — latency and partial reads remain the hard parts.
+**Shipped in 0.3.5:** `tet convert` reads a Zarr v2 or v3 prefix on `s3://` one chunk at a time; the `.tet` matches a local-directory convert of the same store. tet-py **0.3.5** does the same in `tet.convert` (needs the `[zarr]` extra). Single-file `s3://bucket/file.ext` convert is unchanged. Object stores are not POSIX — latency and partial reads remain the hard parts.
 
 ### Smarter indexing
 
