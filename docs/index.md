@@ -4,7 +4,7 @@ layout: home
 hero:
   name: Tetration
   text: Single-file chunked tensor store.
-  tagline: Mmap-friendly layout with JSON/TOML queries — Rust crate, CLI, and Python bindings.
+  tagline: Sealed chunked tensors with JSON/TOML queries — local mmap or cloud packages, Rust crate, CLI, and Python bindings.
   actions:
     - theme: brand
       text: Get started
@@ -15,11 +15,11 @@ hero:
 
 features:
   - title: One file, many chunks
-    details: Portable tensor storage with a catalog, dataset index, and chunk-level mmap access.
+    details: Portable tensor storage with a catalog, dataset index, and chunk-level partial I/O (mmap locally, range-read on stores).
   - title: Query in JSON or TOML
     details: Scalar and partial reductions, selections, transforms, and dense export to RAM, spill (`.bin`), or sidecar (derived `.tet`).
   - title: Rust + Python
-    details: Use the tetration crate and CLI, or pip install tet-py for NumPy-friendly query and I/O.
+    details: Use the tetration crate and CLI, or pip install tet-py for NumPy-friendly query and I/O — including S3-compatible packages.
 ---
 
 <HomeImpls />
