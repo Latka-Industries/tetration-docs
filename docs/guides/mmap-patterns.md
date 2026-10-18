@@ -1,6 +1,6 @@
 # Mmap read patterns
 
-Tetration is designed for partial I/O: mmap the file, touch only chunks that intersect your selection.
+Tetration is designed for partial I/O: touch only chunks that intersect your selection. Locally that is usually mmap; for a sealed package on a store it is a range-read plan over `packed.tet` ([store-backed reads](/rust/store-backed-reads)).
 
 ## Mental model
 

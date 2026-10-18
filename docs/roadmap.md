@@ -2,7 +2,7 @@
 
 **Status:** informal / prospective — not a commitment or release schedule.
 
-Tetration already covers efficient **partial I/O** over a local mmap-friendly `.tet` file (chunk index, JSON/TOML queries, streaming reductions, transforms, optional GPU, C ABI) and **multi-writer packages** (`.tet.d`: shards → publish → sealed generation). What follows is less about missing flags and more about **what kind of system** Tetration should become.
+Tetration already covers efficient **partial I/O** over sealed `.tet` images (local mmap or store range-reads), JSON/TOML queries, streaming reductions, transforms, optional GPU, C ABI, **multi-writer packages** (`.tet.d`: shards → publish → sealed generation), and **S3-compatible package stores** (pin, ingest, CAS publish, convert). What follows is less about missing flags and more about **what kind of system** Tetration should become.
 
 ---
 
@@ -12,36 +12,19 @@ Tetration already covers efficient **partial I/O** over a local mmap-friendly `.
 | ---- | ----- |
 | Layout v1 | Superblock, catalog, chunk index, raw/zstd — [Format](/format/) |
 | Query engine | Reductions, transforms, spill/sidecar, selections — [Query engine](/guides/query-engine/) |
-| Convert / export | HDF5, NetCDF, Zarr — [CLI convert & export](/cli/convert-export); Python `tet.convert` / `tet.export` |
+| Convert / export | HDF5, NetCDF, Zarr (local + `s3://`) — [CLI convert & export](/cli/convert-export); Python `tet.convert` / `tet.export` |
 | Verify / repair | Quick + deep decode — [CLI verify](/cli/verify-repair) |
 | Optional GPU | Experimental device routing for tier-A/B `f32`/`f16` |
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
 | Writer protocol v2 (0.2+) | `.tet.d` packages, shard writers, publish, pack; **0.3.6** cleanup (`gc`, `--remove-package`, `--abort`); **0.3.7** publish conflict UX (`--dry-run`, `--replace`, identical-byte overlap) — [CLI packages](/cli/package) |
+| Cloud packages (0.3.x) | `PackageStore` / `S3Store`, pin + range-read, stage / CAS publish, cross-host claim, optional block cache, `s3://` convert — [Store-backed reads](/rust/store-backed-reads) |
 | Python (tet-py 0.3.7) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)` — [Python](/python/) |
 
-Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo.
+Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **Still later:** S3 / store prune (local `tet gc` is 0.3.6).
 
 ---
 
 ## Prospective directions
-
-### Cloud-native reads
-
-**Shipped in 0.3.0:** `PackageStore` (local + in-memory), URI parse, range-read planner (catalog then chunks), and generation pins so a handle keeps one sealed `packed.tet` when `CURRENT` advances. See [Store-backed reads](/rust/store-backed-reads).
-
-**Shipped in 0.3.1:** optional `S3Store` (`tetration-s3`) against S3-compatible endpoints (MinIO / path-style), plus `stage_part` / `publish_staged_parts` (N writers, one CAS publish). tet-py exposes `S3Store.connect` + ingest / publish / pin. See [Store-backed reads](/rust/store-backed-reads#python-tet-py).
-
-**Shipped in 0.3.2:** exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover) so a second host cannot flip `CURRENT`. tet-py **0.3.2** picks this up from the crate; the Python API is unchanged.
-
-**Shipped in 0.3.3:** optional in-memory block cache keyed by generation and offset (`BlockCache` / `CachingStore`; off unless wrapped). `tet convert s3://bucket/file.ext` downloads that one object, then the existing importer. tet-py **0.3.3** does the same in `tet.convert`. Zarr prefixes on S3 are rejected.
-
-**Shipped in 0.3.4:** `tet query -t s3://bucket/prefix` and `open_s3_package` pin that package (`CURRENT`, or `?generation=N`) and read through the existing range planner. tet-py **0.3.4** does the same with `tet.open("s3://bucket/prefix")`. Credentials stay in `TETRATION_S3_*`. `S3Store.open` still downloads `packed.tet`.
-
-**Shipped in 0.3.5:** `tet convert` reads a Zarr v2 or v3 prefix on `s3://` one chunk at a time; the `.tet` matches a local-directory convert of the same store. tet-py **0.3.5** does the same in `tet.convert` (needs the `[zarr]` extra). Single-file `s3://bucket/file.ext` convert is unchanged. Object stores are not POSIX — latency and partial reads remain the hard parts.
-
-**Shipped in 0.3.6:** local `.tet.d` package cleanup the writer protocol already allowed: `tet pack --remove-package`, `tet gc` (staging leftovers + generations older than `CURRENT` / `CURRENT-1`; dry-run by default), and `tet publish --abort`. tet-py **0.3.6** adds `tet.pack(..., remove_package=False)`. S3 / store prune stays later. See [CLI packages](/cli/package).
-
-**Shipped in 0.3.7:** publish conflict UX without changing the sealed-generation model. Clearer overlap rejects (part ids + ranges), `tet publish --dry-run`, identical-byte overlaps allowed, opt-in `--replace DATASET` for dtype/shape change on G+1, and disjoint shard claims. tet-py **0.3.7** mirrors this with `tet.publish(..., dry_run=, replace=)`. Default remains reject-on-differing-overlap. See [CLI packages](/cli/package).
 
 ### Smarter indexing
 
@@ -89,14 +72,14 @@ Not always “more features.” Three qualities matter long-term:
 
 | Theme | Depends on | Risk / note |
 | ----- | ---------- | ----------- |
-| Object-store / cloud-native reads | Stable layout v1 | Cache + consistency semantics |
+| S3 / store prune & generation GC | Shipped package protocol | Consistency with local `tet gc`; never delete live pins |
 | Predicate indexes / chunk skipping | Metadata + planner | Index maintenance on write; verify story |
 | Distributed query execution | Tier-A/B merge semantics | Product boundary vs “just a format” |
 | Group-by, pipelines, controlled joins | Axes + metadata | Avoid full SQL complexity |
 | Units, CRS, provenance, uncertainty | Footer history + attrs | Standards alignment (CF, PROV, …) |
 | Normative spec + conformance suite | Layout + query wire freeze | Enables third-party implementations |
 
-Themes are **not ordered commitments** — formal spec work can parallel cloud reads, for example.
+Themes are **not ordered commitments** — formal spec work can parallel store prune, for example.
 
 ---
 
