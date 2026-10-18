@@ -20,7 +20,7 @@ Format detection: file extension **`.json` / `.toml`**, else leading **`{`** →
 
 | Flag | Effect |
 |------|--------|
-| `-t`, `--tet PATH` | Attach catalog / read plan (required for `-x`) |
+| `-t`, `--tet PATH` | Attach catalog / read plan (required for `-x`). `.tet`, `.tet.d`, or `s3://bucket/prefix` (`?generation=N`). `s3://` needs the `tetration-s3` feature and `TETRATION_S3_ENDPOINT` |
 | `-x`, `--execute` | Decode tiles, run operation, attach `execution` |
 | `--format` | `full` (default), `json`, `stats`, `plan`, `quiet`, `table` |
 | `-q`, `--quiet` | Shorthand for `--format quiet` |
@@ -71,6 +71,9 @@ tet query mean.json -t data.tet -x -q
 
 # Inline JSON
 tet query '{"dataset":"temperature","mean":[]}' -t data.tet -x -q
+
+# Pinned package on S3 (range read; TETRATION_S3_ENDPOINT)
+tet query '{"dataset":"temp","mean":[]}' -t 's3://bucket/prefix?generation=3' -x -q
 
 # Inline TOML
 tet query 'dataset = "temperature"
