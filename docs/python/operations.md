@@ -161,6 +161,7 @@ axis_slice(start_label="2020", stop_label="2024")
 | `tet.convert(src, dst.tet)` | local path or single-file `s3://bucket/file`; `.npy`/`.npz`/`.csv`/`.tsv`; h5/netcdf/zarr/parquet extras |
 | `tet.export(src.tet, dst)` / `f.export(dst)` | `.tet` → h5/netcdf/zarr via extras (`[export]` or per-format) |
 | `tet.ingest` / `tet.publish` | Stage / seal `.tet.d` package parts |
+| `tet.pack(package, dest, *, remove_package=False)` | Copy sealed generation → standalone `.tet` (optional delete after verify) |
 | `S3Store.connect` / `.ingest` / `.publish` / `.open` | S3-compatible store ingest + pin |
 | `tet.open("pkg.tet.d")` | Open package via `CURRENT` → packed generation |
 | `tet.open("s3://bucket/prefix")` | Pin that package (`?generation=N` or `CURRENT`) and range-read. `tet query -t` on the CLI |
@@ -202,7 +203,10 @@ tet.ingest("demo.tet.d", "part.tet", create=True)
 tet.publish("demo.tet.d", ["part"])
 with tet.open("demo.tet.d") as f:
     f.mean("values")
+tet.pack("demo.tet.d", "demo.tet")
 ```
+
+`tet.pack` matches `tet pack` on the CLI. Staging GC and publish abort stay CLI-only (`tet gc`, `tet publish --abort`) in 0.3.6.
 
 S3-compatible (endpoint + credentials as args):
 

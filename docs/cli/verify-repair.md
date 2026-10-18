@@ -57,10 +57,10 @@ tet verify data.tet --repair
 - `CURRENT` → `generations/<G>/packed.tet` + `MANIFEST.json`
 - Manifest generation id, byte length, and SHA-256 vs `packed.tet`
 - Layout-v1 verify on each sealed `packed.tet` (same rules as a standalone file)
-- Incomplete / stale `publishing/<G>/` locks (**warn**; repair can quarantine)
-- Orphan `staging/` sessions (**warn**; allowed after publish)
+- Incomplete / stale `publishing/<G>/` locks (**warn**; abort with `tet publish --abort`, or repair can quarantine)
+- Orphan `staging/` sessions (**warn**; allowed after publish; optional `tet gc --apply`)
 
-Missing staging parts after a sealed publish are **OK** when `packed.tet` verifies.
+Missing staging parts after a sealed publish are **OK** when `packed.tet` verifies. Optional cleanup of leftover staging and generations older than `CURRENT` / `CURRENT-1` is `tet gc` (0.3.6; dry-run by default).
 
 ### Package finding `check` names
 
@@ -76,9 +76,9 @@ JSON reports (`tet verify --json`) use these `findings[].check` strings:
 | `manifest_byte_len` / `manifest_sha256` | Error | Length or SHA-256 mismatch vs `packed.tet` |
 | `packed_layout` | Error | Sealed image failed layout-v1 verify |
 | `chunk_coords` | Error | Duplicate chunk coordinates inside `packed.tet` |
-| `publishing_incomplete` | Warn | Live publish lock (prior `CURRENT` still valid) |
+| `publishing_incomplete` | Warn | Live publish lock (prior `CURRENT` still valid) — `tet publish --abort --generation G` |
 | `publishing_stale` | Warn | Stale lock — repair with `quarantine_publish` |
-| `publishing` / `staging` / `generations` | Warn / Ok | Quarantine leftovers, orphan staging, odd dir names |
+| `publishing` / `staging` / `generations` | Warn / Ok | Quarantine leftovers, orphan staging (`tet gc --apply`), odd dir names |
 
 ## tet repair
 

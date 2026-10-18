@@ -12,7 +12,7 @@ The **`tet`** binary ships with the [tetration](https://github.com/Latka-Industr
 | [`tet repair`](/cli/verify-repair) | — | Plan or apply safe in-place fixes (footer, stale publish) |
 | [`tet convert`](/cli/convert-export) | — | HDF5 / NetCDF / Zarr → `.tet` |
 | [`tet export`](/cli/convert-export) | — | `.tet` → Zarr / HDF5 / NetCDF |
-| [`tet ingest`](/cli/package) / [`publish`](/cli/package) / [`pack`](/cli/package) | — | Local `.tet.d` package ingest → publish → pack |
+| [`tet ingest`](/cli/package) / [`publish`](/cli/package) / [`pack`](/cli/package) / [`gc`](/cli/package) | — | Local `.tet.d` package ingest → publish → pack / cleanup |
 | [`tet qhist`](/cli/qhist) | `hist` | Recent queries (platform cache) |
 
 ## Install
@@ -50,6 +50,8 @@ tet query '{"dataset":"temperature","mean":[]}' -t volume.tet -x -q
 tet ingest a.tet b.tet --out climate.tet.d --jobs 2
 tet publish climate.tet.d
 tet query '{"dataset":"temp","mean":[]}' -t climate.tet.d -x -q
+tet pack climate.tet.d -o climate.tet
+tet gc climate.tet.d              # dry-run
 ```
 
 ## Live help
