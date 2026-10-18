@@ -48,6 +48,7 @@ tet query '{"dataset":"temperature","mean":[]}' -t volume.tet -x -q
 
 # Multi-writer package
 tet ingest a.tet b.tet --out climate.tet.d --jobs 2
+tet publish climate.tet.d --dry-run
 tet publish climate.tet.d
 tet query '{"dataset":"temp","mean":[]}' -t climate.tet.d -x -q
 tet pack climate.tet.d -o climate.tet

@@ -16,8 +16,8 @@ Tetration already covers efficient **partial I/O** over a local mmap-friendly `.
 | Verify / repair | Quick + deep decode — [CLI verify](/cli/verify-repair) |
 | Optional GPU | Experimental device routing for tier-A/B `f32`/`f16` |
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
-| Writer protocol v2 (0.2+) | `.tet.d` packages, shard writers, publish, pack; **0.3.6** cleanup (`gc`, `--remove-package`, `--abort`) — [CLI packages](/cli/package) |
-| Python (tet-py 0.3.6) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack` — [Python](/python/) |
+| Writer protocol v2 (0.2+) | `.tet.d` packages, shard writers, publish, pack; **0.3.6** cleanup (`gc`, `--remove-package`, `--abort`); **0.3.7** publish conflict UX (`--dry-run`, `--replace`, identical-byte overlap) — [CLI packages](/cli/package) |
+| Python (tet-py 0.3.7) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)` — [Python](/python/) |
 
 Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo.
 
@@ -40,6 +40,8 @@ Near-term polish continues in the [query hardening notes](/guides/query-engine/)
 **Shipped in 0.3.5:** `tet convert` reads a Zarr v2 or v3 prefix on `s3://` one chunk at a time; the `.tet` matches a local-directory convert of the same store. tet-py **0.3.5** does the same in `tet.convert` (needs the `[zarr]` extra). Single-file `s3://bucket/file.ext` convert is unchanged. Object stores are not POSIX — latency and partial reads remain the hard parts.
 
 **Shipped in 0.3.6:** local `.tet.d` package cleanup the writer protocol already allowed: `tet pack --remove-package`, `tet gc` (staging leftovers + generations older than `CURRENT` / `CURRENT-1`; dry-run by default), and `tet publish --abort`. tet-py **0.3.6** adds `tet.pack(..., remove_package=False)`. S3 / store prune stays later. See [CLI packages](/cli/package).
+
+**Shipped in 0.3.7:** publish conflict UX without changing the sealed-generation model. Clearer overlap rejects (part ids + ranges), `tet publish --dry-run`, identical-byte overlaps allowed, opt-in `--replace DATASET` for dtype/shape change on G+1, and disjoint shard claims. tet-py **0.3.7** mirrors this with `tet.publish(..., dry_run=, replace=)`. Default remains reject-on-differing-overlap. See [CLI packages](/cli/package).
 
 ### Smarter indexing
 

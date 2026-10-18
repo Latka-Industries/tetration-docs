@@ -1,6 +1,6 @@
 # tet ingest / publish / compact / pack / gc
 
-Local concurrent ingest into a `.tet.d` package (writer protocol v2). **0.3.6** adds optional cleanup the protocol already allowed: `pack --remove-package`, `publish --abort`, and `tet gc`.
+Local concurrent ingest into a `.tet.d` package (writer protocol v2). **0.3.6** adds optional cleanup (`pack --remove-package`, `publish --abort`, `tet gc`). **0.3.7** adds publish conflict UX: clearer overlap rejects, `--dry-run`, opt-in `--replace`, identical-byte overlaps allowed.
 
 ## Flow
 
@@ -33,7 +33,7 @@ tet ingest [OPTIONS] <INPUT.tet>... --out <PKG.tet.d>
 | `--create` | Explicit create (default already creates when absent) |
 | `-q` | Quiet |
 
-Does **not** flip `CURRENT`. Overlapping dataset claims are rejected at publish time.
+Does **not** flip `CURRENT`. Differing-byte overlapping claims are rejected at publish time; identical-byte overlaps are allowed (0.3.7).
 
 ## tet publish
 
@@ -43,8 +43,18 @@ Freeze sealed staging parts → merge into `generations/<G>/packed.tet` → set 
 
 **0.3.6** exposes abort for a stuck lock: `tet publish --abort --generation G` removes `publishing/<G>/` without flipping `CURRENT`. Refuses the generation named by `CURRENT`.
 
+**0.3.7** publish conflict UX (default remains reject-on-differing-overlap):
+
+- Clearer overlap rejects include part ids, dataset name, and chunk ranges.
+- `--dry-run` runs claim / schema checks only (no seal, no `CURRENT` flip).
+- Identical-byte claim overlaps are allowed (idempotent retry); differing bytes still reject.
+- `--replace DATASET` (repeatable) allows a dtype/shape change vs sealed `CURRENT` on G+1; sealed generations stay untouched.
+- Disjoint shard claims (`DatasetClaim::ranges`) can tile one dataset across parts.
+
 ```bash
 tet publish [OPTIONS] <PKG.tet.d>
+tet publish climate.tet.d --dry-run
+tet publish climate.tet.d --replace temp
 tet publish climate.tet.d --abort --generation 2
 ```
 
@@ -52,6 +62,8 @@ tet publish climate.tet.d --abort --generation 2
 |------|--------|
 | `--generation G` | Generation id (default: `CURRENT+1`, or `1`; required with `--abort`) |
 | `--parts ID,…` | Explicit part-id list (default: all sealed staging parts) |
+| `--dry-run` | Claim / schema checks only; do not seal or flip `CURRENT` (0.3.7) |
+| `--replace DATASET` | Allow dtype/shape change for this name vs sealed `CURRENT` (repeatable; G+1 only) |
 | `--abort` | Drop a stuck `publishing/<G>/` lock (`--generation` required; refuses `CURRENT`) |
 | `-q` | Quiet |
 
@@ -100,4 +112,4 @@ Never deletes the generation named by `CURRENT` or `CURRENT-1`.
 
 ## Library
 
-[`ingest_tet_file`](https://docs.rs/tetration/latest/tetration/catalog/fn.ingest_tet_file.html), [`publish_parts`](https://docs.rs/tetration/latest/tetration/catalog/fn.publish_parts.html), [`TetPackage::pack_generation`](https://docs.rs/tetration/latest/tetration/catalog/struct.TetPackage.html) / [`pack_generation_with`](https://docs.rs/tetration/latest/tetration/catalog/struct.TetPackage.html), [`TetPackage::gc`](https://docs.rs/tetration/latest/tetration/catalog/struct.TetPackage.html), [`TetPackage::abort_publish`](https://docs.rs/tetration/latest/tetration/catalog/struct.TetPackage.html). Spec: [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md).
+[`ingest_tet_file`](https://docs.rs/tetration/latest/tetration/catalog/fn.ingest_tet_file.html), [`publish_parts`](https://docs.rs/tetration/latest/tetration/catalog/fn.publish_parts.html) / [`publish_parts_with_options`](https://docs.rs/tetration/latest/tetration/catalog/fn.publish_parts_with_options.html), [`dry_run_publish_parts`](https://docs.rs/tetration/latest/tetration/catalog/fn.dry_run_publish_parts.html), [`TetPackage::pack_generation`](https://docs.rs/tetration/latest/tetration/catalog/struct.TetPackage.html) / [`pack_generation_with`](https://docs.rs/tetration/latest/tetration/catalog/struct.TetPackage.html), [`TetPackage::gc`](https://docs.rs/tetration/latest/tetration/catalog/struct.TetPackage.html), [`TetPackage::abort_publish`](https://docs.rs/tetration/latest/tetration/catalog/struct.TetPackage.html). Spec: [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md).
