@@ -18,7 +18,7 @@ Tetration already covers efficient **partial I/O** over sealed `.tet` images (lo
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
 | Writer protocol v2 (0.2+) | `.tet.d` packages, shard writers, publish, pack; **0.3.6** cleanup (`gc`, `--remove-package`, `--abort`); **0.3.7** publish conflict UX (`--dry-run`, `--replace`, identical-byte overlap) — [CLI packages](/cli/package) |
 | Cloud packages (0.3.x) | `PackageStore` / `S3Store`, pin + range-read, stage / CAS publish, cross-host claim, optional block cache, `s3://` convert — [Store-backed reads](/rust/store-backed-reads) |
-| Python (tet-py 0.3.8) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)`. **0.3.8** is a pin of the crate hygiene cut — [Python](/python/) |
+| Python (tet-py 0.3.8) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)` — [Python](/python/) |
 
 Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **Still later:** S3 / store prune (local `tet gc` is 0.3.6).
 
