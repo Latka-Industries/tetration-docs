@@ -200,13 +200,14 @@ from tet import write_dataset
 
 write_dataset("part.tet", "values", arr)
 tet.ingest("demo.tet.d", "part.tet", create=True)
+tet.publish("demo.tet.d", ["part"], dry_run=True)
 tet.publish("demo.tet.d", ["part"])
 with tet.open("demo.tet.d") as f:
     f.mean("values")
 tet.pack("demo.tet.d", "demo.tet")
 ```
 
-`tet.pack` matches `tet pack` on the CLI. Staging GC and publish abort stay CLI-only (`tet gc`, `tet publish --abort`) in 0.3.6.
+`tet.publish(..., dry_run=True)` matches `tet publish --dry-run` (claim / schema checks only). Pass `replace=["dataset"]` for an opt-in G+1 dtype/shape change vs sealed `CURRENT`. Differing-byte overlaps and schema conflicts raise `CatalogError` with part / dataset detail. `tet.pack` matches `tet pack` on the CLI. Staging GC and publish abort stay CLI-only (`tet gc`, `tet publish --abort`).
 
 S3-compatible (endpoint + credentials as args):
 
