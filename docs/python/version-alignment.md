@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.3.7**](https://pypi.org/project/tet-py/0.3.7/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.3.7**](https://crates.io/crates/tetration/0.3.7) |
+| **tet-py** (PyPI) | [**0.3.8**](https://pypi.org/project/tet-py/0.3.8/) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.3.8**](https://crates.io/crates/tetration/0.3.8) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -19,6 +19,7 @@ From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **
 
 | tet-py | tetration crate | Notes |
 |--------|-----------------|-------|
+| **0.3.8** | **0.3.8** | Pin alignment. Crate hygiene only: shared `f16`/`f64` materialize, structured package `CatalogError`s (same display text), deprecated `tetration::query` CLI formatters (still present; removed in 0.4.0). No new Python API |
 | **0.3.7** | **0.3.7** | `tet.publish(dry_run=, replace=)`; CLI `--dry-run` / `--replace`; clearer overlap rejects; identical-byte overlaps OK |
 | **0.3.6** | **0.3.6** | `tet.pack` (optional `remove_package`); CLI `tet pack --remove-package`, `tet gc`, `tet publish --abort` on local `.tet.d` |
 | **0.3.5** | **0.3.5** | `tet.convert` reads a Zarr v2/v3 prefix on `s3://` one chunk at a time (`[zarr]` extra). Single-file `s3://` convert and pinned package open are unchanged |
