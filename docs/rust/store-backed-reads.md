@@ -1,6 +1,6 @@
 # Store-backed reads (0.3.x)
 
-**0.3.0** adds a package blob store and a range-read planner so embedders can query a sealed `packed.tet` without assuming a full local mmap up front. **0.3.1** adds an optional S3-compatible backend and store ingest / CAS publish. **0.3.2** adds an exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover). **0.3.3** adds an optional in-memory block cache and single-file `s3://` convert. **0.3.4** opens a pinned `s3://bucket/prefix` package through that planner (`tet query -t`, `open_s3_package`, tet-py `tet.open`). **0.3.5** converts a Zarr prefix on `s3://` one chunk at a time. Local `.tet` / `.tet.d` paths are unchanged.
+**0.3.0** adds a package blob store and a range-read planner so embedders can query a sealed `packed.tet` without assuming a full local mmap up front. **0.3.1** adds an optional S3-compatible backend and store ingest / CAS publish. **0.3.2** adds an exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover). **0.3.3** adds an optional in-memory block cache and single-file `s3://` convert. **0.3.4** opens a pinned `s3://bucket/prefix` package through that planner (`tet query -t`, `open_s3_package`, tet-py `tet.open`). **0.3.5** converts a Zarr prefix on `s3://` one chunk at a time. **0.3.6** adds local `.tet.d` lifecycle cleanup (`tet pack --remove-package`, `tet gc`, `tet publish --abort`; tet-py `tet.pack`) without changing the query planner. Local `.tet` / `.tet.d` read paths are otherwise unchanged.
 
 ## What shipped
 
