@@ -1,6 +1,6 @@
 # Store-backed reads (0.3.x)
 
-**0.3.0** adds a package blob store and a range-read planner so embedders can query a sealed `packed.tet` without assuming a full local mmap up front. **0.3.1** adds an optional S3-compatible backend and store ingest / CAS publish. **0.3.2** adds an exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover). **0.3.3** adds an optional in-memory block cache and single-file `s3://` convert. Local `.tet` / `.tet.d` CLI paths are unchanged.
+**0.3.0** adds a package blob store and a range-read planner so embedders can query a sealed `packed.tet` without assuming a full local mmap up front. **0.3.1** adds an optional S3-compatible backend and store ingest / CAS publish. **0.3.2** adds an exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover). **0.3.3** adds an optional in-memory block cache and single-file `s3://` convert. **0.3.4** opens a pinned `s3://bucket/prefix` package through that planner (`tet query -t`, `open_s3_package`, tet-py `tet.open`). Local `.tet` / `.tet.d` paths are unchanged.
 
 ## What shipped
 
@@ -13,8 +13,9 @@
 | `stage_part` / `publish_staged_parts` | N writers upload parts; one CAS publish (0.3.1) |
 | `publishing/<G>` claim | Exclusive cross-host publish lock: heartbeat, stale window, force-only takeover (0.3.2) |
 | `BlockCache` / `CachingStore` | Optional packed-range cache keyed by `(generation, offset)`. A new pin does not reuse another generation. Off unless the store is wrapped (0.3.3) |
-| `parse_tet_uri` | Paths, `file://`, `memory://`, `s3://` shape |
+| `parse_tet_uri` / `parse_s3_package_uri` | Paths, `file://`, `memory://`, `s3://bucket/prefix` (`?generation=N`) |
 | `pin_packed_tet` / `TetPackagePin` | Resolve `CURRENT` once (or an explicit generation) and keep that object |
+| `open_s3_package` / `query_opened_s3_package` | Pin an `s3://` package from `TETRATION_S3_*` and query it (feature `tetration-s3`, 0.3.4) |
 
 ## Flow
 
@@ -26,7 +27,7 @@ parse_tet_uri → pin_packed_tet (CURRENT once or explicit G)
   → assemble_object_from_ranges → existing mmap query engine
 ```
 
-Entry points: `pin_packed_tet`, `execute_query_with_store`, `execute_query_on_store_pin`, `TetPackage::pin_current` / `pin_generation`.
+Entry points: `pin_packed_tet`, `execute_query_with_store`, `execute_query_on_store_pin`, `open_s3_package`, `query_opened_s3_package`, `TetPackage::pin_current` / `pin_generation`.
 
 ## Pin / consistency
 
@@ -38,8 +39,9 @@ Entry points: `pin_packed_tet`, `execute_query_with_store`, `execute_query_on_st
 
 - Assemble path caps at 64 MiB (sparse in-memory image). Larger objects need a non-assembling path later.
 - The block cache is optional and in-memory. Wrap the store to turn it on.
-- `tet query` and `tet.open("s3://…")` do not open an `s3://` package. Use `S3Store::connect` (or tet-py `S3Store.connect`) with endpoint + credentials.
-- `tet convert s3://bucket/file.ext` (and tet-py `tet.convert`) downloads that one object (`TETRATION_S3_ENDPOINT`), then the existing importer. Zarr prefixes are rejected.
+- `tet query -t s3://bucket/prefix` and tet-py `tet.open("s3://bucket/prefix")` pin that package and range-read. `?generation=N` pins an explicit generation; otherwise `CURRENT` is read once. Credentials are `TETRATION_S3_*` (`ENDPOINT` required). The CLI needs the `tetration-s3` feature.
+- `S3Store.open` (Rust and tet-py) still downloads the whole `packed.tet`.
+- `tet convert s3://bucket/file.ext` (and tet-py `tet.convert`) downloads that one object, then the existing importer. Zarr prefixes are rejected.
 
 ## Python (tet-py)
 
@@ -65,7 +67,11 @@ s3 = tet.S3Store.connect(
 )
 s3.ingest("part.tet", session_id="s0", part_id="values")
 s3.publish(["values"])
-pinned = s3.open("current")                   # pin; later publish does not retarget
+pinned = s3.open("current")                   # full download of packed.tet
+
+with tet.open("s3://tetration-test/demo") as f:  # range-read; TETRATION_S3_* 
+    assert f.generation == 1
+    f.mean("values")
 ```
 
 Advancing `CURRENT` under an open handle does not retarget that handle. Normative Rust detail: [query engine — store-backed reads](https://github.com/Latka-Industries/tetration/blob/main/docs/query_engine.md#store-backed-reads-030--phase-12-foundation).

@@ -23,7 +23,7 @@ Good fits:
 Less ideal:
 
 - Tabular analytics with heavy columnar filtering → consider **Parquet**
-- Full cloud object-store I/O → **0.3.1** ships `S3Store` ingest / CAS publish (embedder + tet-py); **0.3.2** adds an exclusive cross-host claim on `publishing/<G>`; **0.3.3** adds an optional download cache and single-file `s3://` convert. `tet query` / `tet.open("s3://…")` still do not open a package in the bucket, and Zarr-on-S3 chunked reads are later — consider **Zarr** when you need native cloud directory writes today (local multi-writer is shards + publish; see [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md) and [store-backed reads](/rust/store-backed-reads))
+- Full cloud object-store I/O → **0.3.1** ships `S3Store` ingest / CAS publish (embedder + tet-py); **0.3.2** adds an exclusive cross-host claim on `publishing/<G>`; **0.3.3** adds an optional download cache and single-file `s3://` convert; **0.3.4** opens a pinned `s3://` package (`tet query -t`, `tet.open`). Zarr-on-S3 chunked reads are **0.3.5** — consider **Zarr** when you need native cloud directory writes today (local multi-writer is shards + publish; see [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md) and [store-backed reads](/rust/store-backed-reads))
 - Simple single-array interchange → **NPY** may suffice
 - SQL-on-files or ad-hoc relational queries → not a v1 goal
 

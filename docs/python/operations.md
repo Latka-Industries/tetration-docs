@@ -163,6 +163,7 @@ axis_slice(start_label="2020", stop_label="2024")
 | `tet.ingest` / `tet.publish` | Stage / seal `.tet.d` package parts |
 | `S3Store.connect` / `.ingest` / `.publish` / `.open` | S3-compatible store ingest + pin |
 | `tet.open("pkg.tet.d")` | Open package via `CURRENT` → packed generation |
+| `tet.open("s3://bucket/prefix")` | Pin that package (`?generation=N` or `CURRENT`) and range-read. `tet query -t` on the CLI |
 | `f.read_numpy(...)` | Materialize selection → ndarray |
 | `f.read_spill(...)` | Spill selection → `SpillReadResult` |
 

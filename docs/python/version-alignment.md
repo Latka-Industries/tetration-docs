@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.3.3**](https://pypi.org/project/tet-py/0.3.3/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.3.3**](https://crates.io/crates/tetration/0.3.3) |
+| **tet-py** (PyPI) | [**0.3.4**](https://pypi.org/project/tet-py/0.3.4/) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.3.4**](https://crates.io/crates/tetration/0.3.4) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -19,7 +19,8 @@ From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **
 
 | tet-py | tetration crate | Notes |
 |--------|-----------------|-------|
-| **0.3.3** | **0.3.3** | `tet.convert("s3://bucket/file.ext")` downloads that one object, then the existing importer. Core optional `BlockCache` / `CachingStore` (generation + offset). `tet.open("s3://…")` is still unsupported |
+| **0.3.4** | **0.3.4** | `tet.open("s3://bucket/prefix")` and `tet query -t` pin that package (`?generation=N` or `CURRENT`) and range-read. Credentials stay in `TETRATION_S3_*`. `S3Store.open` still downloads `packed.tet` |
+| **0.3.3** | **0.3.3** | `tet.convert("s3://bucket/file.ext")` downloads that one object, then the existing importer. Core optional `BlockCache` / `CachingStore` (generation + offset). `tet.open("s3://…")` was still unsupported |
 | **0.3.2** | **0.3.2** | Exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover). No new Python API |
 | **0.3.1** | **0.3.1** | `S3Store` ingest / publish / pin; core `tetration-s3` + `stage_part` / `publish_staged_parts` |
 | **0.3.0** | **0.3.0** | Store URI open + generation pin (`MemoryStore`, `TetFile.generation`); core `PackageStore` / range planner |
