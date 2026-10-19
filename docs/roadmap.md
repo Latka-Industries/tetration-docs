@@ -18,11 +18,11 @@ Tetration already covers efficient **partial I/O** over sealed `.tet` images (lo
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
 | Writer protocol v2 (0.2+) | `.tet.d` packages, shard writers, publish, pack; **0.3.6** cleanup (`gc`, `--remove-package`, `--abort`); **0.3.7** publish conflict UX (`--dry-run`, `--replace`, identical-byte overlap) — [CLI packages](/cli/package) |
 | Cloud packages (0.3.x) | `PackageStore` / `S3Store`, pin + range-read, stage / CAS publish, cross-host claim, optional block cache, `s3://` convert — [Store-backed reads](/rust/store-backed-reads) |
-| Python (tet-py 0.4.2) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)`; query `filter`, `group_by`, and `pipeline` via JSON/TOML — [Python](/python/) |
+| Python (tet-py 0.4.3) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)`; query `filter`, `group_by`, and `pipeline` via JSON/TOML. Store prune stays on `tet gc` — [Python](/python/) |
 | Zone maps + filter pushdown (0.4.0 / 0.4.1) | **0.4.0:** per-chunk min/max/null at compact/publish (`ZONE.json`). **0.4.1:** closed query `filter` skips impossible chunks (`ReadPlan.zone_filter_skipped_chunks`) — [Query engine](/guides/query-engine/) · [Store-backed reads](/rust/store-backed-reads) |
 | Group-by + pipelines (0.4.2) | Closed `group_by` over dimension names (tier-A/B streams a fold per group) and a closed `pipeline` step list lowered onto one document — [Query document](/guides/query-engine/document) |
 
-Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **After 0.4.2:** S3 / store prune is **0.4.3** (local `tet gc` is 0.3.6). Own cut, not group-by.
+Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **Shipped in 0.4.3:** store prune (`prune_store`, `tet gc s3://bucket/prefix`) drops leftover staging and sealed generations older than `CURRENT` / `CURRENT-1`. Dry-run by default. Open pins and a live publish claim are refused. Does not write `CURRENT`. tet-py **0.4.3** pins that crate with no new Python API. **After 0.4.3:** element-wise filter is **0.4.4**; richer indexes are **0.4.5**. Own cuts, not store prune.
 
 ---
 
@@ -80,7 +80,7 @@ Not always “more features.” Three qualities matter long-term:
 
 | Theme | Depends on | Risk / note |
 | ----- | ---------- | ----------- |
-| S3 / store prune & generation GC | Shipped package protocol | Consistency with local `tet gc`; never delete live pins |
+| S3 / store prune (0.4.3) | `prune_store`, `tet gc s3://` | Never delete live pins; do not write `CURRENT` |
 | Richer indexes / element-wise filter | Zone maps + `filter` (0.4.1); `group_by` (0.4.2) | Keep wire closed; avoid SQL |
 | Distributed query execution | Tier-A/B merge semantics | Product boundary vs “just a format” |
 | Windowed stats, controlled joins | Axes + metadata; `group_by` and `pipeline` shipped in 0.4.2 | Avoid full SQL complexity |
