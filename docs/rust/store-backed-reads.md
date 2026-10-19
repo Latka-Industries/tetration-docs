@@ -15,6 +15,7 @@
 | `BlockCache` / `CachingStore` | Optional packed-range cache keyed by `(generation, offset)`. A new pin does not reuse another generation. Off unless the store is wrapped (0.3.3) |
 | `parse_tet_uri` / `parse_s3_package_uri` | Paths, `file://`, `memory://`, `s3://bucket/prefix` (`?generation=N`) |
 | `pin_packed_tet` / `TetPackagePin` | Resolve `CURRENT` once (or an explicit generation) and keep that object |
+| `prune_store` | Drop leftover `staging/` and sealed generations older than `CURRENT` / `CURRENT-1`. Dry-run unless apply. Does not write `CURRENT` |
 | `open_s3_package` / `query_opened_s3_package` | Pin an `s3://` package from `TETRATION_S3_*` and query it (feature `tetration-s3`, 0.3.4) |
 
 ## Flow
@@ -34,6 +35,12 @@ Entry points: `pin_packed_tet`, `execute_query_with_store`, `execute_query_on_st
 - Resolve `CURRENT` **once**. Advancing `CURRENT` under an open pin does not change which `packed.tet` the pin opens.
 - Sealed generation bytes are immutable. If they change under the key, treat as verify failure.
 - A lost CAS publish leaves the previous `CURRENT` and its `packed.tet` untouched.
+
+## Store prune
+
+`prune_store` is local `tet gc` on `PackageStore`, including `S3Store` (path-style, `TETRATION_S3_*`). CLI: `tet gc s3://bucket/prefix` (feature `tetration-s3`). Dry-run unless `--apply` / `PruneOptions.apply`. It removes leftover staging sessions and sealed generations older than `CURRENT` and `CURRENT-1`. It does not write `CURRENT`. A sealed generation newer than `CURRENT` is kept. A live `publishing/<G>` claim (heartbeat not stale) keeps every staging session and that generation.
+
+**Pin safety:** the store does not track open readers. Pass `pinned_generations`, `with_package_pins`, or `with_store_pins`. `CachingStore.prune` always protects that wrapper's pin. `tet gc` on `s3://` cannot see pins held by other processes; those `packed.tet` objects are removed if they are older than `CURRENT-1` unless you pass `--protect-generation G` or `?generation=G`. `CURRENT` and `CURRENT-1` are never candidates.
 
 ## Limits
 
