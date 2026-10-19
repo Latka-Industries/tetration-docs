@@ -18,10 +18,10 @@ Tetration already covers efficient **partial I/O** over sealed `.tet` images (lo
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
 | Writer protocol v2 (0.2+) | `.tet.d` packages, shard writers, publish, pack; **0.3.6** cleanup (`gc`, `--remove-package`, `--abort`); **0.3.7** publish conflict UX (`--dry-run`, `--replace`, identical-byte overlap) — [CLI packages](/cli/package) |
 | Cloud packages (0.3.x) | `PackageStore` / `S3Store`, pin + range-read, stage / CAS publish, cross-host claim, optional block cache, `s3://` convert — [Store-backed reads](/rust/store-backed-reads) |
-| Python (tet-py 0.4.0) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)` — [Python](/python/) |
-| Zone maps (0.4.0) | Per-chunk min/max/null stats at compact/publish (`ZONE.json`); attached on `ReadPlan` chunks. Predicate pushdown that skips chunks is next — [Store-backed reads](/rust/store-backed-reads) |
+| Python (tet-py 0.4.1) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)`; query `filter` via JSON/TOML — [Python](/python/) |
+| Zone maps + filter pushdown (0.4.0 / 0.4.1) | **0.4.0:** per-chunk min/max/null at compact/publish (`ZONE.json`). **0.4.1:** closed query `filter` skips impossible chunks (`ReadPlan.zone_filter_skipped_chunks`) — [Query engine](/guides/query-engine/) · [Store-backed reads](/rust/store-backed-reads) |
 
-Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **After 0.4.0:** S3 / store prune (local `tet gc` is 0.3.6). Own cut, not zone maps.
+Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **After 0.4.1:** S3 / store prune (local `tet gc` is 0.3.6). Own cut, not zone maps / filter.
 
 ---
 
@@ -29,13 +29,15 @@ Near-term polish continues in the [query hardening notes](/guides/query-engine/)
 
 ### Smarter indexing
 
-**Today:** organization is **geometric** — logical coordinates → chunk coordinates. Footer metadata supports `dim_names`, coordinate labels, and attrs, but there is no secondary index for value predicates.
+**Today:** organization is **geometric** — logical coordinates → chunk coordinates. Footer metadata supports `dim_names`, coordinate labels, and attrs.
 
 **Shipped in 0.4.0:** compact/publish writes per-chunk min/max/null zone maps to `generations/<G>/ZONE.json` and copies them onto `ReadPlan` chunks. Staging writers do not update those stats.
 
-**Direction:** use those stats (and optional further indexes) so predicates such as `temperature > 100` or `region = Arizona` can skip most chunks.
+**Shipped in 0.4.1:** closed query `filter` predicates skip chunks whose zone stats cannot match (conservative; missing zones → no skip). `ReadPlan.zone_filter_skipped_chunks` reports drops. Fold still runs on kept chunk payloads (not a full row-level rewrite).
 
-Indexes must stay optional, verifiable, and evolvable without breaking v1 readers. Label *slicing* and zone-map stats are shipped; value filters that skip chunks and group-by remain deferred.
+**Direction:** optional richer indexes and element-wise filter semantics for aggregates; group-by over named dimensions.
+
+Indexes must stay optional, verifiable, and evolvable without breaking v1 readers. Label *slicing*, zone-map stats, and value-filter chunk skip are shipped; group-by remains deferred.
 
 ### Distributed execution
 
@@ -76,7 +78,7 @@ Not always “more features.” Three qualities matter long-term:
 | Theme | Depends on | Risk / note |
 | ----- | ---------- | ----------- |
 | S3 / store prune & generation GC | Shipped package protocol | Consistency with local `tet gc`; never delete live pins |
-| Predicate indexes / chunk skipping | Metadata + planner | Index maintenance on write; verify story |
+| Richer indexes / element-wise filter / group-by | Zone maps + `filter` (0.4.1) | Keep wire closed; avoid SQL |
 | Distributed query execution | Tier-A/B merge semantics | Product boundary vs “just a format” |
 | Group-by, pipelines, controlled joins | Axes + metadata | Avoid full SQL complexity |
 | Units, CRS, provenance, uncertainty | Footer history + attrs | Standards alignment (CF, PROV, …) |

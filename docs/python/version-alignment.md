@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.4.0**](https://pypi.org/project/tet-py/0.4.0/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.4.0**](https://crates.io/crates/tetration/0.4.0) |
+| **tet-py** (PyPI) | [**0.4.1**](https://pypi.org/project/tet-py/0.4.1/) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.4.1**](https://crates.io/crates/tetration/0.4.1) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -19,6 +19,7 @@ From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **
 
 | tet-py | tetration crate | Notes |
 |--------|-----------------|-------|
+| **0.4.1** | **0.4.1** | Pin alignment. Crate: closed query `filter` + zone-map chunk skip (`ReadPlan.zone_filter_skipped_chunks`). No new Python API |
 | **0.4.0** | **0.4.0** | Pin alignment. Crate: zone maps at compact/publish, `ReadPlan.logical_element_count`, removed deprecated `tetration::query` CLI re-exports. No new Python API |
 | **0.3.8** | **0.3.8** | Pin alignment. Crate hygiene only: shared `f16`/`f64` materialize, structured package `CatalogError`s (same display text), deprecated `tetration::query` CLI formatters (removed in 0.4.0). No new Python API |
 | **0.3.7** | **0.3.7** | `tet.publish(dry_run=, replace=)`; CLI `--dry-run` / `--replace`; clearer overlap rejects; identical-byte overlaps OK |
