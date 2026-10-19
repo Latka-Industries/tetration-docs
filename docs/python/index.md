@@ -3,7 +3,7 @@
 **[tet-py](https://github.com/Latka-Industries/tet-py)** is the official Python package for Tetration. Install from PyPI, `import tet`, and use the same query engine and `.tet` layout as the Rust crate and `tet` CLI.
 
 ::: tip PyPI
-**tet-py 0.3.8** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
+**tet-py 0.4.0** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
 
 Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 :::
@@ -14,14 +14,14 @@ Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 |------|-------|
 | PyPI / GitHub | **`tet-py`** |
 | Import | **`import tet`** |
-| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.3.8** (linked at build time) |
+| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.4.0** (linked at build time) |
 | Native extension | `tet._native` (PyO3 / maturin, abi3 `cp311+`) |
 
 Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI remains in the tetration repo for Julia/R/Go embedders.
 
-## What's shipped (0.3.x)
+## What's shipped (0.3.x / 0.4.0)
 
-**0.3.8** pins tetration **0.3.8** with no new Python API. **0.3.7** pins tetration **0.3.7** and adds `tet.publish(..., dry_run=, replace=)` (clearer overlap / schema `CatalogError`s). **0.3.6** added `tet.pack` (optional `remove_package`). **0.3.5** added Zarr-prefix `s3://` convert (`[zarr]`). **0.3.4** added `tet.open("s3://bucket/prefix")` (pin + range-read). **0.3.3** added single-file `tet.convert("s3://bucket/object.ext")`. **0.3.2** picked up the exclusive cross-host `publishing/<G>` claim with no new Python API. **0.3.1** added `S3Store` ingest / publish / pin. **0.3.0** added store URI open + generation pins. The table includes the full 0.2 feature set plus 0.3 additions.
+**0.4.0** pins tetration **0.4.0** (zone maps at compact/publish, `ReadPlan.logical_element_count`, removed `tetration::query` CLI re-exports) with no new Python API. **0.3.8** pinned tetration **0.3.8** (crate hygiene only). **0.3.7** added `tet.publish(..., dry_run=, replace=)`. **0.3.6** added `tet.pack` (optional `remove_package`). **0.3.5** added Zarr-prefix `s3://` convert (`[zarr]`). **0.3.4** added `tet.open("s3://bucket/prefix")` (pin + range-read). **0.3.3** added single-file `tet.convert("s3://bucket/object.ext")`. **0.3.2** picked up the exclusive cross-host `publishing/<G>` claim with no new Python API. **0.3.1** added `S3Store` ingest / publish / pin. **0.3.0** added store URI open + generation pins. The table includes the full 0.2 feature set plus 0.3 / 0.4 additions.
 
 | Topic | Status |
 |-------|--------|
