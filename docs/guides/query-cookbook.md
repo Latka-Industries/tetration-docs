@@ -177,6 +177,53 @@ mean = "time"
 tet info data.tet --metadata   # check dim_names
 ```
 
+## Group-by and pipelines (0.4.2)
+
+One sum per `col` index. Empty reduction axes fold the complement of `group_by`. Tier-A/B streams the fold; `execution.group_count` is the group-axis product.
+
+::: code-group
+
+```json [group_by.json]
+{ "dataset": "temperature", "group_by": ["col"], "sum": [] }
+```
+
+```toml [group_by.toml]
+dataset = "temperature"
+group_by = ["col"]
+sum = []
+```
+
+:::
+
+The same document as ordered steps. `pipeline` cannot be mixed with top-level `selection`, `filter`, `group_by`, `spill`, `write`, or an operation key.
+
+::: code-group
+
+```json [pipeline.json]
+{
+  "dataset": "temperature",
+  "pipeline": [
+    { "select": [{}, {}] },
+    { "group_by": ["1"], "sum": [] }
+  ]
+}
+```
+
+```toml [pipeline.toml]
+dataset = "temperature"
+
+[[pipeline]]
+select = [{}, {}]
+
+[[pipeline]]
+group_by = ["1"]
+sum = []
+```
+
+:::
+
+Pass the same JSON or TOML to `TetFile.execute`. `build_query` still takes one operation keyword.
+
 ## Selections and previews
 
 Full 2×3 slice preview:

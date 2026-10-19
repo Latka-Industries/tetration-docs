@@ -18,10 +18,11 @@ Tetration already covers efficient **partial I/O** over sealed `.tet` images (lo
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
 | Writer protocol v2 (0.2+) | `.tet.d` packages, shard writers, publish, pack; **0.3.6** cleanup (`gc`, `--remove-package`, `--abort`); **0.3.7** publish conflict UX (`--dry-run`, `--replace`, identical-byte overlap) — [CLI packages](/cli/package) |
 | Cloud packages (0.3.x) | `PackageStore` / `S3Store`, pin + range-read, stage / CAS publish, cross-host claim, optional block cache, `s3://` convert — [Store-backed reads](/rust/store-backed-reads) |
-| Python (tet-py 0.4.1) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)`; query `filter` via JSON/TOML — [Python](/python/) |
+| Python (tet-py 0.4.2) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)`; query `filter`, `group_by`, and `pipeline` via JSON/TOML — [Python](/python/) |
 | Zone maps + filter pushdown (0.4.0 / 0.4.1) | **0.4.0:** per-chunk min/max/null at compact/publish (`ZONE.json`). **0.4.1:** closed query `filter` skips impossible chunks (`ReadPlan.zone_filter_skipped_chunks`) — [Query engine](/guides/query-engine/) · [Store-backed reads](/rust/store-backed-reads) |
+| Group-by + pipelines (0.4.2) | Closed `group_by` over dimension names (tier-A/B streams a fold per group) and a closed `pipeline` step list lowered onto one document — [Query document](/guides/query-engine/document) |
 
-Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **After 0.4.1:** S3 / store prune (local `tet gc` is 0.3.6). Own cut, not zone maps / filter.
+Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **After 0.4.2:** S3 / store prune is **0.4.3** (local `tet gc` is 0.3.6). Own cut, not group-by.
 
 ---
 
@@ -35,9 +36,11 @@ Near-term polish continues in the [query hardening notes](/guides/query-engine/)
 
 **Shipped in 0.4.1:** closed query `filter` predicates skip chunks whose zone stats cannot match (conservative; missing zones → no skip). `ReadPlan.zone_filter_skipped_chunks` reports drops. Fold still runs on kept chunk payloads (not a full row-level rewrite).
 
-**Direction:** optional richer indexes and element-wise filter semantics for aggregates; group-by over named dimensions.
+**Shipped in 0.4.2:** `group_by` over dimension names. A tier-A/B reduction streams one fold per group; tier-C still materializes. `execution.group_count` is the product of the group-axis extents.
 
-Indexes must stay optional, verifiable, and evolvable without breaking v1 readers. Label *slicing*, zone-map stats, and value-filter chunk skip are shipped; group-by remains deferred.
+**Direction:** optional richer indexes and element-wise filter semantics for aggregates.
+
+Indexes must stay optional, verifiable, and evolvable without breaking v1 readers. Label *slicing*, zone-map stats, value-filter chunk skip, and dimension-name group-by are shipped. Grouping by repeated coordinate-label values remains deferred.
 
 ### Distributed execution
 
@@ -49,9 +52,9 @@ Open product question: stay a **format + embeddable library** with a thin cluste
 
 ### Richer query language
 
-**Today:** flat JSON/TOML documents — one dataset, selection, optional operation / transform / write. SQL and arbitrary joins are explicit non-goals for v1.
+**Today:** flat JSON/TOML documents — one dataset, selection, optional operation / transform / write. **0.4.2** adds `group_by` and a closed `pipeline` that lowers onto that same document. SQL and arbitrary joins are explicit non-goals for v1.
 
-**Direction:** richer declarative ops while keeping chunk-based execution — group-by over named dimensions, windowed stats, multi-dataset alignment, composable pipelines — without becoming a general SQL engine. Extensions should declare tiers (scalar fold vs materialize) and stay JSON/TOML-serializable for agents and FFI.
+**Direction:** richer declarative ops while keeping chunk-based execution — windowed stats and multi-dataset alignment — without becoming a general SQL engine. Extensions should declare tiers (scalar fold vs materialize) and stay JSON/TOML-serializable for agents and FFI.
 
 ### Scientific semantics
 
@@ -78,9 +81,9 @@ Not always “more features.” Three qualities matter long-term:
 | Theme | Depends on | Risk / note |
 | ----- | ---------- | ----------- |
 | S3 / store prune & generation GC | Shipped package protocol | Consistency with local `tet gc`; never delete live pins |
-| Richer indexes / element-wise filter / group-by | Zone maps + `filter` (0.4.1) | Keep wire closed; avoid SQL |
+| Richer indexes / element-wise filter | Zone maps + `filter` (0.4.1); `group_by` (0.4.2) | Keep wire closed; avoid SQL |
 | Distributed query execution | Tier-A/B merge semantics | Product boundary vs “just a format” |
-| Group-by, pipelines, controlled joins | Axes + metadata | Avoid full SQL complexity |
+| Windowed stats, controlled joins | Axes + metadata; `group_by` and `pipeline` shipped in 0.4.2 | Avoid full SQL complexity |
 | Units, CRS, provenance, uncertainty | Footer history + attrs | Standards alignment (CF, PROV, …) |
 | Normative spec + conformance suite | Layout + query wire freeze | Enables third-party implementations |
 
