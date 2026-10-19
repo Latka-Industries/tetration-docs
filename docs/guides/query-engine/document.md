@@ -92,6 +92,63 @@ stop = [2, 3]
 
 See [Selections & metadata](/guides/query-engine/selection-and-metadata) for dimension names, coordinate labels, and striding behavior.
 
+## Group-by (0.4.2)
+
+`group_by` is a top-level array of dimension names or decimal indices. It must pair with exactly one reduction. Empty reduction axes mean “fold the complement of `group_by`”. Explicit axes must be disjoint from the group axes and, together with them, cover the full rank. At least one axis must remain to reduce.
+
+Tier-A/B reductions stream one fold per group (`memory_strategy = streaming_fold`). Tier-C ops such as `median` materialize. `transform`, `covariance`, and `correlation` are rejected. `execution.group_count` is the product of the group axes’ logical extents.
+
+::: code-group
+
+```json [group_by.json]
+{
+  "dataset": "temperature",
+  "group_by": ["col"],
+  "sum": []
+}
+```
+
+```toml [group_by.toml]
+dataset = "temperature"
+group_by = ["col"]
+sum = []
+```
+
+:::
+
+This partitions by dimension name, not by repeated coordinate-label values.
+
+## Pipeline (0.4.2)
+
+`pipeline` is an ordered step list lowered onto the flat document at parse time. Execution is still one pass. Step order is `select`, then `filter`, then one reduction (`group_by` plus one op, or a bare op), then `spill` or `write`. Repeats, unknown steps, empty lists, more than eight steps, and out-of-order stages fail. `pipeline` cannot sit beside those analytic keys at the top level. `execution` and `dataset` may.
+
+::: code-group
+
+```json [pipeline.json]
+{
+  "dataset": "temperature",
+  "pipeline": [
+    { "select": [{}, {}] },
+    { "group_by": ["1"], "sum": [] }
+  ]
+}
+```
+
+```toml [pipeline.toml]
+dataset = "temperature"
+
+[[pipeline]]
+select = [{}, {}]
+
+[[pipeline]]
+group_by = ["1"]
+sum = []
+```
+
+:::
+
+The step key is `select`, not `selection`. Round-trip serialization keeps `pipeline` and omits the lowered fields.
+
 ## Execution hints
 
 Optional `"execution"` object controls memory and I/O:
@@ -225,7 +282,7 @@ Untrusted input is bounded:
 - Payload size ≤ **1 MiB**
 - JSON nesting depth ≤ **64**
 - Unknown top-level fields rejected (`deny_unknown_fields`)
-- `selection` rank and `operation.axes` count ≤ **8** (`MAX_NDIM`)
+- `selection` rank, `operation.axes`, `group_by` keys, and `pipeline` steps each ≤ **8** (`MAX_NDIM` / pipeline cap)
 - Axis tokens: non-negative decimal indices or dimension names — not arbitrary expressions
 
 Treat echoed `dataset` names and axis labels as untrusted display data in logs and UIs.

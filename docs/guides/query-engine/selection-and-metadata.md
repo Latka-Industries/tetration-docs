@@ -209,10 +209,10 @@ Axis key for coords is `dim_names[d]` when present, otherwise `"0"`, `"1"`, …
 | Slice rows 100–200 by index | Numeric `selection` only |
 | Slice by timestamp / station id | `coords` + `start_label` / `stop_label` |
 | Fast lookup without scanning labels | Coords + optional index (deferred) |
-| `GROUP BY station` | Coords + group-by op (deferred) |
+| `group_by` a dimension name | `dim_names` + one reduction (**0.4.2**). Not label values. |
 | Join two datasets | Two queries or caller-side join (non-goal) |
 
-**Filter-by-value** and **group-by** on coordinate labels remain deferred. Label slicing resolves labels to indices once at plan time.
+**Filter-by-value** chunk skip shipped in **0.4.1**. **Group-by** over dimension names shipped in **0.4.2**. Grouping by repeated coordinate-label values remains deferred. Label slicing resolves labels to indices once at plan time.
 
 ## Read plan output
 
