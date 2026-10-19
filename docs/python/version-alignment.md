@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.4.2**](https://pypi.org/project/tet-py/0.4.2/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.4.2**](https://crates.io/crates/tetration/0.4.2) |
+| **tet-py** (PyPI) | [**0.4.3**](https://pypi.org/project/tet-py/0.4.3/) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.4.3**](https://crates.io/crates/tetration/0.4.3) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -19,6 +19,7 @@ From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **
 
 | tet-py | tetration crate | Notes |
 |--------|-----------------|-------|
+| **0.4.3** | **0.4.3** | Pin alignment. Crate: store prune (`prune_store`, `tet gc s3://bucket/prefix`). Dry-run unless apply. No new Python API |
 | **0.4.2** | **0.4.2** | Pin alignment. Crate: closed `group_by` over dimension names and `pipeline` step lists. Both ride existing JSON/TOML on `execute`. No new Python API |
 | **0.4.1** | **0.4.1** | Pin alignment. Crate: closed query `filter` + zone-map chunk skip (`ReadPlan.zone_filter_skipped_chunks`). No new Python API |
 | **0.4.0** | **0.4.0** | Pin alignment. Crate: zone maps at compact/publish, `ReadPlan.logical_element_count`, removed deprecated `tetration::query` CLI re-exports. No new Python API |
