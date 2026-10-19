@@ -18,7 +18,8 @@ Tetration already covers efficient **partial I/O** over sealed `.tet` images (lo
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
 | Writer protocol v2 (0.2+) | `.tet.d` packages, shard writers, publish, pack; **0.3.6** cleanup (`gc`, `--remove-package`, `--abort`); **0.3.7** publish conflict UX (`--dry-run`, `--replace`, identical-byte overlap) — [CLI packages](/cli/package) |
 | Cloud packages (0.3.x) | `PackageStore` / `S3Store`, pin + range-read, stage / CAS publish, cross-host claim, optional block cache, `s3://` convert — [Store-backed reads](/rust/store-backed-reads) |
-| Python (tet-py 0.3.8) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)` — [Python](/python/) |
+| Python (tet-py 0.4.0) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)` — [Python](/python/) |
+| Zone maps (0.4.0) | Per-chunk min/max/null stats at compact/publish (`ZONE.json`); attached on `ReadPlan` chunks. Predicate pushdown that skips chunks is next — [Store-backed reads](/rust/store-backed-reads) |
 
 Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **After 0.4.0:** S3 / store prune (local `tet gc` is 0.3.6). Own cut, not zone maps.
 
@@ -30,9 +31,11 @@ Near-term polish continues in the [query hardening notes](/guides/query-engine/)
 
 **Today:** organization is **geometric** — logical coordinates → chunk coordinates. Footer metadata supports `dim_names`, coordinate labels, and attrs, but there is no secondary index for value predicates.
 
-**Direction:** optional metadata indexes so predicates such as `temperature > 100` or `region = Arizona` can skip most chunks (zone maps / statistics style).
+**Shipped in 0.4.0:** compact/publish writes per-chunk min/max/null zone maps to `generations/<G>/ZONE.json` and copies them onto `ReadPlan` chunks. Staging writers do not update those stats.
 
-Indexes must stay optional, verifiable, and evolvable without breaking v1 readers. Label *slicing* is already shipped; value filters and group-by remain deferred.
+**Direction:** use those stats (and optional further indexes) so predicates such as `temperature > 100` or `region = Arizona` can skip most chunks.
+
+Indexes must stay optional, verifiable, and evolvable without breaking v1 readers. Label *slicing* and zone-map stats are shipped; value filters that skip chunks and group-by remain deferred.
 
 ### Distributed execution
 

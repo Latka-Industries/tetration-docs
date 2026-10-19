@@ -81,7 +81,7 @@ tet query mean.toml -t volume.tet -x --format table --preview 6
 
 ```toml
 [dependencies]
-tetration = "0.3.8"
+tetration = "0.4.0"
 ```
 
 ```rust
