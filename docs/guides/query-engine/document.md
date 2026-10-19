@@ -92,6 +92,37 @@ stop = [2, 3]
 
 See [Selections & metadata](/guides/query-engine/selection-and-metadata) for dimension names, coordinate labels, and striding behavior.
 
+## Filter
+
+`filter` is a closed cell predicate: `eq`, `ne`, `lt`, `le`, `gt`, `ge`, `is_null`, and `is_not_null`, combined with AND. There is no expression language.
+
+Two layers, shipped apart:
+
+- **0.4.1** skips chunks whose zone min/max/null cannot match. `read_plan.zone_filter_skipped_chunks` is that chunk-skip count. Missing zone maps mean no skip.
+- **0.4.4** applies the same predicate to cells inside a kept chunk. A tier-A/B fold ignores non-matches. Materialize and transform keep the selection shape. Non-matching floats (`f16`, `f32`, `f64`) are NaN. Non-matching integers are the dataset fill (`_FillValue`, `missing_value`, or `fill_value`). Integer materialize under `filter` without a fill is refused.
+
+Chunk skip is the I/O win. The cell filter is what the fold and the dense result use. PyPI tet-py is still **0.4.3**; the cell filter is on the crate cut, not a new Python API.
+
+::: code-group
+
+```json [filter.json]
+{
+  "dataset": "temperature",
+  "filter": { "ge": 0 },
+  "sum": []
+}
+```
+
+```toml [filter.toml]
+dataset = "temperature"
+sum = []
+
+[filter]
+ge = 0
+```
+
+:::
+
 ## Group-by (0.4.2)
 
 `group_by` is a top-level array of dimension names or decimal indices. It must pair with exactly one reduction. Empty reduction axes mean “fold the complement of `group_by`”. Explicit axes must be disjoint from the group axes and, together with them, cover the full rank. At least one axis must remain to reduce.

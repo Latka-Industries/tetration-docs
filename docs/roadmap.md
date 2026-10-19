@@ -22,7 +22,7 @@ Tetration already covers efficient **partial I/O** over sealed `.tet` images (lo
 | Zone maps + filter pushdown (0.4.0 / 0.4.1) | **0.4.0:** per-chunk min/max/null at compact/publish (`ZONE.json`). **0.4.1:** closed query `filter` skips impossible chunks (`ReadPlan.zone_filter_skipped_chunks`) — [Query engine](/guides/query-engine/) · [Store-backed reads](/rust/store-backed-reads) |
 | Group-by + pipelines (0.4.2) | Closed `group_by` over dimension names (tier-A/B streams a fold per group) and a closed `pipeline` step list lowered onto one document — [Query document](/guides/query-engine/document) |
 
-Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **Shipped in 0.4.3:** store prune (`prune_store`, `tet gc s3://bucket/prefix`) drops leftover staging and sealed generations older than `CURRENT` / `CURRENT-1`. Dry-run by default. Open pins and a live publish claim are refused. Does not write `CURRENT`. tet-py **0.4.3** pins that crate with no new Python API. **After 0.4.3:** element-wise filter is **0.4.4**; richer indexes are **0.4.5**. Own cuts, not store prune.
+Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **Shipped in 0.4.3:** store prune (`prune_store`, `tet gc s3://bucket/prefix`) drops leftover staging and sealed generations older than `CURRENT` / `CURRENT-1`. Dry-run by default. Open pins and a live publish claim are refused. Does not write `CURRENT`. tet-py **0.4.3** pins that crate with no new Python API. **0.4.4** (crate; PyPI tet-py stays **0.4.3** until that package is cut) applies `filter` to cells inside kept chunks. Chunk skip from **0.4.1** is unchanged. Richer indexes stay **0.4.5**. Own cuts, not store prune.
 
 ---
 
@@ -34,13 +34,15 @@ Near-term polish continues in the [query hardening notes](/guides/query-engine/)
 
 **Shipped in 0.4.0:** compact/publish writes per-chunk min/max/null zone maps to `generations/<G>/ZONE.json` and copies them onto `ReadPlan` chunks. Staging writers do not update those stats.
 
-**Shipped in 0.4.1:** closed query `filter` predicates skip chunks whose zone stats cannot match (conservative; missing zones → no skip). `ReadPlan.zone_filter_skipped_chunks` reports drops. Fold still runs on kept chunk payloads (not a full row-level rewrite).
+**Shipped in 0.4.1:** closed query `filter` predicates skip chunks whose zone stats cannot match (conservative; missing zones → no skip). `ReadPlan.zone_filter_skipped_chunks` reports those drops. That stat is chunk I/O, not the cell result.
 
 **Shipped in 0.4.2:** `group_by` over dimension names. A tier-A/B reduction streams one fold per group; tier-C still materializes. `execution.group_count` is the product of the group-axis extents.
 
-**Direction:** optional richer indexes and element-wise filter semantics for aggregates.
+**Ships in 0.4.4:** the same `filter` drops non-matching cells inside a kept chunk. Folds accumulate matches only. Materialize and transform keep the selection shape: NaN for floats, the dataset fill for integers (refused when no fill is set).
 
-Indexes must stay optional, verifiable, and evolvable without breaking v1 readers. Label *slicing*, zone-map stats, value-filter chunk skip, and dimension-name group-by are shipped. Grouping by repeated coordinate-label values remains deferred.
+**Direction:** optional richer indexes beyond per-chunk zone maps.
+
+Indexes must stay optional, verifiable, and evolvable without breaking v1 readers. Label *slicing*, zone-map stats, value-filter chunk skip, cell filter, and dimension-name group-by are shipped or specified for **0.4.4**. Grouping by repeated coordinate-label values remains deferred. PyPI tet-py is still **0.4.3**.
 
 ### Distributed execution
 
@@ -81,7 +83,7 @@ Not always “more features.” Three qualities matter long-term:
 | Theme | Depends on | Risk / note |
 | ----- | ---------- | ----------- |
 | S3 / store prune (0.4.3) | `prune_store`, `tet gc s3://` | Never delete live pins; do not write `CURRENT` |
-| Richer indexes / element-wise filter | Zone maps + `filter` (0.4.1); `group_by` (0.4.2) | Keep wire closed; avoid SQL |
+| Richer indexes (0.4.5) | Zone maps + chunk skip (0.4.1); cell filter (0.4.4); `group_by` (0.4.2) | Keep wire closed; avoid SQL |
 | Distributed query execution | Tier-A/B merge semantics | Product boundary vs “just a format” |
 | Windowed stats, controlled joins | Axes + metadata; `group_by` and `pipeline` shipped in 0.4.2 | Avoid full SQL complexity |
 | Units, CRS, provenance, uncertainty | Footer history + attrs | Standards alignment (CF, PROV, …) |
