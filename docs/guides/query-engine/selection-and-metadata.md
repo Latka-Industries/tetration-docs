@@ -212,7 +212,7 @@ Axis key for coords is `dim_names[d]` when present, otherwise `"0"`, `"1"`, …
 | `group_by` a dimension name | `dim_names` + one reduction (**0.4.2**). Not label values. |
 | Join two datasets | Two queries or caller-side join (non-goal) |
 
-**Filter-by-value** chunk skip shipped in **0.4.1**. **Group-by** over dimension names shipped in **0.4.2**. Grouping by repeated coordinate-label values remains deferred. Label slicing resolves labels to indices once at plan time.
+**Filter-by-value** has two layers. Chunk skip shipped in **0.4.1** (`zone_filter_skipped_chunks`). Cell filtering ships in **0.4.4**: folds ignore non-matches inside kept chunks, and materialize / transform stay dense (NaN for floats, dataset fill for integers). **Group-by** over dimension names shipped in **0.4.2**. Grouping by repeated coordinate-label values remains deferred. Label slicing resolves labels to indices once at plan time.
 
 ## Read plan output
 
@@ -222,6 +222,7 @@ After planning (with `-t`), the response `read_plan` includes:
 - `chunk_count` — number of on-disk tiles touched
 - `chunk_touch_policy` — `dense_half_open_unit_step` or `strided_half_open`
 - `chunks[]` — per-chunk I/O rows (file offset, local slice geometry)
+- `zone_filter_skipped_chunks` — chunks the zone map skipped. This is the chunk-skip stat, not the cell-filter result. A quiet plan line adds `cell_filter=applied` when the predicate is attached.
 
 Decoded values are scattered into **logical row-major selection order** during materialization — not in chunk catalog order.
 
