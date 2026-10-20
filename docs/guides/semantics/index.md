@@ -47,7 +47,3 @@ Normative list and invariants: [crate `docs/semantics.md`](https://github.com/La
 ## Worked examples
 
 See [Semantics examples](/guides/semantics/examples) — video/recording fixture, timeseries, and climate-as-attrs-only.
-
-## Out of scope (this cut)
-
-Plugin / dynamic code load, mandatory semantics, full CF/PROV suites, UCUM engine inside `packed.tet`, package `SEMANTICS.json` sidecar, required in-tree policy interpreter.
