@@ -179,7 +179,7 @@ tet info data.tet --metadata   # check dim_names
 
 ## Filter
 
-Chunk skip (0.4.1) drops tiles that cannot match. The cell filter (0.4.4) then ignores non-matching cells inside a kept chunk, so this sum is not the sum of every value in the chunks that were read. `zone_filter_skipped_chunks` stays the chunk-skip count. Materialize and transform keep the same shape: non-matches are NaN for floats, or the dataset fill for integers.
+Chunk skip drops tiles that cannot match. The cell filter then ignores non-matching cells inside a kept chunk, so this sum is not the sum of every value in the chunks that were read. `zone_filter_skipped_chunks` stays the chunk-skip count. Materialize and transform keep the same shape: non-matches are NaN for floats, or the dataset fill for integers.
 
 ::: code-group
 
@@ -197,7 +197,7 @@ ge = 0
 
 :::
 
-## Group-by and pipelines (0.4.2)
+## Group-by and pipelines
 
 One sum per `col` index. Empty reduction axes fold the complement of `group_by`. Tier-A/B streams the fold; `execution.group_count` is the group-axis product.
 

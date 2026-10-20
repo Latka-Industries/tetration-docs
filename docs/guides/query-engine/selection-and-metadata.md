@@ -209,10 +209,10 @@ Axis key for coords is `dim_names[d]` when present, otherwise `"0"`, `"1"`, …
 | Slice rows 100–200 by index | Numeric `selection` only |
 | Slice by timestamp / station id | `coords` + `start_label` / `stop_label` |
 | Fast lookup without scanning labels | Coords + optional index (deferred) |
-| `group_by` a dimension name | `dim_names` + one reduction (**0.4.2**). Not label values. |
+| `group_by` a dimension name | `dim_names` + one reduction. Not label values. |
 | Join two datasets | Two queries or caller-side join (non-goal) |
 
-**Filter-by-value** has two layers. Chunk skip shipped in **0.4.1** (`zone_filter_skipped_chunks`). Cell filtering ships in **0.4.4**: folds ignore non-matches inside kept chunks, and materialize / transform stay dense (NaN for floats, dataset fill for integers). **Group-by** over dimension names shipped in **0.4.2**. Grouping by repeated coordinate-label values remains deferred. Label slicing resolves labels to indices once at plan time.
+**Filter-by-value** has two layers: chunk skip (`zone_filter_skipped_chunks`), then a cell filter inside kept chunks (folds ignore non-matches; materialize / transform stay dense — NaN for floats, dataset fill for integers). **Group-by** uses dimension names. Grouping by repeated coordinate-label values remains deferred. Label slicing resolves labels to indices once at plan time.
 
 ## Read plan output
 
