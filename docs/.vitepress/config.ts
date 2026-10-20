@@ -145,7 +145,6 @@ export default defineConfig({
             { text: 'Format comparison', link: '/guides/format-comparison' },
             { text: 'Mmap read patterns', link: '/guides/mmap-patterns' },
             { text: 'Semantics', link: '/guides/semantics/' },
-            { text: 'Semantics examples', link: '/guides/semantics/examples' },
           ],
         },
       ],

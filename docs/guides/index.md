@@ -10,8 +10,7 @@ Practical docs for choosing Tetration, reading data efficiently, and running que
 | [Query cookbook](/guides/query-cookbook) | Copy-paste JSON/TOML examples |
 | [Format comparison](/guides/format-comparison) | `.tet` vs Parquet vs Zarr vs NPY |
 | [Mmap read patterns](/guides/mmap-patterns) | Partial chunk access in Rust and Python |
-| [Semantics](/guides/semantics/) | Declared attrs vs caller policy; scaffold / set |
-| [Semantics examples](/guides/semantics/examples) | Video, timeseries, climate-as-attrs-only |
+| [Semantics](/guides/semantics/) | Declared attrs vs caller policy; scaffold / set; worked examples |
 
 ## Quick links
 
