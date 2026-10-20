@@ -96,12 +96,13 @@ See [Selections & metadata](/guides/query-engine/selection-and-metadata) for dim
 
 `filter` is a closed cell predicate: `eq`, `ne`, `lt`, `le`, `gt`, `ge`, `is_null`, and `is_not_null`, combined with AND. There is no expression language.
 
-Two layers:
+Three layers:
 
-1. **Chunk skip** — drop tiles whose zone min/max/null cannot match. `read_plan.zone_filter_skipped_chunks` is that count. Missing zone maps mean no skip.
-2. **Cell filter** — apply the same predicate inside a kept chunk. A tier-A/B fold ignores non-matches. Materialize and transform keep the selection shape: non-matching floats (`f16` / `f32` / `f64`) are NaN; non-matching integers are the dataset fill (`_FillValue`, `missing_value`, or `fill_value`). Integer materialize under `filter` without a fill is refused.
+1. **Zone-map chunk skip** — drop tiles whose zone min/max/null cannot match. `read_plan.zone_filter_skipped_chunks` is that count. Missing zone maps mean no skip.
+2. **Value-posting skip (optional)** — for a single exact `eq` whose literal encodes as one raw value, a sealed `INDEX.json` may drop more of the survivors. `read_plan.index_filter_skipped_chunks` is that count (default 0). The index is only used when the generation manifest says it is present and the blob hashes; otherwise the planner stays on zone maps. Ranges, `ne`, null tests, and inexact literals do not use it.
+3. **Cell filter** — apply the same predicate inside a kept chunk. A tier-A/B fold ignores non-matches. Materialize and transform keep the selection shape: non-matching floats (`f16` / `f32` / `f64`) are NaN; non-matching integers are the dataset fill (`_FillValue`, `missing_value`, or `fill_value`). Integer materialize under `filter` without a fill is refused.
 
-Chunk skip is the I/O win. The cell filter is what the fold and the dense result use.
+Zone maps answer “can this chunk’s range contain the predicate?” Postings answer “which chunks contain this exact value?” when the dataset has at most 64 distinct non-null values. The cell filter is what the fold and the dense result use.
 
 ::: code-group
 

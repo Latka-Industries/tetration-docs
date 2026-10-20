@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.4.4**](https://pypi.org/project/tet-py/0.4.4/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.4.4**](https://crates.io/crates/tetration/0.4.4) |
+| **tet-py** (PyPI) | [**0.4.5**](https://pypi.org/project/tet-py/0.4.5/) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.4.5**](https://crates.io/crates/tetration/0.4.5) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -19,6 +19,7 @@ From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **
 
 | tet-py | tetration | Notes |
 |--------|-----------|-------|
+| **0.4.5** | **0.4.5** | Optional value postings for exact `filter.eq` (`index_filter_skipped_chunks`). No new Python API |
 | **0.4.4** | **0.4.4** | Cell filter on kept chunks (dense NaN / fill mask). No new Python API |
 | **0.4.3** | **0.4.3** | Store prune (`prune_store`, `tet gc s3://`). No new Python API |
 | **0.4.2** | **0.4.2** | Closed `group_by` / `pipeline` via JSON/TOML. No new Python API |
