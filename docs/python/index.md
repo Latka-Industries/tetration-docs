@@ -17,35 +17,11 @@ Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 | Rust core | [`tetration`](https://crates.io/crates/tetration) **0.4.4** (linked at build time) |
 | Native extension | `tet._native` (PyO3 / maturin, abi3 `cp311+`) |
 
-Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI remains in the tetration repo for Julia/R/Go embedders.
+Bindings are **PyO3 → tetration rlib**, not the C ABI. For Julia / R / Go, see [FFI](/rust/ffi). Which tet-py release pins which crate is on [Version alignment](/python/version-alignment).
 
-## What's shipped (0.3.x / 0.4.x)
+## What you get
 
-**0.4.4** pins tetration **0.4.4** (closed `filter` applies per cell inside kept chunks; chunk skip from 0.4.1 unchanged) with no new Python API. **0.4.3** pins tetration **0.4.3** (store prune stays on `tet gc`, including `s3://`) with no new Python API. **0.4.2** pins tetration **0.4.2** (closed `group_by` and `pipeline` via existing JSON/TOML on `execute`) with no new Python API. **0.4.1** pins tetration **0.4.1** (closed query `filter` + zone-map chunk skip) with no new Python API. **0.4.0** pinned tetration **0.4.0** (zone maps at compact/publish, `ReadPlan.logical_element_count`, removed `tetration::query` CLI re-exports). **0.3.8** pinned tetration **0.3.8** (crate hygiene only). **0.3.7** added `tet.publish(..., dry_run=, replace=)`. **0.3.6** added `tet.pack` (optional `remove_package`). **0.3.5** added Zarr-prefix `s3://` convert (`[zarr]`). **0.3.4** added `tet.open("s3://bucket/prefix")` (pin + range-read). **0.3.3** added single-file `tet.convert("s3://bucket/object.ext")`. **0.3.2** picked up the exclusive cross-host `publishing/<G>` claim with no new Python API. **0.3.1** added `S3Store` ingest / publish / pin. **0.3.0** added store URI open + generation pins. The table includes the full 0.2 feature set plus 0.3 / 0.4 additions.
-
-| Topic | Status |
-|-------|--------|
-| PyPI wheels (Linux, macOS, Windows) | ✅ |
-| Open `.tet`, catalog, `info()` / `summary()` | ✅ |
-| Open `.tet.d` packages (pin `CURRENT` once; `TetFile.generation`) | ✅ |
-| URI open (`file://`, `?generation=N`); `MemoryStore` + `memory://` | ✅ |
-| `S3Store.connect` + ingest / publish / pin open | ✅ |
-| `tet.ingest` / `tet.publish` (`dry_run`, `replace`) | ✅ |
-| `tet.pack` (optional `remove_package`) | ✅ |
-| Reductions + `QueryResult` (`preview=N` → `.preview` ndarray) | ✅ |
-| TOML query strings + `memory_budget_*` kwargs | ✅ |
-| `build_query`, selections | ✅ |
-| NumPy **ram** — `read_numpy` (budget preflight), `transform.to_numpy` | ✅ |
-| NumPy **spill** — `read_spill`, `transform.to_spill` | ✅ |
-| NumPy **sidecar** — `transform.to_sidecar.*` | ✅ |
-| NumPy **write** — `TetWriter`, `write_dataset` (layout-v1 floats + integers + `f16`) | ✅ |
-| Zero-copy `read_numpy` — single-chunk or full-width multi-chunk raw → `numpy.memmap` | ✅ |
-| `tet.convert` — `.npy` / `.npz` / `.csv` / `.tsv` | ✅ |
-| `tet.convert` extras (`[h5]`, `[netcdf]`, `[zarr]`, `[parquet]`) | ✅ (optional deps) |
-| `tet.convert("s3://bucket/file.ext")` — one object, then the local importer | ✅ |
-| `tet.convert("s3://bucket/store.zarr")` — Zarr prefix, one chunk at a time (`[zarr]`) | ✅ |
-| `tet.export` / `TetFile.export` (`[h5]`, `[netcdf]`, `[zarr]`, or `[export]`) | ✅ (optional deps) |
-| `tet.open("s3://bucket/prefix")` — pin, then range-read (`?generation=N` optional) | ✅ |
+Open a `.tet`, `.tet.d` package, or `s3://` package URI; run the same JSON/TOML queries as the CLI; pull selections into NumPy (ram / spill / sidecar); write with `TetWriter` / `write_dataset`; convert and export through optional extras (`[h5]`, `[netcdf]`, `[zarr]`, `[parquet]`, `[export]`). Package helpers cover ingest, publish, and pack. Details live in the sections below — not a per-release changelog.
 
 ## Sections
 
@@ -64,6 +40,8 @@ Python bindings use **PyO3 → tetration rlib**, not the C ABI layer. The C ABI 
 | **sidecar** | One-chunk `.tet` beside source | Keep transformed data as a mmap-friendly `.tet` (re-query, share, append pipeline) |
 
 Sidecar is **transform-only** (no top-level `read_sidecar` — the engine writes a derived `.tet`, then you `side.open(f)` or `tet.open(path)`). Spill is raw bytes; sidecar is a full catalog file. Sidecar vs `TetWriter`: sidecar presets path, naming, and provenance from the transform; `TetWriter` is general authoring from your array ([NumPy — sidecar vs TetWriter](/python/numpy#sidecar-transform-tet)).
+
+Convert and export from Python use `tet.convert` / `tet.export` with the matching extra. The CLI (`tet convert` / `tet export`) is the same importers without Python deps — see [Install](/python/install) and [CLI convert & export](/cli/convert-export).
 
 ## Minimal example
 
@@ -117,17 +95,6 @@ assert pinned.generation == 1
 ```
 
 Endpoint and credentials are arguments to `S3Store.connect`, or `TETRATION_S3_*` for `tet.open("s3://bucket/prefix")` and `tet.convert` from `s3://`. That open pins the package and range-reads; it does not download `packed.tet`. `store.open("current")` still does. `tet.convert("s3://bucket/object.ext", "out.tet")` downloads that one foreign file and runs the local importer. A Zarr prefix uses the `[zarr]` extra and fetches each chunk as needed. See [store-backed reads](/rust/store-backed-reads#python-tet-py).
-
-## When to use what
-
-| Need | Use |
-|------|-----|
-| Python notebooks / NumPy / pandas | **tet-py** |
-| HDF5 / NetCDF / Zarr / Parquet → `.tet` from Python | **`tet.convert`** with the matching optional extra |
-| `.tet` → HDF5 / NetCDF / Zarr from Python | **`tet.export`** with `[h5]` / `[netcdf]` / `[zarr]` / `[export]` |
-| Fast native convert / export without Python deps | **`tet convert`** / **`tet export`** CLI |
-| Custom Rust service or lowest-level control | **`tetration`** crate |
-| Other language bindings | [C ABI / FFI](/rust/ffi) |
 
 ## Related
 
