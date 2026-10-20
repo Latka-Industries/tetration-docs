@@ -1,8 +1,10 @@
-# Store-backed reads (0.3.x)
+# Store-backed reads
 
-**0.3.0** adds a package blob store and a range-read planner so embedders can query a sealed `packed.tet` without assuming a full local mmap up front. **0.3.1** adds an optional S3-compatible backend and store ingest / CAS publish. **0.3.2** adds an exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover). **0.3.3** adds an optional in-memory block cache and single-file `s3://` convert. **0.3.4** opens a pinned `s3://bucket/prefix` package through that planner (`tet query -t`, `open_s3_package`, tet-py `tet.open`). **0.3.5** converts a Zarr prefix on `s3://` one chunk at a time. **0.3.6** adds local `.tet.d` lifecycle cleanup (`tet pack --remove-package`, `tet gc`, `tet publish --abort`; tet-py `tet.pack`) without changing the query planner. **0.3.7** adds local publish conflict UX (`--dry-run`, `--replace`, identical-byte overlap; tet-py `tet.publish(dry_run=, replace=)`) without changing the planner. **0.3.8** is library hygiene: shared `f16`/`f64` materialize, structured package `CatalogError`s with the same display text, and deprecated `tetration::query` CLI formatters. **0.4.0** writes per-chunk min/max/null zone maps at compact/publish (`ZONE.json`), renames `ReadPlan.logical_element_count`, and removes those CLI re-exports (`query::cli` remains for `tet`). **0.4.1** adds closed query `filter` with conservative zone-map chunk skip (`ReadPlan.zone_filter_skipped_chunks`). **0.4.2** adds closed `group_by` over dimension names and a `pipeline` step list lowered onto one document. **0.4.3** adds `prune_store` and `tet gc s3://bucket/prefix` (dry-run unless apply; open pins and a live publish claim are refused; does not write `CURRENT`). **0.4.4** applies the closed `filter` to cells inside kept chunks. **tet-py 0.4.4** pins that crate with no new Python API. Local `.tet` / `.tet.d` read paths are otherwise unchanged.
+Query a sealed package without assuming a full local mmap up front: pin one generation, fetch the catalog and the chunks the query touches, then run the same engine as a mmap path. Backends cover a local `.tet.d` root, in-memory stores for tests, and optional S3-compatible object storage (`tetration-s3`). Publish is CAS on `CURRENT` with an exclusive `publishing/<G>` claim across hosts. Optional `CachingStore` remembers packed ranges by `(generation, offset)`.
 
-## What shipped
+Per-release history lives in the [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) and [roadmap](/roadmap), not here.
+
+## API surface
 
 | Piece | Role |
 |-------|------|
@@ -10,13 +12,13 @@
 | `LocalStore` | Filesystem `.tet.d` root |
 | `MemoryStore` | In-memory backend for tests / planners |
 | `S3Store` / `S3Config` | S3-compatible backend (`tetration-s3`; path-style, ETag conditional put) |
-| `stage_part` / `publish_staged_parts` | N writers upload parts; one CAS publish (0.3.1) |
-| `publishing/<G>` claim | Exclusive cross-host publish lock: heartbeat, stale window, force-only takeover (0.3.2) |
-| `BlockCache` / `CachingStore` | Optional packed-range cache keyed by `(generation, offset)`. A new pin does not reuse another generation. Off unless the store is wrapped (0.3.3) |
+| `stage_part` / `publish_staged_parts` | N writers upload parts; one CAS publish |
+| `publishing/<G>` claim | Exclusive cross-host publish lock: heartbeat, stale window, force-only takeover |
+| `BlockCache` / `CachingStore` | Optional packed-range cache keyed by `(generation, offset)`. A new pin does not reuse another generation. Off unless the store is wrapped |
 | `parse_tet_uri` / `parse_s3_package_uri` | Paths, `file://`, `memory://`, `s3://bucket/prefix` (`?generation=N`) |
 | `pin_packed_tet` / `TetPackagePin` | Resolve `CURRENT` once (or an explicit generation) and keep that object |
 | `prune_store` | Drop leftover `staging/` and sealed generations older than `CURRENT` / `CURRENT-1`. Dry-run unless apply. Does not write `CURRENT` |
-| `open_s3_package` / `query_opened_s3_package` | Pin an `s3://` package from `TETRATION_S3_*` and query it (feature `tetration-s3`, 0.3.4) |
+| `open_s3_package` / `query_opened_s3_package` | Pin an `s3://` package from `TETRATION_S3_*` and query it (feature `tetration-s3`) |
 
 ## Flow
 
@@ -48,7 +50,7 @@ Entry points: `pin_packed_tet`, `execute_query_with_store`, `execute_query_on_st
 - The block cache is optional and in-memory. Wrap the store to turn it on.
 - `tet query -t s3://bucket/prefix` and tet-py `tet.open("s3://bucket/prefix")` pin that package and range-read. `?generation=N` pins an explicit generation; otherwise `CURRENT` is read once. Credentials are `TETRATION_S3_*` (`ENDPOINT` required). The CLI needs the `tetration-s3` feature.
 - `S3Store.open` (Rust and tet-py) still downloads the whole `packed.tet`.
-- `tet convert s3://bucket/file.ext` (and tet-py `tet.convert`) downloads that one object, then the existing importer. A Zarr v2/v3 prefix on `s3://` is read one chunk at a time (0.3.5; tet-py needs `[zarr]`).
+- `tet convert s3://bucket/file.ext` (and tet-py `tet.convert`) downloads that one object, then the existing importer. A Zarr v2/v3 prefix on `s3://` is read one chunk at a time (tet-py needs `[zarr]`).
 
 ## Python (tet-py)
 

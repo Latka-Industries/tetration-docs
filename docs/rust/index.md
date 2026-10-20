@@ -34,7 +34,7 @@ Requires **Rust 1.95+**.
 - [Quick start](/rust/quick-start) — minimal read example
 - [Open & inspect](/rust/open-and-inspect) — catalog access, dataset iteration
 - [Chunk reads](/rust/chunk-reads) — mmap and partial read patterns
-- [Store-backed reads](/rust/store-backed-reads) — `PackageStore`, `S3Store`, URI pin, range planner (0.3.x)
+- [Store-backed reads](/rust/store-backed-reads) — `PackageStore`, `S3Store`, URI pin, range planner
 - [Write path](/rust/write-path) — creating `.tet` files programmatically
 - [C ABI / FFI](/rust/ffi) — overview for binding authors
 
