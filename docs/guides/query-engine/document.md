@@ -101,7 +101,7 @@ Two layers, shipped apart:
 - **0.4.1** skips chunks whose zone min/max/null cannot match. `read_plan.zone_filter_skipped_chunks` is that chunk-skip count. Missing zone maps mean no skip.
 - **0.4.4** applies the same predicate to cells inside a kept chunk. A tier-A/B fold ignores non-matches. Materialize and transform keep the selection shape. Non-matching floats (`f16`, `f32`, `f64`) are NaN. Non-matching integers are the dataset fill (`_FillValue`, `missing_value`, or `fill_value`). Integer materialize under `filter` without a fill is refused.
 
-Chunk skip is the I/O win. The cell filter is what the fold and the dense result use. PyPI tet-py is still **0.4.3**; the cell filter is on the crate cut, not a new Python API.
+Chunk skip is the I/O win. The cell filter is what the fold and the dense result use. tet-py **0.4.4** pins the crate; there is no new Python API.
 
 ::: code-group
 
