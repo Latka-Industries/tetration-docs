@@ -29,10 +29,6 @@ pip install "tet-py[convert]"   # all convert extras (includes parquet)
 
 Core `.npy` / `.npz` / `.csv` / `.tsv` convert needs no extras.
 
-::: warning PyPI name collision
-Install **`tet-py`**, not `tetration`. The PyPI project named `tetration` is unrelated.
-:::
-
 ## Build from source
 
 For development or unreleased fixes:
