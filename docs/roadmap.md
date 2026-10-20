@@ -25,9 +25,9 @@ Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetrati
 | Python (tet-py) | NumPy sinks, packages, `s3://` open / convert; query wire via JSON/TOML — [Python](/python/) |
 | Distributed fold (library) | Shard a `ReadPlan` across workers, merge tier-A/B partials, in-process harness — Rust `query::distributed` (0.5.0); no RPC cluster |
 | Declared semantics | Optional footer attrs + caller policy; `tet semantics set` / `scaffold` — [Semantics](/guides/semantics/) (0.5.1) |
-| Normative SPEC + conformance | Layout / writer / query / ABI contract + CI pack — crate `SPEC/` + `conformance/` (0.5.2) |
+| Normative SPEC + conformance | Layout / writer / query / ABI contract + CI pack — crate `SPEC/` + `conformance/` (0.5.2; pack grew in 0.5.3) |
 
-Current packages: tetration / tet-py **0.5.2**.
+Current packages: tetration / tet-py **0.5.3**.
 
 ---
 
@@ -69,7 +69,7 @@ Not always “more features.” Three qualities matter long-term:
 
 **Transaction safety** — v1 is write-once / read-many on a single `.tet`. Multi-writer ingest is **shards → publish → sealed generation**, not multi-writer on one live index. See [packages](/cli/package).
 
-**Formal specification** — **shipped in 0.5.2** as the crate `SPEC/` + `conformance/` pack (layout, writer protocol, query wire, C ABI, compatibility policy). Independent readers can implement without reading Rust.
+**Formal specification** — **shipped in 0.5.2** as the crate `SPEC/` + `conformance/` pack (layout, writer protocol, query wire, C ABI, compatibility policy); **0.5.3** grows accept / reject coverage. Independent readers can implement without reading Rust.
 
 **Long-term compatibility** — read a file written today decades later: schema evolution, reserved fields, capability flags, and clear policy for query JSON and ABI versioning.
 
@@ -83,7 +83,7 @@ Not always “more features.” Three qualities matter long-term:
 | Distributed query execution | Library path in 0.5.0; RPC / spill still open | Product boundary vs “just a format” |
 | Windowed stats, controlled joins | Axes + metadata; `group_by` / `pipeline` | Avoid full SQL complexity |
 | Units, CRS, provenance, uncertainty | Footer history + attrs | Standards alignment (CF, PROV, …) |
-| Normative spec + conformance suite | **Shipped in 0.5.2** (`SPEC/`, `conformance/`) | External readers; pack may grow |
+| Normative spec + conformance suite | **Shipped in 0.5.2** (`SPEC/`, `conformance/`); pack grew in **0.5.3** | External readers; pack may grow |
 
 Themes are **not ordered commitments** — formal spec work can parallel indexing work, for example.
 
