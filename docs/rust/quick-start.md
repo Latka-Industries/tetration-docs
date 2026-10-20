@@ -6,7 +6,7 @@ Minimal example: create a `.tet` file and run an in-process query.
 
 ```toml
 [dependencies]
-tetration = "0.5.2"
+tetration = "0.5.3"
 ```
 
 ## Create and query
