@@ -4,8 +4,6 @@
 
 ::: tip PyPI
 **tet-py 0.4.4** on PyPI: [`pip install tet-py`](https://pypi.org/project/tet-py/)
-
-Do **not** `pip install tetration` — that PyPI name is unrelated math code.
 :::
 
 ## Naming
