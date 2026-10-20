@@ -18,11 +18,11 @@ Tetration already covers efficient **partial I/O** over sealed `.tet` images (lo
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
 | Writer protocol v2 (0.2+) | `.tet.d` packages, shard writers, publish, pack; **0.3.6** cleanup (`gc`, `--remove-package`, `--abort`); **0.3.7** publish conflict UX (`--dry-run`, `--replace`, identical-byte overlap) — [CLI packages](/cli/package) |
 | Cloud packages (0.3.x) | `PackageStore` / `S3Store`, pin + range-read, stage / CAS publish, cross-host claim, optional block cache, `s3://` convert — [Store-backed reads](/rust/store-backed-reads) |
-| Python (tet-py 0.4.3) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)`; query `filter`, `group_by`, and `pipeline` via JSON/TOML. Store prune stays on `tet gc` — [Python](/python/) |
+| Python (tet-py 0.4.4) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)`; query `filter`, `group_by`, and `pipeline` via JSON/TOML. Store prune stays on `tet gc` — [Python](/python/) |
 | Zone maps + filter pushdown (0.4.0 / 0.4.1) | **0.4.0:** per-chunk min/max/null at compact/publish (`ZONE.json`). **0.4.1:** closed query `filter` skips impossible chunks (`ReadPlan.zone_filter_skipped_chunks`) — [Query engine](/guides/query-engine/) · [Store-backed reads](/rust/store-backed-reads) |
 | Group-by + pipelines (0.4.2) | Closed `group_by` over dimension names (tier-A/B streams a fold per group) and a closed `pipeline` step list lowered onto one document — [Query document](/guides/query-engine/document) |
 
-Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **Shipped in 0.4.3:** store prune (`prune_store`, `tet gc s3://bucket/prefix`) drops leftover staging and sealed generations older than `CURRENT` / `CURRENT-1`. Dry-run by default. Open pins and a live publish claim are refused. Does not write `CURRENT`. tet-py **0.4.3** pins that crate with no new Python API. **0.4.4** (crate; PyPI tet-py stays **0.4.3** until that package is cut) applies `filter` to cells inside kept chunks. Chunk skip from **0.4.1** is unchanged. Richer indexes stay **0.4.5**. Own cuts, not store prune.
+Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. Version-by-version cloud notes live on [Store-backed reads](/rust/store-backed-reads). **Shipped in 0.4.3:** store prune (`prune_store`, `tet gc s3://bucket/prefix`) drops leftover staging and sealed generations older than `CURRENT` / `CURRENT-1`. Dry-run by default. Open pins and a live publish claim are refused. Does not write `CURRENT`. **Shipped in 0.4.4:** closed `filter` applies per cell inside kept chunks; materialize and transform stay dense. Chunk skip from **0.4.1** is unchanged. tet-py **0.4.4** pins that crate with no new Python API. **After 0.4.4:** richer indexes are **0.4.5**. Own cuts.
 
 ---
 
@@ -38,11 +38,11 @@ Near-term polish continues in the [query hardening notes](/guides/query-engine/)
 
 **Shipped in 0.4.2:** `group_by` over dimension names. A tier-A/B reduction streams one fold per group; tier-C still materializes. `execution.group_count` is the product of the group-axis extents.
 
-**Ships in 0.4.4:** the same `filter` drops non-matching cells inside a kept chunk. Folds accumulate matches only. Materialize and transform keep the selection shape: NaN for floats, the dataset fill for integers (refused when no fill is set).
+**Shipped in 0.4.4:** the same `filter` drops non-matching cells inside a kept chunk. Folds accumulate matches only. Materialize and transform keep the selection shape: NaN for floats, the dataset fill for integers (refused when no fill is set).
 
 **Direction:** optional richer indexes beyond per-chunk zone maps.
 
-Indexes must stay optional, verifiable, and evolvable without breaking v1 readers. Label *slicing*, zone-map stats, value-filter chunk skip, cell filter, and dimension-name group-by are shipped or specified for **0.4.4**. Grouping by repeated coordinate-label values remains deferred. PyPI tet-py is still **0.4.3**.
+Indexes must stay optional, verifiable, and evolvable without breaking v1 readers. Label *slicing*, zone-map stats, value-filter chunk skip, cell filter, and dimension-name group-by are shipped. Grouping by repeated coordinate-label values remains deferred.
 
 ### Distributed execution
 
