@@ -60,7 +60,7 @@ tet verify data.tet --repair
 - Incomplete / stale `publishing/<G>/` locks (**warn**; abort with `tet publish --abort`, or repair can quarantine)
 - Orphan `staging/` sessions (**warn**; allowed after publish; optional `tet gc --apply`)
 
-Missing staging parts after a sealed publish are **OK** when `packed.tet` verifies. Optional cleanup of leftover staging and generations older than `CURRENT` / `CURRENT-1` is `tet gc` (0.3.6; dry-run by default).
+Missing staging parts after a sealed publish are **OK** when `packed.tet` verifies. Cleanup of leftover staging and generations older than `CURRENT` / `CURRENT-1` is `tet gc` (dry-run by default).
 
 ### Package finding `check` names
 

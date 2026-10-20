@@ -96,12 +96,12 @@ See [Selections & metadata](/guides/query-engine/selection-and-metadata) for dim
 
 `filter` is a closed cell predicate: `eq`, `ne`, `lt`, `le`, `gt`, `ge`, `is_null`, and `is_not_null`, combined with AND. There is no expression language.
 
-Two layers, shipped apart:
+Two layers:
 
-- **0.4.1** skips chunks whose zone min/max/null cannot match. `read_plan.zone_filter_skipped_chunks` is that chunk-skip count. Missing zone maps mean no skip.
-- **0.4.4** applies the same predicate to cells inside a kept chunk. A tier-A/B fold ignores non-matches. Materialize and transform keep the selection shape. Non-matching floats (`f16`, `f32`, `f64`) are NaN. Non-matching integers are the dataset fill (`_FillValue`, `missing_value`, or `fill_value`). Integer materialize under `filter` without a fill is refused.
+1. **Chunk skip** — drop tiles whose zone min/max/null cannot match. `read_plan.zone_filter_skipped_chunks` is that count. Missing zone maps mean no skip.
+2. **Cell filter** — apply the same predicate inside a kept chunk. A tier-A/B fold ignores non-matches. Materialize and transform keep the selection shape: non-matching floats (`f16` / `f32` / `f64`) are NaN; non-matching integers are the dataset fill (`_FillValue`, `missing_value`, or `fill_value`). Integer materialize under `filter` without a fill is refused.
 
-Chunk skip is the I/O win. The cell filter is what the fold and the dense result use. tet-py **0.4.4** pins the crate; there is no new Python API.
+Chunk skip is the I/O win. The cell filter is what the fold and the dense result use.
 
 ::: code-group
 
@@ -123,7 +123,7 @@ ge = 0
 
 :::
 
-## Group-by (0.4.2)
+## Group-by
 
 `group_by` is a top-level array of dimension names or decimal indices. It must pair with exactly one reduction. Empty reduction axes mean “fold the complement of `group_by`”. Explicit axes must be disjoint from the group axes and, together with them, cover the full rank. At least one axis must remain to reduce.
 
@@ -149,7 +149,7 @@ sum = []
 
 This partitions by dimension name, not by repeated coordinate-label values.
 
-## Pipeline (0.4.2)
+## Pipeline
 
 `pipeline` is an ordered step list lowered onto the flat document at parse time. Execution is still one pass. Step order is `select`, then `filter`, then one reduction (`group_by` plus one op, or a bare op), then `spill` or `write`. Repeats, unknown steps, empty lists, more than eight steps, and out-of-order stages fail. `pipeline` cannot sit beside those analytic keys at the top level. `execution` and `dataset` may.
 

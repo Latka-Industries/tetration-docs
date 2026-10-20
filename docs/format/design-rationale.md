@@ -10,8 +10,8 @@ Tetration combines **HDF5-shaped persistence** (many large arrays in one durable
 | **Partial I/O by default** | Chunk index → touch only intersecting payloads (local mmap, or range-read a sealed `packed.tet` on a store) |
 | **Query-friendly metadata** | JSON/TOML control plane; footer carries axis names and attrs |
 | **Read-many / write-once (sealed)** | Immutable sealed files or generations; unlimited concurrent readers |
-| **Multi-writer (0.2+)** | Immutable shards → single publish → sealed generation — not parallel updates to one live file ([writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md)) |
-| **Cloud packages (0.3+)** | Same package protocol on S3-compatible stores: pin, range-read, stage, CAS-publish ([store-backed reads](/rust/store-backed-reads)) |
+| **Multi-writer** | Immutable shards → single publish → sealed generation — not parallel updates to one live file ([writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md)) |
+| **Cloud packages** | Same package protocol on S3-compatible stores: pin, range-read, stage, CAS-publish ([store-backed reads](/rust/store-backed-reads)) |
 
 ## When to use `.tet`
 

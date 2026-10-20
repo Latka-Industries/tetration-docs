@@ -2,7 +2,9 @@
 
 **Status:** informal / prospective — not a commitment or release schedule.
 
-Tetration already covers efficient **partial I/O** over sealed `.tet` images (local mmap or store range-reads), JSON/TOML queries, streaming reductions, transforms, optional GPU, C ABI, **multi-writer packages** (`.tet.d`: shards → publish → sealed generation), and **S3-compatible package stores** (pin, ingest, CAS publish, convert). What follows is less about missing flags and more about **what kind of system** Tetration should become.
+Tetration already covers efficient **partial I/O** over sealed `.tet` images (local mmap or store range-reads), JSON/TOML queries, streaming reductions, transforms, optional GPU, C ABI, **multi-writer packages** (`.tet.d`: shards → publish → sealed generation), and **S3-compatible package stores** (pin, ingest, CAS publish, convert, prune). What follows is less about missing flags and more about **what kind of system** Tetration should become.
+
+Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md) · [version alignment](/python/version-alignment).
 
 ---
 
@@ -11,18 +13,17 @@ Tetration already covers efficient **partial I/O** over sealed `.tet` images (lo
 | Area | Notes |
 | ---- | ----- |
 | Layout v1 | Superblock, catalog, chunk index, raw/zstd — [Format](/format/) |
-| Query engine | Reductions, transforms, spill/sidecar, selections — [Query engine](/guides/query-engine/) |
+| Query engine | Reductions, transforms, spill/sidecar, selections, closed `filter`, `group_by`, `pipeline` — [Query engine](/guides/query-engine/) |
 | Convert / export | HDF5, NetCDF, Zarr (local + `s3://`) — [CLI convert & export](/cli/convert-export); Python `tet.convert` / `tet.export` |
 | Verify / repair | Quick + deep decode — [CLI verify](/cli/verify-repair) |
 | Optional GPU | Experimental device routing for tier-A/B `f32`/`f16` |
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
-| Writer protocol v2 (0.2+) | `.tet.d` packages, shard writers, publish, pack; **0.3.6** cleanup (`gc`, `--remove-package`, `--abort`); **0.3.7** publish conflict UX (`--dry-run`, `--replace`, identical-byte overlap) — [CLI packages](/cli/package) |
-| Cloud packages (0.3.x) | `PackageStore` / `S3Store`, pin + range-read, stage / CAS publish, cross-host claim, optional block cache, `s3://` convert — [Store-backed reads](/rust/store-backed-reads) |
-| Python (tet-py 0.4.4) | NumPy ram/spill/sidecar, package/URI pins, `S3Store` ingest/publish, pinned `s3://` package open, single-file + Zarr-prefix `s3://` convert, `tet.pack`, `tet.publish(dry_run=, replace=)`; query `filter`, `group_by`, and `pipeline` via JSON/TOML. Store prune stays on `tet gc` — [Python](/python/) |
-| Zone maps + filter pushdown (0.4.0 / 0.4.1) | **0.4.0:** per-chunk min/max/null at compact/publish (`ZONE.json`). **0.4.1:** closed query `filter` skips impossible chunks (`ReadPlan.zone_filter_skipped_chunks`) — [Query engine](/guides/query-engine/) · [Store-backed reads](/rust/store-backed-reads) |
-| Group-by + pipelines (0.4.2) | Closed `group_by` over dimension names (tier-A/B streams a fold per group) and a closed `pipeline` step list lowered onto one document — [Query document](/guides/query-engine/document) |
+| Packages | `.tet.d` shards → publish → sealed generation; pack, gc / abort, dry-run / replace — [CLI packages](/cli/package) |
+| Cloud packages | `PackageStore` / `S3Store`, pin + range-read, stage / CAS publish, prune — [Store-backed reads](/rust/store-backed-reads) |
+| Zone maps + filter | Per-chunk min/max/null; chunk skip then cell filter on kept chunks — [Query document](/guides/query-engine/document#filter) |
+| Python (tet-py) | NumPy sinks, packages, `s3://` open / convert; query wire via JSON/TOML — [Python](/python/) |
 
-Near-term polish continues in the [query hardening notes](/guides/query-engine/) and [conversions](https://github.com/Latka-Industries/tetration/blob/main/docs/conversions.md) doc in the crate repo. How packages pin and range-read is on [Store-backed reads](/rust/store-backed-reads); which release added what is in the [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md). **Shipped in 0.4.3:** store prune (`prune_store`, `tet gc s3://bucket/prefix`). **Shipped in 0.4.4:** cell filter on kept chunks. tet-py **0.4.4** pins that crate with no new Python API. **After 0.4.4:** richer indexes are **0.4.5**.
+Current packages: tetration / tet-py **0.4.4**. Next prospective cut after that: richer indexes (**0.4.5**).
 
 ---
 
@@ -30,19 +31,9 @@ Near-term polish continues in the [query hardening notes](/guides/query-engine/)
 
 ### Smarter indexing
 
-**Today:** organization is **geometric** — logical coordinates → chunk coordinates. Footer metadata supports `dim_names`, coordinate labels, and attrs.
+**Today:** geometric organization (logical → chunk coordinates) plus optional zone maps. Closed `filter` skips impossible chunks, then drops non-matching cells inside kept chunks. `group_by` partitions by dimension name. Grouping by repeated coordinate-label values remains deferred.
 
-**Shipped in 0.4.0:** compact/publish writes per-chunk min/max/null zone maps to `generations/<G>/ZONE.json` and copies them onto `ReadPlan` chunks. Staging writers do not update those stats.
-
-**Shipped in 0.4.1:** closed query `filter` predicates skip chunks whose zone stats cannot match (conservative; missing zones → no skip). `ReadPlan.zone_filter_skipped_chunks` reports those drops. That stat is chunk I/O, not the cell result.
-
-**Shipped in 0.4.2:** `group_by` over dimension names. A tier-A/B reduction streams one fold per group; tier-C still materializes. `execution.group_count` is the product of the group-axis extents.
-
-**Shipped in 0.4.4:** the same `filter` drops non-matching cells inside a kept chunk. Folds accumulate matches only. Materialize and transform keep the selection shape: NaN for floats, the dataset fill for integers (refused when no fill is set).
-
-**Direction:** optional richer indexes beyond per-chunk zone maps.
-
-Indexes must stay optional, verifiable, and evolvable without breaking v1 readers. Label *slicing*, zone-map stats, value-filter chunk skip, cell filter, and dimension-name group-by are shipped. Grouping by repeated coordinate-label values remains deferred.
+**Direction:** optional richer indexes beyond per-chunk zone maps (e.g. sorted coord lookup), still optional, verifiable, and evolvable without breaking v1 readers.
 
 ### Distributed execution
 
@@ -54,7 +45,7 @@ Open product question: stay a **format + embeddable library** with a thin cluste
 
 ### Richer query language
 
-**Today:** flat JSON/TOML documents — one dataset, selection, optional operation / transform / write. **0.4.2** adds `group_by` and a closed `pipeline` that lowers onto that same document. SQL and arbitrary joins are explicit non-goals for v1.
+**Today:** flat JSON/TOML documents — one dataset, selection, optional `filter` / `group_by` / operation / transform / write, or a closed `pipeline` that lowers onto that same document. SQL and arbitrary joins are explicit non-goals for v1.
 
 **Direction:** richer declarative ops while keeping chunk-based execution — windowed stats and multi-dataset alignment — without becoming a general SQL engine. Extensions should declare tiers (scalar fold vs materialize) and stay JSON/TOML-serializable for agents and FFI.
 
@@ -82,14 +73,13 @@ Not always “more features.” Three qualities matter long-term:
 
 | Theme | Depends on | Risk / note |
 | ----- | ---------- | ----------- |
-| S3 / store prune (0.4.3) | `prune_store`, `tet gc s3://` | Never delete live pins; do not write `CURRENT` |
-| Richer indexes (0.4.5) | Zone maps + chunk skip (0.4.1); cell filter (0.4.4); `group_by` (0.4.2) | Keep wire closed; avoid SQL |
+| Richer indexes | Zone maps + closed `filter` + `group_by` | Keep wire closed; avoid SQL |
 | Distributed query execution | Tier-A/B merge semantics | Product boundary vs “just a format” |
-| Windowed stats, controlled joins | Axes + metadata; `group_by` and `pipeline` shipped in 0.4.2 | Avoid full SQL complexity |
+| Windowed stats, controlled joins | Axes + metadata; `group_by` / `pipeline` | Avoid full SQL complexity |
 | Units, CRS, provenance, uncertainty | Footer history + attrs | Standards alignment (CF, PROV, …) |
 | Normative spec + conformance suite | Layout + query wire freeze | Enables third-party implementations |
 
-Themes are **not ordered commitments** — formal spec work can parallel store prune, for example.
+Themes are **not ordered commitments** — formal spec work can parallel indexing work, for example.
 
 ---
 
@@ -98,5 +88,3 @@ Themes are **not ordered commitments** — formal spec work can parallel store p
 - **Users / embedders:** treat prospective items as exploratory; ship against documented layout and query wire only.
 - **Contributors:** pick a direction, open a design issue against constraints in [Format](/format/) and non-goals in the getting-started / design docs.
 - **Discussion:** [GitHub issue #16](https://github.com/Latka-Industries/tetration/issues/16) (long-term architecture).
-
-When a direction ships, detail moves into Format, CLI, Query engine, or Rust docs, and the shipped table above is updated.

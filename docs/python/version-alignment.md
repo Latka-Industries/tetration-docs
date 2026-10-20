@@ -17,26 +17,17 @@
 
 From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **0.4.x** ↔ tetration **0.4.x**).
 
-| tet-py | tetration crate | Notes |
-|--------|-----------------|-------|
-| **0.4.4** | **0.4.4** | Pin alignment. Crate: cell filter on kept chunks (dense NaN / fill mask for materialize and transform). No new Python API |
-| **0.4.3** | **0.4.3** | Pin alignment. Crate: store prune (`prune_store`, `tet gc s3://bucket/prefix`). Dry-run unless apply. No new Python API |
-| **0.4.2** | **0.4.2** | Pin alignment. Crate: closed `group_by` over dimension names and `pipeline` step lists. Both ride existing JSON/TOML on `execute`. No new Python API |
-| **0.4.1** | **0.4.1** | Pin alignment. Crate: closed query `filter` + zone-map chunk skip (`ReadPlan.zone_filter_skipped_chunks`). No new Python API |
-| **0.4.0** | **0.4.0** | Pin alignment. Crate: zone maps at compact/publish, `ReadPlan.logical_element_count`, removed deprecated `tetration::query` CLI re-exports. No new Python API |
-| **0.3.8** | **0.3.8** | Pin alignment. Crate hygiene only: shared `f16`/`f64` materialize, structured package `CatalogError`s (same display text), deprecated `tetration::query` CLI formatters (removed in 0.4.0). No new Python API |
-| **0.3.7** | **0.3.7** | `tet.publish(dry_run=, replace=)`; CLI `--dry-run` / `--replace`; clearer overlap rejects; identical-byte overlaps OK |
-| **0.3.6** | **0.3.6** | `tet.pack` (optional `remove_package`); CLI `tet pack --remove-package`, `tet gc`, `tet publish --abort` on local `.tet.d` |
-| **0.3.5** | **0.3.5** | `tet.convert` reads a Zarr v2/v3 prefix on `s3://` one chunk at a time (`[zarr]` extra). Single-file `s3://` convert and pinned package open are unchanged |
-| **0.3.4** | **0.3.4** | `tet.open("s3://bucket/prefix")` and `tet query -t` pin that package (`?generation=N` or `CURRENT`) and range-read. Credentials stay in `TETRATION_S3_*`. `S3Store.open` still downloads `packed.tet` |
-| **0.3.3** | **0.3.3** | `tet.convert("s3://bucket/file.ext")` downloads that one object, then the existing importer. Core optional `BlockCache` / `CachingStore` (generation + offset). `tet.open("s3://…")` was still unsupported |
-| **0.3.2** | **0.3.2** | Exclusive cross-host claim on `publishing/<G>` (heartbeat, stale window, force-only takeover). No new Python API |
-| **0.3.1** | **0.3.1** | `S3Store` ingest / publish / pin; core `tetration-s3` + `stage_part` / `publish_staged_parts` |
-| **0.3.0** | **0.3.0** | Store URI open + generation pin (`MemoryStore`, `TetFile.generation`); core `PackageStore` / range planner |
-| **0.2.3** | **0.2.3** | `tet.export` (h5/netcdf/zarr extras); pin CLI export HDF5/NetCDF |
-| **0.2.2** | **0.2.2** | Convert extras (h5/netcdf/zarr/parquet) + CSV/TSV; `.tet.d` open/ingest/publish; multi-chunk zero-copy `read_numpy` |
-| **0.2.1** | **0.2.1** | Pin alignment only (package verify hardening + package fuzz in core; no Python API change) |
-| **0.2.0** | **0.2.0** | Zero-copy `read_numpy` (single-chunk raw → `memmap`); writer protocol v2 in core |
+| tet-py | tetration | Notes |
+|--------|-----------|-------|
+| **0.4.4** | **0.4.4** | Cell filter on kept chunks (dense NaN / fill mask). No new Python API |
+| **0.4.3** | **0.4.3** | Store prune (`prune_store`, `tet gc s3://`). No new Python API |
+| **0.4.2** | **0.4.2** | Closed `group_by` / `pipeline` via JSON/TOML. No new Python API |
+| **0.4.1** | **0.4.1** | Closed `filter` + zone-map chunk skip. No new Python API |
+| **0.4.0** | **0.4.0** | Zone maps; `logical_element_count`; CLI re-exports removed from `query` |
+| **0.3.x** | **0.3.x** | Store / S3 packages, convert, pack / gc / publish UX — see changelogs |
+| **0.2.x** | **0.2.x** | Writer protocol v2, convert extras, zero-copy `read_numpy` — see changelogs |
+
+Older patch notes: [tetration CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md).
 
 - **Patch** tet-py releases may bump the pinned crate for bug fixes.
 - **Minor** tet-py releases may add Python API or query wrappers without layout changes.
@@ -62,7 +53,7 @@ tet --version
 
 ```toml
 [dependencies]
-tetration = "0.3"
+tetration = "0.4"
 ```
 
 **C ABI:**

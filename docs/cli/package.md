@@ -1,6 +1,6 @@
 # tet ingest / publish / compact / pack / gc
 
-Local concurrent ingest into a `.tet.d` package (writer protocol v2). **0.3.6** adds optional cleanup (`pack --remove-package`, `publish --abort`, `tet gc`). **0.3.7** adds publish conflict UX: clearer overlap rejects, `--dry-run`, opt-in `--replace`, identical-byte overlaps allowed.
+Local concurrent ingest into a `.tet.d` package (writer protocol v2): ingest → publish → optional pack / gc. Publish has dry-run, opt-in replace, and clearer overlap rejects. Identical-byte overlaps are allowed; differing bytes still reject.
 
 ## Flow
 
@@ -34,19 +34,17 @@ tet ingest [OPTIONS] <INPUT.tet>... --out <PKG.tet.d>
 | `--create` | Explicit create (default already creates when absent) |
 | `-q` | Quiet |
 
-Does **not** flip `CURRENT`. Differing-byte overlapping claims are rejected at publish time; identical-byte overlaps are allowed (0.3.7).
+Does **not** flip `CURRENT`. Differing-byte overlapping claims are rejected at publish time; identical-byte overlaps are allowed.
 
 ## tet publish
 
 Freeze sealed staging parts → merge into `generations/<G>/packed.tet` → set `CURRENT`.
 
-**0.3.2** takes an exclusive claim on `publishing/<G>` (heartbeat, stale window, force-only takeover) so a second host cannot flip `CURRENT` while the lock is live.
+Publish takes an exclusive claim on `publishing/<G>` (heartbeat, stale window, force-only takeover) so a second host cannot flip `CURRENT` while the lock is live. Abort a stuck lock with `tet publish --abort --generation G` (removes `publishing/<G>/` without flipping `CURRENT`; refuses the generation named by `CURRENT`).
 
-**0.3.6** exposes abort for a stuck lock: `tet publish --abort --generation G` removes `publishing/<G>/` without flipping `CURRENT`. Refuses the generation named by `CURRENT`.
+Default remains reject-on-differing-overlap:
 
-**0.3.7** publish conflict UX (default remains reject-on-differing-overlap):
-
-- Clearer overlap rejects include part ids, dataset name, and chunk ranges.
+- Overlap rejects include part ids, dataset name, and chunk ranges.
 - `--dry-run` runs claim / schema checks only (no seal, no `CURRENT` flip).
 - Identical-byte claim overlaps are allowed (idempotent retry); differing bytes still reject.
 - `--replace DATASET` (repeatable) allows a dtype/shape change vs sealed `CURRENT` on G+1; sealed generations stay untouched.
@@ -63,7 +61,7 @@ tet publish climate.tet.d --abort --generation 2
 |------|--------|
 | `--generation G` | Generation id (default: `CURRENT+1`, or `1`; required with `--abort`) |
 | `--parts ID,…` | Explicit part-id list (default: all sealed staging parts) |
-| `--dry-run` | Claim / schema checks only; do not seal or flip `CURRENT` (0.3.7) |
+| `--dry-run` | Claim / schema checks only; do not seal or flip `CURRENT` |
 | `--replace DATASET` | Allow dtype/shape change for this name vs sealed `CURRENT` (repeatable; G+1 only) |
 | `--abort` | Drop a stuck `publishing/<G>/` lock (`--generation` required; refuses `CURRENT`) |
 | `-q` | Quiet |
@@ -80,7 +78,7 @@ tet compact climate.tet.d
 
 Copy a sealed generation’s `packed.tet` to a standalone `.tet` (does not change `CURRENT`).
 
-**0.3.6:** `--remove-package` deletes the `.tet.d` only after a verified copy (size + SHA-256 + layout verify). Default keeps the package. Close any readers pinned on that package first.
+`--remove-package` deletes the `.tet.d` only after a verified copy (size + SHA-256 + layout verify). Default keeps the package. Close any readers pinned on that package first.
 
 ```bash
 tet pack [OPTIONS] <PKG.tet.d> -o <OUT.tet>

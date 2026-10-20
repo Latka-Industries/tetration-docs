@@ -41,7 +41,7 @@ A **sealed** layout-v1 `.tet` has **no** on-disk locking or live-append protocol
 
 Scale for a sealed file comes from **immutable bytes + mmap readers**.
 
-**Multi-writer (0.2 draft):** concurrent ingest uses **immutable shards → single publish → sealed generation**, then readers pin that generation (optionally via a packed `.tet`). See the upstream [writer protocol v2 RFC](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md).
+**Multi-writer:** concurrent ingest uses **immutable shards → single publish → sealed generation**, then readers pin that generation (optionally via a packed `.tet`). See the upstream [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md).
 
 ## Verification
 

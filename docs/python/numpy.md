@@ -21,9 +21,9 @@ with tet.open("data.tet") as f:
     arr = f.read_numpy("a", selection=tet.selection_slices(tet.axis_slice(0, 100)))
 ```
 
-**Zero-copy (0.2.0+):** when the selection is a **single raw** (uncompressed) chunk whose payload equals the logical row-major selection, `read_numpy` returns a read-only `numpy.memmap` over that region (independent of the `TetFile` handle).
+**Zero-copy:** when the selection is a **single raw** (uncompressed) chunk whose payload equals the logical row-major selection, `read_numpy` returns a read-only `numpy.memmap` over that region (independent of the `TetFile` handle).
 
-**Multi-chunk slabs (0.2.2+):** a contiguous full-width selection spanning multiple abutting raw chunks can also return a memmap when the payloads form one linear slab. Zstd, strided, and partial-tile plans still copy.
+**Multi-chunk slabs:** a contiguous full-width selection spanning multiple abutting raw chunks can also return a memmap when the payloads form one linear slab. Zstd, strided, and partial-tile plans still copy.
 
 Integer dtypes (`i32`, `u8`, `u32`, …) and `f16` / `u64` export are supported.
 
@@ -81,7 +81,7 @@ CLI equivalent:
 
 **Sidecar vs spill:** spill is opaque row-major bytes (`.bin`); sidecar is a full `.tet` you can mmap, re-query, and pass to other tools. **Sidecar vs ram:** sidecar avoids holding the full array in Python RAM and produces a persistent file.
 
-**Sidecar vs `TetWriter`:** both produce a `.tet` on disk. Sidecar is the query engine writing a **transform result** with preset parameters (path beside source, dataset `{source}-{method}`, inherited metadata, transform history). `TetWriter` / `write_dataset` is **authoring** — you supply the NumPy array, name, chunks, and attrs with no source file or transform. As of tetration **0.1.12**, sidecar drafts route through `TetWriterSession` (same writer path as authoring).
+**Sidecar vs `TetWriter`:** both produce a `.tet` on disk. Sidecar is the query engine writing a **transform result** with preset parameters (path beside source, dataset `{source}-{method}`, inherited metadata, transform history). `TetWriter` / `write_dataset` is **authoring** — you supply the NumPy array, name, chunks, and attrs with no source file or transform. Sidecar drafts use `TetWriterSession` (same writer path as authoring).
 
 There is no `read_sidecar` top-level op — only transforms can target the sidecar sink. To export a raw selection without a transform, use [`read_spill`](#read-spill) or slice + `read_numpy`.
 
@@ -130,7 +130,7 @@ Inspect the resolved budget via `raw=True` → `execution.memory_budget_bytes`.
 | `mean`, `sum`, streaming folds | Chunk streaming — no full dense buffer |
 | `median`, `quantile`, `histogram` | Temp spill materialize or refuse |
 | `transform.to_numpy` | **Refuse** — use `to_spill` |
-| `read_numpy` | **Preflight** refuse when over budget (0.1.12+); else slice or `read_spill` |
+| `read_numpy` | **Preflight** refuse when over budget; else slice or `read_spill` |
 
 ## Write
 
@@ -166,7 +166,7 @@ w.commit()
 
 On `commit`, footer `tool` is set to `tet-py`. Roundtrip: `write_dataset` → `read_numpy` → reductions.
 
-Integer and `float16` write dtypes are supported in tet-py **0.1.2** ([THI-26](https://linear.app/thicclatka/issue/THI-26)).
+Integer and `float16` write dtypes are supported.
 
 ## Sink summary
 
