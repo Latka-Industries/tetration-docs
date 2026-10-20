@@ -24,9 +24,9 @@ Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetrati
 | Optional value postings | Exact `eq` chunk allow-list when a low-cardinality dataset qualifies — same filter page |
 | Python (tet-py) | NumPy sinks, packages, `s3://` open / convert; query wire via JSON/TOML — [Python](/python/) |
 | Distributed fold (library) | Shard a `ReadPlan` across workers, merge tier-A/B partials, in-process harness — Rust `query::distributed` (0.5.0); no RPC cluster |
-| Declared semantics | Optional footer attrs + caller policy; `tet semantics set` / `scaffold` — [Semantics](/guides/semantics/) (ships in 0.5.1) |
+| Declared semantics | Optional footer attrs + caller policy; `tet semantics set` / `scaffold` — [Semantics](/guides/semantics/) (0.5.1) |
 
-Current packages: tetration / tet-py **0.5.0** (0.5.1 cut pending).
+Current packages: tetration / tet-py **0.5.1**.
 
 ---
 
