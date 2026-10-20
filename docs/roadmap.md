@@ -21,9 +21,10 @@ Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetrati
 | Packages | `.tet.d` shards → publish → sealed generation; pack, gc / abort, dry-run / replace — [CLI packages](/cli/package) |
 | Cloud packages | `PackageStore` / `S3Store`, pin + range-read, stage / CAS publish, prune — [Store-backed reads](/rust/store-backed-reads) |
 | Zone maps + filter | Per-chunk min/max/null; chunk skip then cell filter on kept chunks — [Query document](/guides/query-engine/document#filter) |
+| Optional value postings | Exact `eq` chunk allow-list when a low-cardinality dataset qualifies — same filter page |
 | Python (tet-py) | NumPy sinks, packages, `s3://` open / convert; query wire via JSON/TOML — [Python](/python/) |
 
-Current packages: tetration / tet-py **0.4.4**. Next prospective cut after that: richer indexes (**0.4.5**).
+Current packages: tetration / tet-py **0.4.5**.
 
 ---
 
@@ -31,9 +32,9 @@ Current packages: tetration / tet-py **0.4.4**. Next prospective cut after that:
 
 ### Smarter indexing
 
-**Today:** geometric organization (logical → chunk coordinates) plus optional zone maps. Closed `filter` skips impossible chunks, then drops non-matching cells inside kept chunks. `group_by` partitions by dimension name. Grouping by repeated coordinate-label values remains deferred.
+**Today:** geometric organization (logical → chunk coordinates) plus optional zone maps and optional value postings. Closed `filter` skips impossible chunks via zone maps (`zone_filter_skipped_chunks`), may drop more with an exact `eq` posting list (`index_filter_skipped_chunks`), then applies the predicate to cells inside kept chunks. A missing or unusable index falls back to zone maps. `group_by` partitions by dimension name. Grouping by repeated coordinate-label values remains deferred.
 
-**Direction:** optional richer indexes beyond per-chunk zone maps (e.g. sorted coord lookup), still optional, verifiable, and evolvable without breaking v1 readers.
+**Direction:** more index kinds (e.g. sorted-axis range, coordinate-label postings), still optional, verifiable, and outside the v1 byte layout so old readers ignore them.
 
 ### Distributed execution
 

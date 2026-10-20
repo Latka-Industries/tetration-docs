@@ -208,11 +208,11 @@ Axis key for coords is `dim_names[d]` when present, otherwise `"0"`, `"1"`, …
 | `"mean": "time"` / `mean = "time"` | `dim_names` |
 | Slice rows 100–200 by index | Numeric `selection` only |
 | Slice by timestamp / station id | `coords` + `start_label` / `stop_label` |
-| Fast lookup without scanning labels | Coords + optional index (deferred) |
+| Fast lookup for an exact cell value | Optional value postings (`index_filter_skipped_chunks`) when the dataset qualifies; else zone maps |
 | `group_by` a dimension name | `dim_names` + one reduction. Not label values. |
 | Join two datasets | Two queries or caller-side join (non-goal) |
 
-**Filter-by-value** has two layers: chunk skip (`zone_filter_skipped_chunks`), then a cell filter inside kept chunks (folds ignore non-matches; materialize / transform stay dense — NaN for floats, dataset fill for integers). **Group-by** uses dimension names. Grouping by repeated coordinate-label values remains deferred. Label slicing resolves labels to indices once at plan time.
+**Filter-by-value** uses zone-map chunk skip (`zone_filter_skipped_chunks`), optional exact-`eq` postings (`index_filter_skipped_chunks`), then a cell filter inside kept chunks (folds ignore non-matches; materialize / transform stay dense — NaN for floats, dataset fill for integers). **Group-by** uses dimension names. Grouping by repeated coordinate-label values remains deferred. Label slicing resolves labels to indices once at plan time.
 
 ## Read plan output
 
@@ -222,7 +222,9 @@ After planning (with `-t`), the response `read_plan` includes:
 - `chunk_count` — number of on-disk tiles touched
 - `chunk_touch_policy` — `dense_half_open_unit_step` or `strided_half_open`
 - `chunks[]` — per-chunk I/O rows (file offset, local slice geometry)
-- `zone_filter_skipped_chunks` — chunks the zone map skipped. This is the chunk-skip stat, not the cell-filter result. A quiet plan line adds `cell_filter=applied` when the predicate is attached.
+- `zone_filter_skipped_chunks` — chunks the zone map skipped. Not the cell-filter result and not posting drops.
+- `index_filter_skipped_chunks` — chunks dropped by an exact-`eq` posting list after zone maps (0 when the index is missing or does not apply). A quiet plan line may add `index_filter_skipped=N`.
+- A quiet plan line adds `cell_filter=applied` when the predicate is attached to kept chunks.
 
 Decoded values are scattered into **logical row-major selection order** during materialization — not in chunk catalog order.
 

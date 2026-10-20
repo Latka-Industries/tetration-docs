@@ -179,7 +179,7 @@ tet info data.tet --metadata   # check dim_names
 
 ## Filter
 
-Chunk skip drops tiles that cannot match. The cell filter then ignores non-matching cells inside a kept chunk, so this sum is not the sum of every value in the chunks that were read. `zone_filter_skipped_chunks` stays the chunk-skip count. Materialize and transform keep the same shape: non-matches are NaN for floats, or the dataset fill for integers.
+Zone maps drop tiles that cannot match. An exact `eq` may drop more via optional value postings (`index_filter_skipped_chunks`). The cell filter then ignores non-matching cells inside a kept chunk, so this sum is not the sum of every value in the chunks that were read. `zone_filter_skipped_chunks` stays the zone-map count. Materialize and transform keep the same shape: non-matches are NaN for floats, or the dataset fill for integers.
 
 ::: code-group
 

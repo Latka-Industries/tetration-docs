@@ -12,8 +12,8 @@ Verify:
 
 ```python
 import tet
-print(tet.__version__)       # tet-py release, e.g. 0.4.4
-print(tet.core_version())    # linked tetration crate, e.g. 0.4.4
+print(tet.__version__)       # tet-py release, e.g. 0.4.5
+print(tet.core_version())    # linked tetration crate, e.g. 0.4.5
 ```
 
 Optional convert / export extras (install what you need):
@@ -60,7 +60,7 @@ Build requirements:
 - Rust **1.95+**
 - [maturin](https://www.maturin.rs/) **1.7+**
 
-Release builds pin **`tetration`** from [crates.io](https://crates.io/crates/tetration) (currently **0.4.4**, with the `tetration-s3` feature) — no sibling tetration checkout required.
+Release builds pin **`tetration`** from [crates.io](https://crates.io/crates/tetration) (currently **0.4.5**, with the `tetration-s3` feature) — no sibling tetration checkout required.
 
 ## Install the CLI (optional)
 
