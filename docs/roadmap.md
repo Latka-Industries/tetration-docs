@@ -23,8 +23,9 @@ Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetrati
 | Zone maps + filter | Per-chunk min/max/null; chunk skip then cell filter on kept chunks — [Query document](/guides/query-engine/document#filter) |
 | Optional value postings | Exact `eq` chunk allow-list when a low-cardinality dataset qualifies — same filter page |
 | Python (tet-py) | NumPy sinks, packages, `s3://` open / convert; query wire via JSON/TOML — [Python](/python/) |
+| Distributed fold (library) | Shard a `ReadPlan` across workers, merge tier-A/B partials, in-process harness — Rust `query::distributed` (0.5.0); no RPC cluster |
 
-Current packages: tetration / tet-py **0.4.5**.
+Current packages: tetration / tet-py **0.5.0**.
 
 ---
 
@@ -38,11 +39,11 @@ Current packages: tetration / tet-py **0.4.5**.
 
 ### Distributed execution
 
-**Today:** one machine, many cores (Rayon), optional GPUs; scale-out is **N independent queries × N processes**, not one query sharded across nodes.
+**Shipped in 0.5.0 (library):** Rust `query::distributed` splits a `ReadPlan` into contiguous or interleaved chunk shards, merges associative tier-A/B fold partials (same laws as parallel / multi-GPU host merge), and proves merge with an in-process harness. Workers must share one **pinned** generation. Spill/sidecar write targets are refused on this path (RAM partials only). Not exposed as a Python cluster API in tet-py 0.5.0 — pin-only; use the Rust API or JSON worker job shapes.
 
-**Direction:** a coordinator splits a read plan across workers, merges associative partials (tier-A/B folds already compose), and handles spill/export policy cluster-wide.
+**Not shipped:** RPC / cluster scheduler, distributed materialize or transform, worker-local spill files.
 
-Open product question: stay a **format + embeddable library** with a thin cluster protocol, or grow a full execution service. Streaming fold + chunk-local partials are the right merge semantics; multi-GPU sharding is a local prototype of the same pattern.
+**Still open:** stay a **format + embeddable library** with a thin protocol (current stance), or grow a full execution service. Multi-GPU sharding remains the local prototype of the same pattern.
 
 ### Richer query language
 
@@ -75,7 +76,7 @@ Not always “more features.” Three qualities matter long-term:
 | Theme | Depends on | Risk / note |
 | ----- | ---------- | ----------- |
 | Richer indexes | Zone maps + closed `filter` + `group_by` | Keep wire closed; avoid SQL |
-| Distributed query execution | Tier-A/B merge semantics | Product boundary vs “just a format” |
+| Distributed query execution | Library path in 0.5.0; RPC / spill still open | Product boundary vs “just a format” |
 | Windowed stats, controlled joins | Axes + metadata; `group_by` / `pipeline` | Avoid full SQL complexity |
 | Units, CRS, provenance, uncertainty | Footer history + attrs | Standards alignment (CF, PROV, …) |
 | Normative spec + conformance suite | Layout + query wire freeze | Enables third-party implementations |

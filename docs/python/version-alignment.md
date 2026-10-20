@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.4.5**](https://pypi.org/project/tet-py/0.4.5/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.4.5**](https://crates.io/crates/tetration/0.4.5) |
+| **tet-py** (PyPI) | [**0.5.0**](https://pypi.org/project/tet-py/0.5.0/) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.5.0**](https://crates.io/crates/tetration/0.5.0) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -15,10 +15,11 @@
 
 ## Alignment policy
 
-From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **0.4.x** ↔ tetration **0.4.x**).
+From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **0.5.x** ↔ tetration **0.5.x**).
 
 | tet-py | tetration | Notes |
 |--------|-----------|-------|
+| **0.5.0** | **0.5.0** | Distributed fold library on the crate (`query::distributed`); pin-only for Python — no cluster wrapper |
 | **0.4.5** | **0.4.5** | Optional value postings for exact `filter.eq` (`index_filter_skipped_chunks`). No new Python API |
 | **0.4.4** | **0.4.4** | Cell filter on kept chunks (dense NaN / fill mask). No new Python API |
 | **0.4.3** | **0.4.3** | Store prune (`prune_store`, `tet gc s3://`). No new Python API |
