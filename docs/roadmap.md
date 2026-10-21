@@ -6,7 +6,7 @@ Tetration already covers efficient **partial I/O** over sealed `.tet` images (lo
 
 Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md) · [version alignment](/python/version-alignment).
 
-Current packages: tetration / tet-py **0.5.4**.
+Current packages: tetration / tet-py **0.6.0**.
 
 ---
 
@@ -15,7 +15,7 @@ Current packages: tetration / tet-py **0.5.4**.
 | Area | Notes |
 | ---- | ----- |
 | Layout v1 | Superblock, catalog, chunk index, raw/zstd — [Format](/format/) |
-| Query engine | Reductions, transforms, spill/sidecar, selections, closed `filter`, `group_by`, `pipeline` — [Query engine](/guides/query-engine/) |
+| Query engine | Reductions, transforms, spill/sidecar, selections, closed `filter`, `group_by`, `window`, `pipeline` — [Query engine](/guides/query-engine/) |
 | Convert / export | HDF5, NetCDF, Zarr (local + `s3://`) — [CLI convert & export](/cli/convert-export); Python `tet.convert` / `tet.export` |
 | Verify / repair | Quick + deep decode — [CLI verify](/cli/verify-repair) |
 | Optional GPU | Experimental device routing for tier-A/B `f32`/`f16` |
@@ -49,9 +49,9 @@ Current packages: tetration / tet-py **0.5.4**.
 
 ### Richer query language
 
-**Today:** flat JSON/TOML documents — one dataset, selection, optional `filter` / `group_by` / operation / transform / write, or a closed `pipeline` that lowers onto that same document. SQL and arbitrary joins are explicit non-goals for v1.
+**Today:** flat JSON/TOML documents — one dataset, selection, optional `filter` / `group_by` / `window` / operation / transform / write, or a closed `pipeline` that lowers onto that same document. SQL and arbitrary joins are explicit non-goals for v1. **0.6.0** adds windowed stats along a named axis (`window`: tumbling or sliding + an existing fold).
 
-**Direction:** richer declarative ops while keeping chunk-based execution — windowed stats and multi-dataset alignment — without becoming a general SQL engine. Extensions should declare tiers (scalar fold vs materialize) and stay JSON/TOML-serializable for agents and FFI.
+**Direction:** multi-dataset alignment checks and group-by on coordinate-label values (still not SQL) — without becoming a general SQL engine. Extensions should declare tiers (scalar fold vs materialize) and stay JSON/TOML-serializable for agents and FFI.
 
 ### Scientific semantics
 
