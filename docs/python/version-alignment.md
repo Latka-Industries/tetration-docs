@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.5.3**](https://pypi.org/project/tet-py/0.5.3/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.5.3**](https://crates.io/crates/tetration/0.5.3) |
+| **tet-py** (PyPI) | [**0.5.4**](https://pypi.org/project/tet-py/0.5.4/) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.5.4**](https://crates.io/crates/tetration/0.5.4) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -19,6 +19,7 @@ From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **
 
 | tet-py | tetration | Notes |
 |--------|-----------|-------|
+| **0.5.4** | **0.5.4** | Crate hygiene + `parse_query_json` fuzz; pin-only for Python |
 | **0.5.3** | **0.5.3** | Larger SPEC conformance accept / reject surface on the crate; pin-only for Python |
 | **0.5.2** | **0.5.2** | Normative SPEC + conformance pack on the crate; pin-only for Python |
 | **0.5.1** | **0.5.1** | Declared science/media attrs + `tet semantics` on the crate; pin-only for Python — no metadata ORM |
