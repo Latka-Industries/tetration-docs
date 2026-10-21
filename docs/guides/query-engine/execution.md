@@ -47,7 +47,7 @@ memory_budget_percent = 40
 | **`temp_spill_materialize`** | Tier-C op; selection > budget | Decode to engine temp file; deleted after op |
 | **`mmap_spill`** | Top-level `"spill"` only | Full selection written dtype-native LE to caller path |
 | **`transform_ram`** | Transform + `write`: `ram`/`switch`; fits budget | Pass-1 stats + pass-2 in RAM |
-| **`transform_spill`** | Transform + spill or over budget | Pass-2 to caller or cache temp |
+| **`transform_spill`** | Transform + spill or over budget | Pass-2 to caller or cache temp. **`write: switch` without `path`** is ephemeral (deleted when the query ends); durable export needs `spill` or an explicit path |
 | **`transform_sidecar`** | Transform + `write`: `sidecar` | Draft `.tet` in cache → publish beside source |
 | **`capped_in_memory`** | Preview only; fits budget | Bounded preview arrays, not full tensor |
 
@@ -66,6 +66,8 @@ Tier-A/B **`streaming_fold`** picks an I/O regime by comparing logical selection
 Linear scan requires every touched chunk to use **raw codec 0**, abutting payloads, and total raw bytes = logical selection size. Multi-chunk converted `f32` grids often qualify; zstd or strided selections typically do not.
 
 Response fields: `execution.io_regime` (`in_core` / `out_of_core`), `execution.fold_parallel`, `execution.fold_linear_scan`.
+
+**Window / transform paths (0.6.x):** the same policy prefers ordered chunk I/O when a window or transform pass would thrash random mmap order across a large sealed file. Window folds visit a covering span of chunks per window rather than re-decoding overlaps; transform pass-2 reuses the parallel chunk helpers. Answers are unchanged — visit order and decode reuse, not a new wire.
 
 Force sequential visits (not linear scan):
 
