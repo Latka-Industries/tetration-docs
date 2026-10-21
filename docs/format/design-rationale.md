@@ -15,10 +15,6 @@ Tetration combines **HDF5-shaped persistence** (many large arrays in one durable
 | **Multi-writer** | Immutable shards → single publish → sealed generation — not parallel updates to one live file ([writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md)) |
 | **Cloud packages** | Same package protocol on S3-compatible stores: pin, range-read, stage, CAS-publish ([store-backed reads](/rust/store-backed-reads)) |
 
-**Speed** here means doing less work (skip chunks, stream folds, prefer sequential I/O when that is cheaper) — not a promise about absolute seconds on a given machine.
-
-**Safety** means fail closed on the wire and refuse unbounded RAM / arbitrary write paths, while still allowing intentional durable exports (`write: spill` / explicit paths) and sidecar publishes.
-
 ## When to use `.tet`
 
 Good fits:
