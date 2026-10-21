@@ -213,7 +213,19 @@ group_by = ["col"]
 sum = []
 ```
 
+```json [group_by_labels.json]
+{ "dataset": "temperature", "group_by": { "by": "labels", "axes": ["col"] }, "sum": [] }
+```
+
+```toml [group_by_labels.toml]
+dataset = "temperature"
+group_by = { by = "labels", axes = ["col"] }
+sum = []
+```
+
 :::
+
+Label form (0.6.2) collapses repeated coordinate labels; requires footer `coords` on those axes. `group_count` is the product of distinct-label counts.
 
 The same document as ordered steps. `pipeline` cannot be mixed with top-level `selection`, `filter`, `group_by`, `spill`, `write`, or an operation key.
 

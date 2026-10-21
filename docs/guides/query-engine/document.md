@@ -126,9 +126,16 @@ ge = 0
 
 ## Group-by
 
-`group_by` is a top-level array of dimension names or decimal indices. It must pair with exactly one reduction. Empty reduction axes mean “fold the complement of `group_by`”. Explicit axes must be disjoint from the group axes and, together with them, cover the full rank. At least one axis must remain to reduce.
+`group_by` must pair with exactly one reduction. Empty reduction axes mean “fold the complement of `group_by`”. Explicit axes must be disjoint from the group axes and, together with them, cover the full rank. At least one axis must remain to reduce.
 
-Tier-A/B reductions stream one fold per group (`memory_strategy = streaming_fold`). Tier-C ops such as `median` materialize. `transform`, `covariance`, and `correlation` are rejected. `execution.group_count` is the product of the group axes’ logical extents.
+Two forms:
+
+| Form | Partitions by | `execution.group_count` |
+|------|---------------|-------------------------|
+| Array of dimension names or decimal indices | Each index along those axes | Product of the group axes’ logical extents |
+| Object `{ "by": "labels", "axes": [...] }` (0.6.2) | Distinct coordinate labels on those axes (repeated labels collapse) | Product of distinct-label counts. Requires footer `coords` on those axes (fail closed if missing). Closed keys only (`by` / `axes`); `by` must be `labels`. |
+
+Tier-A/B reductions stream one fold per group (`memory_strategy = streaming_fold`). Tier-C ops such as `median` materialize. `transform`, `covariance`, and `correlation` are rejected.
 
 ::: code-group
 
@@ -146,9 +153,21 @@ group_by = ["col"]
 sum = []
 ```
 
-:::
+```json [group_by_labels.json]
+{
+  "dataset": "temperature",
+  "group_by": { "by": "labels", "axes": ["col"] },
+  "sum": []
+}
+```
 
-This partitions by dimension name, not by repeated coordinate-label values.
+```toml [group_by_labels.toml]
+dataset = "temperature"
+group_by = { by = "labels", axes = ["col"] }
+sum = []
+```
+
+:::
 
 ## Window
 

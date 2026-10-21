@@ -209,10 +209,11 @@ Axis key for coords is `dim_names[d]` when present, otherwise `"0"`, `"1"`, …
 | Slice rows 100–200 by index | Numeric `selection` only |
 | Slice by timestamp / station id | `coords` + `start_label` / `stop_label` |
 | Fast lookup for an exact cell value | Optional value postings (`index_filter_skipped_chunks`) when the dataset qualifies; else zone maps |
-| `group_by` a dimension name | `dim_names` + one reduction. Not label values. |
+| `group_by` a dimension name | `dim_names` + one reduction |
+| `group_by` by coordinate labels | `coords` + `{ "by": "labels", "axes": [...] }` + one reduction (0.6.2) |
 | Join two datasets | Two queries or caller-side join (non-goal) |
 
-**Filter-by-value** uses zone-map chunk skip (`zone_filter_skipped_chunks`), optional exact-`eq` postings (`index_filter_skipped_chunks`), then a cell filter inside kept chunks (folds ignore non-matches; materialize / transform stay dense — NaN for floats, dataset fill for integers). **Group-by** uses dimension names. Grouping by repeated coordinate-label values remains deferred. Label slicing resolves labels to indices once at plan time.
+**Filter-by-value** uses zone-map chunk skip (`zone_filter_skipped_chunks`), optional exact-`eq` postings (`index_filter_skipped_chunks`), then a cell filter inside kept chunks (folds ignore non-matches; materialize / transform stay dense — NaN for floats, dataset fill for integers). **Group-by** uses dimension names (array form) or distinct coordinate labels (`by: labels`). Label slicing resolves labels to indices once at plan time.
 
 ## Read plan output
 
