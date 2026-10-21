@@ -6,6 +6,8 @@ Tetration already covers efficient **partial I/O** over sealed `.tet` images (lo
 
 Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md) · [version alignment](/python/version-alignment).
 
+Current packages: tetration / tet-py **0.5.4**.
+
 ---
 
 ## Shipped (reference)
@@ -23,12 +25,9 @@ Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetrati
 | Zone maps + filter | Per-chunk min/max/null; chunk skip then cell filter on kept chunks — [Query document](/guides/query-engine/document#filter) |
 | Optional value postings | Exact `eq` chunk allow-list when a low-cardinality dataset qualifies — same filter page |
 | Python (tet-py) | NumPy sinks, packages, `s3://` open / convert; query wire via JSON/TOML — [Python](/python/) |
-| Distributed fold (library) | Shard a `ReadPlan` across workers, merge tier-A/B partials, in-process harness — Rust `query::distributed` (0.5.0); no RPC cluster |
-| Declared semantics | Optional footer attrs + caller policy; `tet semantics set` / `scaffold` — [Semantics](/guides/semantics/) (0.5.1) |
-| Normative SPEC + conformance | Layout / writer / query / ABI contract + CI pack — crate `SPEC/` + `conformance/` (0.5.2; pack grew in 0.5.3) |
-| Crate hygiene + query fuzz | clippy allows, typed I/O, `tetration-cli` gate, `parse_query_json` fuzz (0.5.4) |
-
-Current packages: tetration / tet-py **0.5.4**.
+| Distributed fold (library) | Shard a `ReadPlan` across workers, merge tier-A/B partials, in-process harness — Rust `query::distributed`; no RPC cluster |
+| Declared semantics | Optional footer attrs + caller policy; `tet semantics set` / `scaffold` — [Semantics](/guides/semantics/) |
+| Normative SPEC + conformance | Layout / writer / query / ABI contract + CI pack — crate `SPEC/` + `conformance/` |
 
 ---
 
@@ -42,7 +41,7 @@ Current packages: tetration / tet-py **0.5.4**.
 
 ### Distributed execution
 
-**Shipped in 0.5.0 (library):** Rust `query::distributed` splits a `ReadPlan` into contiguous or interleaved chunk shards, merges associative tier-A/B fold partials (same laws as parallel / multi-GPU host merge), and proves merge with an in-process harness. Workers must share one **pinned** generation. Spill/sidecar write targets are refused on this path (RAM partials only). Not exposed as a Python cluster API in tet-py 0.5.0 — pin-only; use the Rust API or JSON worker job shapes.
+**Today (library):** Rust `query::distributed` splits a `ReadPlan` into contiguous or interleaved chunk shards, merges associative tier-A/B fold partials (same laws as parallel / multi-GPU host merge), and proves merge with an in-process harness. Workers must share one **pinned** generation. Spill/sidecar write targets are refused on this path (RAM partials only). Not exposed as a Python cluster API — use the Rust API or JSON worker job shapes.
 
 **Not shipped:** RPC / cluster scheduler, distributed materialize or transform, worker-local spill files.
 
@@ -56,7 +55,7 @@ Current packages: tetration / tet-py **0.5.4**.
 
 ### Scientific semantics
 
-**Shipped in 0.5.1 (declared + policy):** optional declared science/media attrs in the footer, `tet semantics set` / `scaffold`, and caller policy outside the file. Spec and examples: [Semantics](/guides/semantics/). Climate is attrs / a doc profile id only — not a climate runtime. Declared attrs do not change query answers by themselves.
+**Today (declared + policy):** optional declared science/media attrs in the footer, `tet semantics set` / `scaffold`, and caller policy outside the file. Spec and examples: [Semantics](/guides/semantics/). Climate is attrs / a doc profile id only — not a climate runtime. Declared attrs do not change query answers by themselves.
 
 **Still open:** full CF/PROV suites, UCUM conversion graphs inside `packed.tet`, package `SEMANTICS.json`, plugin host, required in-tree policy interpreter.
 
@@ -70,7 +69,7 @@ Not always “more features.” Three qualities matter long-term:
 
 **Transaction safety** — v1 is write-once / read-many on a single `.tet`. Multi-writer ingest is **shards → publish → sealed generation**, not multi-writer on one live index. See [packages](/cli/package).
 
-**Formal specification** — **shipped in 0.5.2** as the crate `SPEC/` + `conformance/` pack (layout, writer protocol, query wire, C ABI, compatibility policy); **0.5.3** grows accept / reject coverage; **0.5.4** is crate hygiene + query-wire fuzz (no SPEC change). Independent readers can implement without reading Rust.
+**Formal specification** — crate `SPEC/` + `conformance/` pack (layout, writer protocol, query wire, C ABI, compatibility policy). Independent readers can implement without reading Rust. Pack coverage may grow without layout or query ABI breaks.
 
 **Long-term compatibility** — read a file written today decades later: schema evolution, reserved fields, capability flags, and clear policy for query JSON and ABI versioning.
 
@@ -81,10 +80,10 @@ Not always “more features.” Three qualities matter long-term:
 | Theme | Depends on | Risk / note |
 | ----- | ---------- | ----------- |
 | Richer indexes | Zone maps + closed `filter` + `group_by` | Keep wire closed; avoid SQL |
-| Distributed query execution | Library path in 0.5.0; RPC / spill still open | Product boundary vs “just a format” |
+| Distributed query execution | Library path shipped; RPC / spill still open | Product boundary vs “just a format” |
 | Windowed stats, controlled joins | Axes + metadata; `group_by` / `pipeline` | Avoid full SQL complexity |
 | Units, CRS, provenance, uncertainty | Footer history + attrs | Standards alignment (CF, PROV, …) |
-| Normative spec + conformance suite | **Shipped in 0.5.2** (`SPEC/`, `conformance/`); pack grew in **0.5.3**; hygiene/fuzz in **0.5.4** | External readers; pack may grow |
+| Normative spec + conformance suite | Shipped (`SPEC/`, `conformance/`) | External readers; pack may grow |
 
 Themes are **not ordered commitments** — formal spec work can parallel indexing work, for example.
 

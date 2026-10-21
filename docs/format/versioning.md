@@ -24,6 +24,8 @@ The optional `THST` footer ends with **`history_version`** (`u32` LE). Must be *
 | Boolean as separate wire type | Reserved for layout v2 |
 | Breaking layout changes | Bump `layout_version`; v1 readers reject unknown versions |
 
+The normative contract (layout, writer protocol, query wire, C ABI) and the CI conformance pack live in the crate: [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) · [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance).
+
 ::: warning Pre-1.0
 Tetration is still in development. Layout v1 and query JSON/TOML may change before 1.0. Pin crate and CLI versions in production workflows.
 :::

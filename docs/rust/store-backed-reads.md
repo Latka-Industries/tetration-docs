@@ -2,7 +2,7 @@
 
 Query a sealed package without assuming a full local mmap up front: pin one generation, fetch the catalog and the chunks the query touches, then run the same engine as a mmap path. Backends cover a local `.tet.d` root, in-memory stores for tests, and optional S3-compatible object storage (`tetration-s3`). Publish is CAS on `CURRENT` with an exclusive `publishing/<G>` claim across hosts. Optional `CachingStore` remembers packed ranges by `(generation, offset)`.
 
-Per-release history lives in the [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) and [roadmap](/roadmap), not here.
+Per-release history lives in the [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md), not here.
 
 ## API surface
 

@@ -71,7 +71,7 @@ tet.pack("demo.tet.d", "demo.tet")
 # tet.pack("demo.tet.d", "demo.tet", remove_package=True)  # after verified copy
 ```
 
-`tet.open` on a `.tet.d` directory follows `CURRENT` and mmaps that generation's `packed.tet`. `tet.pack` copies that sealed image to a standalone `.tet`; pass `remove_package=True` to delete the package only after verify (close pinned readers first). See [CLI packages](/cli/package) for the on-disk layout (`tet gc` / `tet publish --abort` are CLI-only in this cut).
+`tet.open` on a `.tet.d` directory follows `CURRENT` and mmaps that generation's `packed.tet`. `tet.pack` copies that sealed image to a standalone `.tet`; pass `remove_package=True` to delete the package only after verify (close pinned readers first). See [CLI packages](/cli/package) for the on-disk layout (`tet gc` / `tet publish --abort` are CLI-only today).
 
 ### S3-compatible store
 
