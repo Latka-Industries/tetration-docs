@@ -15,27 +15,21 @@
 
 ## Alignment policy
 
-From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **0.5.x** ↔ tetration **0.5.x**).
+From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **0.5.x** ↔ tetration **0.5.x**). Patch cuts on either side are usually **pin-only** for Python (same `import tet` surface). Feature milestones:
 
 | tet-py | tetration | Notes |
 |--------|-----------|-------|
-| **0.5.4** | **0.5.4** | Crate hygiene + `parse_query_json` fuzz; pin-only for Python |
-| **0.5.3** | **0.5.3** | Larger SPEC conformance accept / reject surface on the crate; pin-only for Python |
-| **0.5.2** | **0.5.2** | Normative SPEC + conformance pack on the crate; pin-only for Python |
-| **0.5.1** | **0.5.1** | Declared science/media attrs + `tet semantics` on the crate; pin-only for Python — no metadata ORM |
-| **0.5.0** | **0.5.0** | Distributed fold library on the crate (`query::distributed`); pin-only for Python — no cluster wrapper |
-| **0.4.5** | **0.4.5** | Optional value postings for exact `filter.eq` (`index_filter_skipped_chunks`). No new Python API |
-| **0.4.4** | **0.4.4** | Cell filter on kept chunks (dense NaN / fill mask). No new Python API |
-| **0.4.3** | **0.4.3** | Store prune (`prune_store`, `tet gc s3://`). No new Python API |
-| **0.4.2** | **0.4.2** | Closed `group_by` / `pipeline` via JSON/TOML. No new Python API |
-| **0.4.1** | **0.4.1** | Closed `filter` + zone-map chunk skip. No new Python API |
-| **0.4.0** | **0.4.0** | Zone maps; `logical_element_count`; CLI re-exports removed from `query` |
+| **0.5.4** | **0.5.4** | Current pin |
+| **0.5.2** | **0.5.2** | Normative SPEC + conformance pack on the crate |
+| **0.5.1** | **0.5.1** | Declared science/media attrs + `tet semantics` on the crate — no metadata ORM |
+| **0.5.0** | **0.5.0** | Distributed fold library on the crate (`query::distributed`) — no cluster wrapper |
+| **0.4.x** | **0.4.x** | Zone maps, closed `filter` / `group_by` / `pipeline`, store prune, value postings — see changelogs |
 | **0.3.x** | **0.3.x** | Store / S3 packages, convert, pack / gc / publish UX — see changelogs |
 | **0.2.x** | **0.2.x** | Writer protocol v2, convert extras, zero-copy `read_numpy` — see changelogs |
 
-Older patch notes: [tetration CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md).
+Full patch history: [tetration CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md).
 
-- **Patch** tet-py releases may bump the pinned crate for bug fixes.
+- **Patch** tet-py releases may bump the pinned crate for bug fixes or crate-only work.
 - **Minor** tet-py releases may add Python API or query wrappers without layout changes.
 - Layout v1 and query JSON/TOML may still change before 1.0 — pin versions in production.
 

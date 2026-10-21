@@ -31,9 +31,8 @@ Pushes to `main` deploy to GitHub Pages via `.github/workflows/deploy.yml`. Cust
 | Environment | URL |
 |-------------|-----|
 | Production | [https://docs.tetration.sh](https://docs.tetration.sh) |
-| GitHub Pages (legacy path) | `https://latka-industries.github.io/tetration-docs/` (retire after DNS cutover; `base` is now `/`) |
 
-DNS: point `docs.tetration.sh` at GitHub Pages and set the custom domain on the **tetration-docs** Pages settings (enforce HTTPS).
+Custom domain is configured on the **tetration-docs** GitHub Pages settings (`docs/public/CNAME`; enforce HTTPS).
 
 ## Site structure
 
