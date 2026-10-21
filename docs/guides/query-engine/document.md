@@ -154,29 +154,27 @@ This partitions by dimension name, not by repeated coordinate-label values.
 
 `window` folds an existing reduction over successive spans of **one** axis. It is not a new dataset, not a join, and not SQL `OVER`.
 
-Two placements (think **bins** vs **rolling**):
+| `mode` | Behavior |
+|--------|----------|
+| **`bins`** | Non-overlapping chunks of `size`; last bin may be shorter. `window_count` = `ceil(extent / size)`. |
+| **`rolling`** | Length-`size` frames advancing by one. `window_count` = `extent - size + 1`. |
 
-| Idea | Wire `mode` (0.6.0) | Behavior |
-|------|---------------------|----------|
-| **Bins** | `tumbling` | Non-overlapping chunks of `size`; last bin may be shorter. Count = `ceil(extent / size)`. |
-| **Rolling** | `sliding` | Length-`size` frames advancing by one; full-width only. Count = `extent - size + 1`. |
-
-Example: extent 7, `size` 3 → bins give 3 answers; rolling gives 5. No edge padding in 0.6.0 (pad / step / align land later).
+Worked example: extent **7**, `size` **3** → **bins** → `window_count` **3**; **rolling** → `window_count` **5**. No edge padding / `pad` / `step` in this cut (those land later).
 
 | Field | Required | Notes |
 |-------|----------|-------|
 | `axis` | yes | Dimension name or decimal index |
 | `size` | yes | Positive integer length along that axis |
-| `mode` | yes | `tumbling` (bins) or `sliding` (rolling). Renamed to `bins` / `rolling` in **0.6.1**. |
+| `mode` | yes | `bins` or `rolling` (legacy `tumbling` / `sliding` are rejected) |
 
-Requires exactly one reduction. Empty reduction axes mean reduce only within each window along the windowed axis (other axes kept). Not valid with `group_by`, `transform`, covariance/correlation, or materialize-required ops. `execution.window_count` is the number of window positions. f32 fold only in 0.6.0.
+Requires exactly one reduction. Empty reduction axes mean reduce only within each window along the windowed axis (other axes kept). Not valid with `group_by`, `transform`, covariance/correlation, or materialize-required ops. `execution.window_count` is the number of window positions. f32 fold only for now.
 
 ::: code-group
 
 ```json [window.json]
 {
   "dataset": "temperature",
-  "window": { "axis": "time", "size": 3, "mode": "tumbling" },
+  "window": { "axis": "time", "size": 3, "mode": "bins" },
   "mean": []
 }
 ```
@@ -188,12 +186,44 @@ mean = []
 [window]
 axis = "time"
 size = 3
-mode = "tumbling"
+mode = "bins"
 ```
 
 :::
 
-`mode: "tumbling"` above is the **bins** placement. Use `"sliding"` for rolling.
+Use `"mode": "rolling"` for overlapping length-`size` frames.
+
+## Align
+
+`align` compares two catalog datasets in one sealed package on named axes — extents, dimension names, and coordinate labels. It does **not** join, broadcast, or produce a new array. Mismatch is a structured `execution.alignment` result (or a typed error for missing datasets / unresolvable axes), never a silent success.
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `with` | yes | Second dataset name (must differ from `dataset`) |
+| `axes` | yes | Non-empty list of dimension names or decimal indices |
+
+Mutually exclusive with selection / filter / group_by / window / reduction / pipeline / spill / write. Closed keys only.
+
+::: code-group
+
+```json [align.json]
+{
+  "dataset": "a",
+  "align": { "with": "b", "axes": ["row", "col"] }
+}
+```
+
+```toml [align.toml]
+dataset = "a"
+
+[align]
+with = "b"
+axes = ["row", "col"]
+```
+
+:::
+
+On execute (`-x`), `execution.alignment.aligned` is `true` when every compared axis agrees.
 
 ## Pipeline
 

@@ -2,7 +2,7 @@
 
 Tetration stores chunked tensor data in a **layout v1** `.tet` file — one mmap-friendly sealed image with a catalog, fixed-size chunk index, and raw or zstd payloads. Multi-writer and cloud use the **same** sealed bytes inside a `.tet.d` (or store) package: shards → publish → `generations/<G>/packed.tet`.
 
-Current crates: tetration / tet-py **0.6.0**. Normative contract: crate [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) + [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance).
+Current crates: tetration / tet-py **0.6.1**. Normative contract: crate [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) + [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance).
 
 ## What a `.tet` file contains
 
