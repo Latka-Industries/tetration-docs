@@ -15,28 +15,13 @@
 
 ## Alignment policy
 
-From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **0.5.x** ↔ tetration **0.5.x**). Patch cuts on either side are usually **pin-only** for Python (same `import tet` surface). Feature milestones:
-
-| tet-py | tetration | Notes |
-|--------|-----------|-------|
-| **0.6.4** | **0.6.4** | Current pin — crate hygiene + benches + ephemeral switch spills (pack milestone stays 0.6.3) |
-| **0.6.3** | **0.6.3** | Window `pad` / `step` / `align` / `min_count` + multi-dtype on the crate |
-| **0.6.2** | **0.6.2** | Label-value `group_by` (`by: labels`) on the crate |
-| **0.6.1** | **0.6.1** | `align` + `window.mode` `bins`/`rolling` on the crate |
-| **0.6.0** | **0.6.0** | Closed `window` wire on the crate |
-| **0.5.4** | **0.5.4** | Hygiene + query-wire fuzz |
-| **0.5.2** | **0.5.2** | Normative SPEC + conformance pack on the crate |
-| **0.5.1** | **0.5.1** | Declared science/media attrs + `tet semantics` on the crate — no metadata ORM |
-| **0.5.0** | **0.5.0** | Distributed fold library on the crate (`query::distributed`) — no cluster wrapper |
-| **0.4.x** | **0.4.x** | Zone maps, closed `filter` / `group_by` / `pipeline`, store prune, value postings — see changelogs |
-| **0.3.x** | **0.3.x** | Store / S3 packages, convert, pack / gc / publish UX — see changelogs |
-| **0.2.x** | **0.2.x** | Writer protocol v2, convert extras, zero-copy `read_numpy` — see changelogs |
-
-Full patch history: [tetration CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md).
+From **0.2.0** onward, tet-py and tetration share the same **minor** (e.g. tet-py **0.6.x** ↔ tetration **0.6.x**). Patch cuts on either side are usually **pin-only** for Python (same `import tet` surface).
 
 - **Patch** tet-py releases may bump the pinned crate for bug fixes or crate-only work.
 - **Minor** tet-py releases may add Python API or query wrappers without layout changes.
 - Layout v1 and query JSON/TOML may still change before 1.0 — pin versions in production.
+
+Release history: [tetration CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md).
 
 ## Checking versions
 
