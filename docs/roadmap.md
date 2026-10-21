@@ -6,7 +6,7 @@ Tetration already covers efficient **partial I/O** over sealed `.tet` images (lo
 
 Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md) · [version alignment](/python/version-alignment).
 
-Current packages: tetration / tet-py **0.6.2**.
+Current packages: tetration / tet-py **0.6.3**.
 
 ---
 
@@ -49,7 +49,7 @@ Current packages: tetration / tet-py **0.6.2**.
 
 ### Richer query language
 
-**Today:** flat JSON/TOML documents — one dataset, selection, optional `filter` / `group_by` / `window` / operation / transform / write, or a closed `pipeline` that lowers onto that same document. SQL and arbitrary joins are explicit non-goals for v1. **0.6.0** added windowed stats along a named axis. **0.6.1** ships wire `mode` as **`bins`** (non-overlapping) / **`rolling`** (step 1), plus multi-dataset **`align`** checks (not a join). **0.6.2** adds label-value `group_by` (`by: labels`).
+**Today:** flat JSON/TOML documents — one dataset, selection, optional `filter` / `group_by` / `window` / operation / transform / write, or a closed `pipeline` that lowers onto that same document. SQL and arbitrary joins are explicit non-goals for v1. **0.6.0** added windowed stats along a named axis. **0.6.1** ships wire `mode` as **`bins`** (non-overlapping) / **`rolling`** (step 1), plus multi-dataset **`align`** checks (not a join). **0.6.2** adds label-value `group_by` (`by: labels`). **0.6.3** finishes the `window` wire (`pad` / `step` / `align` / `min_count`) and drops the f32-only gate.
 
 **Direction:** richer alignment and grouping on metadata (still not SQL) — without becoming a general SQL engine. Extensions should declare tiers (scalar fold vs materialize) and stay JSON/TOML-serializable for agents and FFI.
 
