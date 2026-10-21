@@ -150,9 +150,43 @@ sum = []
 
 This partitions by dimension name, not by repeated coordinate-label values.
 
+## Window
+
+`window` is a closed object for a reduction over a sliding or tumbling span of **one** axis. It is not a new dataset, not a join, and not SQL `OVER`.
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `axis` | yes | Dimension name or decimal index |
+| `size` | yes | Positive integer length along that axis |
+| `mode` | yes | `tumbling` (non-overlapping; last window may be shorter) or `sliding` (advance by one) |
+
+Requires exactly one reduction. Empty reduction axes mean reduce only within each window along the windowed axis (other axes kept). Not valid with `group_by`, `transform`, covariance/correlation, or materialize-required ops. `execution.window_count` is the number of window positions.
+
+::: code-group
+
+```json [window.json]
+{
+  "dataset": "temperature",
+  "window": { "axis": "time", "size": 3, "mode": "tumbling" },
+  "mean": []
+}
+```
+
+```toml [window.toml]
+dataset = "temperature"
+mean = []
+
+[window]
+axis = "time"
+size = 3
+mode = "tumbling"
+```
+
+:::
+
 ## Pipeline
 
-`pipeline` is an ordered step list lowered onto the flat document at parse time. Execution is still one pass. Step order is `select`, then `filter`, then one reduction (`group_by` plus one op, or a bare op), then `spill` or `write`. Repeats, unknown steps, empty lists, more than eight steps, and out-of-order stages fail. `pipeline` cannot sit beside those analytic keys at the top level. `execution` and `dataset` may.
+`pipeline` is an ordered step list lowered onto the flat document at parse time. Execution is still one pass. Step order is `select`, then `filter`, then one reduction (`group_by` or `window` plus one op, or a bare op), then `spill` or `write`. Repeats, unknown steps, empty lists, more than eight steps, and out-of-order stages fail. `pipeline` cannot sit beside those analytic keys at the top level. `execution` and `dataset` may.
 
 ::: code-group
 
