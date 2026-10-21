@@ -140,7 +140,23 @@ export default defineConfig({
           text: 'Guides',
           items: [
             { text: 'Overview', link: '/guides/' },
-            { text: 'Query engine', link: '/guides/query-engine/' },
+            {
+              text: 'Query engine',
+              collapsed: false,
+              items: [
+                { text: 'Overview', link: '/guides/query-engine/' },
+                { text: 'Query document', link: '/guides/query-engine/document' },
+                { text: 'Operations', link: '/guides/query-engine/operations' },
+                {
+                  text: 'Selections & metadata',
+                  link: '/guides/query-engine/selection-and-metadata',
+                },
+                {
+                  text: 'Execution strategies',
+                  link: '/guides/query-engine/execution',
+                },
+              ],
+            },
             { text: 'Query cookbook', link: '/guides/query-cookbook' },
             { text: 'Format comparison', link: '/guides/format-comparison' },
             { text: 'Mmap read patterns', link: '/guides/mmap-patterns' },
