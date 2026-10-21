@@ -171,22 +171,26 @@ sum = []
 
 ## Window
 
-`window` folds an existing reduction over successive spans of **one** axis. It is not a new dataset, not a join, and not SQL `OVER`.
+`window` folds an existing reduction over successive spans of **one** axis. It is not a new dataset, not a join, and not SQL `OVER`. Docs teach **`bins`** / **`rolling`** only (legacy `tumbling` / `sliding` are reject-closed).
 
 | `mode` | Behavior |
 |--------|----------|
-| **`bins`** | Non-overlapping chunks of `size`; last bin may be shorter. `window_count` = `ceil(extent / size)`. |
-| **`rolling`** | Length-`size` frames advancing by one. `window_count` = `extent - size + 1`. |
+| **`bins`** | Non-overlapping chunks of `size`. `align` `start` (default) puts a short remainder at the end; `end` at the start. `window_count` = `ceil(extent / size)`. |
+| **`rolling`** | Length-`size` frames advancing by `step` (default 1). Without pad: `window_count` = `floor((extent - size) / step) + 1`. |
 
-Worked example: extent **7**, `size` **3** → **bins** → `window_count` **3**; **rolling** → `window_count` **5**. No edge padding / `pad` / `step` in this cut (those land later).
+Worked example: extent **7**, `size` **3** → **bins** → `window_count` **3**; **rolling** (step 1) → `window_count` **5**.
 
 | Field | Required | Notes |
 |-------|----------|-------|
 | `axis` | yes | Dimension name or decimal index |
 | `size` | yes | Positive integer length along that axis |
-| `mode` | yes | `bins` or `rolling` (legacy `tumbling` / `sliding` are rejected) |
+| `mode` | yes | `bins` or `rolling` |
+| `pad` | no | `none` (default) / `0` / `nan` / `fill` — edge fill for short bins or overhanging rolling windows. `fill` needs dataset `_FillValue` / `missing_value` / `fill_value`; `nan` refuses on integer dtypes |
+| `step` | no | Rolling stride (≥ 1). Omitted → 1. Present with `mode` `bins` is rejected |
+| `align` | no | `start` (default) / `end` — short-bin side, or rolling overhang side under pad. Rolling + `align` `end` requires `pad` other than `none` |
+| `min_count` | no | Minimum real (non-pad) cells (1…`size`, default 1). Fewer → NaN for that window |
 
-Requires exactly one reduction. Empty reduction axes mean reduce only within each window along the windowed axis (other axes kept). Not valid with `group_by`, `transform`, covariance/correlation, or materialize-required ops. `execution.window_count` is the number of window positions. f32 fold only for now.
+Requires exactly one reduction. Empty reduction axes mean reduce only within each window along the windowed axis (other axes kept). Not valid with `group_by`, `transform`, covariance/correlation, or materialize-required ops. `execution.window_count` is the number of window positions. All wire dtypes (0.6.3).
 
 ::: code-group
 
@@ -206,6 +210,22 @@ mean = []
 axis = "time"
 size = 3
 mode = "bins"
+```
+
+```json [window_rolling.json]
+{
+  "dataset": "temperature",
+  "window": {
+    "axis": "time",
+    "size": 4,
+    "mode": "rolling",
+    "step": 2,
+    "pad": "nan",
+    "align": "end",
+    "min_count": 2
+  },
+  "mean": []
+}
 ```
 
 :::
