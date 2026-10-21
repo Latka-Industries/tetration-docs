@@ -23,8 +23,10 @@ The optional `THST` footer ends with **`history_version`** (`u32` LE). Must be *
 | New wire dtype tags | Extend v1 if readers can ignore unknown tags |
 | Boolean as separate wire type | Reserved for layout v2 |
 | Breaking layout changes | Bump `layout_version`; v1 readers reject unknown versions |
+| Package sidecars (`ZONE.json`, `INDEX.json`) | Beside `packed.tet`; unknown manifest keys ignored; not a layout bump |
+| Query wire (`filter`, `group_by`, `window`, …) | Versioned with the crate minor; SPEC / conformance milestone — not `layout_version` |
 
-The normative contract (layout, writer protocol, query wire, C ABI) and the CI conformance pack live in the crate: [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) · [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance).
+The normative contract (layout, writer protocol, query wire, C ABI) and the CI conformance pack live in the crate: [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) · [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance). Current published milestone tracks **0.6.0**.
 
 ::: warning Pre-1.0
 Tetration is still in development. Layout v1 and query JSON/TOML may change before 1.0. Pin crate and CLI versions in production workflows.
@@ -36,14 +38,15 @@ A **sealed** layout-v1 `.tet` has **no** on-disk locking or live-append protocol
 
 | Pattern | Supported? |
 |---------|------------|
-| Sealed file, many readers | Yes — mmap read-only after `commit` / `tet convert` |
+| Sealed file, many readers | Yes — mmap read-only after `commit` / `tet convert` / pack |
 | One writer, then readers | Yes |
 | Parallel writers on one file | No (undefined behavior) |
 | Read while another process writes | No (undefined behavior) |
+| Multi-writer via package | Yes — shards → publish → new sealed generation |
 
-Scale for a sealed file comes from **immutable bytes + mmap readers**.
+Scale for a sealed file comes from **immutable bytes + mmap (or range-read) readers**.
 
-**Multi-writer:** concurrent ingest uses **immutable shards → single publish → sealed generation**, then readers pin that generation (optionally via a packed `.tet`). See the upstream [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md).
+**Multi-writer (shipped 0.2+):** concurrent ingest uses **immutable shards → single publish → sealed generation**, then readers pin that generation (local `.tet.d` or store; optionally `tet pack` to a standalone `.tet`). See [CLI packages](/cli/package) and [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md).
 
 ## Verification
 

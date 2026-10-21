@@ -152,15 +152,24 @@ This partitions by dimension name, not by repeated coordinate-label values.
 
 ## Window
 
-`window` is a closed object for a reduction over a sliding or tumbling span of **one** axis. It is not a new dataset, not a join, and not SQL `OVER`.
+`window` folds an existing reduction over successive spans of **one** axis. It is not a new dataset, not a join, and not SQL `OVER`.
+
+Two placements (think **bins** vs **rolling**):
+
+| Idea | Wire `mode` (0.6.0) | Behavior |
+|------|---------------------|----------|
+| **Bins** | `tumbling` | Non-overlapping chunks of `size`; last bin may be shorter. Count = `ceil(extent / size)`. |
+| **Rolling** | `sliding` | Length-`size` frames advancing by one; full-width only. Count = `extent - size + 1`. |
+
+Example: extent 7, `size` 3 → bins give 3 answers; rolling gives 5. No edge padding in 0.6.0 (pad / step / align land later).
 
 | Field | Required | Notes |
 |-------|----------|-------|
 | `axis` | yes | Dimension name or decimal index |
 | `size` | yes | Positive integer length along that axis |
-| `mode` | yes | `tumbling` (non-overlapping; last window may be shorter) or `sliding` (advance by one) |
+| `mode` | yes | `tumbling` (bins) or `sliding` (rolling). Renamed to `bins` / `rolling` in **0.6.1**. |
 
-Requires exactly one reduction. Empty reduction axes mean reduce only within each window along the windowed axis (other axes kept). Not valid with `group_by`, `transform`, covariance/correlation, or materialize-required ops. `execution.window_count` is the number of window positions.
+Requires exactly one reduction. Empty reduction axes mean reduce only within each window along the windowed axis (other axes kept). Not valid with `group_by`, `transform`, covariance/correlation, or materialize-required ops. `execution.window_count` is the number of window positions. f32 fold only in 0.6.0.
 
 ::: code-group
 
@@ -183,6 +192,8 @@ mode = "tumbling"
 ```
 
 :::
+
+`mode: "tumbling"` above is the **bins** placement. Use `"sliding"` for rolling.
 
 ## Pipeline
 

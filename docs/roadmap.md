@@ -16,7 +16,7 @@ Current packages: tetration / tet-py **0.6.0**.
 | ---- | ----- |
 | Layout v1 | Superblock, catalog, chunk index, raw/zstd — [Format](/format/) |
 | Query engine | Reductions, transforms, spill/sidecar, selections, closed `filter`, `group_by`, `window`, `pipeline` — [Query engine](/guides/query-engine/) |
-| Convert / export | HDF5, NetCDF, Zarr (local + `s3://`) — [CLI convert & export](/cli/convert-export); Python `tet.convert` / `tet.export` |
+| Convert / export | HDF5, NetCDF, Zarr v2/v3, NumPy, CSV/TSV, Parquet → `.tet`; export Zarr v3 / HDF5 / NetCDF (local + `s3://` convert) — [CLI convert & export](/cli/convert-export); Python `tet.convert` / `tet.export` |
 | Verify / repair | Quick + deep decode — [CLI verify](/cli/verify-repair) |
 | Optional GPU | Experimental device routing for tier-A/B `f32`/`f16` |
 | C ABI | `tetration-ffi` — [Rust / FFI](/rust/ffi) |
@@ -49,7 +49,7 @@ Current packages: tetration / tet-py **0.6.0**.
 
 ### Richer query language
 
-**Today:** flat JSON/TOML documents — one dataset, selection, optional `filter` / `group_by` / `window` / operation / transform / write, or a closed `pipeline` that lowers onto that same document. SQL and arbitrary joins are explicit non-goals for v1. **0.6.0** adds windowed stats along a named axis (`window`: tumbling or sliding + an existing fold).
+**Today:** flat JSON/TOML documents — one dataset, selection, optional `filter` / `group_by` / `window` / operation / transform / write, or a closed `pipeline` that lowers onto that same document. SQL and arbitrary joins are explicit non-goals for v1. **0.6.0** adds windowed stats along a named axis: **bins** (non-overlapping) or **rolling** (step 1) + an existing fold. Wire `mode` tokens today are `tumbling` / `sliding` (rename to `bins` / `rolling` in 0.6.1).
 
 **Direction:** multi-dataset alignment checks and group-by on coordinate-label values (still not SQL) — without becoming a general SQL engine. Extensions should declare tiers (scalar fold vs materialize) and stay JSON/TOML-serializable for agents and FFI.
 

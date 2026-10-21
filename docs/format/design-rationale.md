@@ -49,5 +49,6 @@ Query documents are **flat** — e.g. `"mean": []` / `mean = []`. Nested `"opera
 
 - [tetration README — Design stance](https://github.com/Latka-Industries/tetration#design-stance-short)
 - [Query engine docs](https://github.com/Latka-Industries/tetration/blob/main/docs/query_engine.md) in the tetration repo
-- [Writer protocol v2 (draft RFC)](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md) — shards, generations, publish
+- [Writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md) — shards, generations, publish (shipped 0.2+)
 - [Store-backed reads](/rust/store-backed-reads) — packages on local / memory / S3 stores
+- [Format overview](/format/) — packages, generation sidecars, SPEC pointers

@@ -52,10 +52,11 @@ tet --version
 
 **Rust (when embedding directly):**
 
-```toml
-[dependencies]
-tetration = "0.5"
+```bash
+cargo add tetration
 ```
+
+Pin the same minor as `tet.core_version()` when you need a locked build.
 
 **C ABI:**
 
