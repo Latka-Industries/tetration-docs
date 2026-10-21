@@ -101,7 +101,7 @@ Tier-A/B ops on large selections stay fast: the engine folds per chunk (parallel
 These are intentional non-goals for the JSON query surface:
 
 - **Multi-dataset joins** — run two queries or materialize and join in caller code
-- **Group-by on coordinate-label values** and SQL joins (dimension-name **`group_by`** plus one reduction is supported; label **slicing** and closed cell-value **`filter`** are supported — not SQL expressions)
+- **SQL joins** (dimension-name **`group_by`** and label-value **`group_by`** with `by: labels` plus one reduction are supported; label **slicing** and closed cell-value **`filter`** are supported — not SQL expressions)
 - **Spectral / ML ops** (FFT, conv, train) — export a hyperslab, then use NumPy / PyTorch / etc.
 - **Arbitrary user callbacks** per chunk
 - **Query result cache in `.tet`** — use `tet qhist` for recent query JSON in platform cache only

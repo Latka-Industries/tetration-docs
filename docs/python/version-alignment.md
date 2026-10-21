@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.6.1**](https://pypi.org/project/tet-py/0.6.1/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.6.1**](https://crates.io/crates/tetration/0.6.1) |
+| **tet-py** (PyPI) | [**0.6.2**](https://pypi.org/project/tet-py/0.6.2/) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.6.2**](https://crates.io/crates/tetration/0.6.2) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -19,7 +19,8 @@ From **0.2.0** onward, tet-py and tetration share the same minor (e.g. tet-py **
 
 | tet-py | tetration | Notes |
 |--------|-----------|-------|
-| **0.6.1** | **0.6.1** | Current pin — `align` + `window.mode` `bins`/`rolling` on the crate |
+| **0.6.2** | **0.6.2** | Current pin — label-value `group_by` (`by: labels`) on the crate |
+| **0.6.1** | **0.6.1** | `align` + `window.mode` `bins`/`rolling` on the crate |
 | **0.6.0** | **0.6.0** | Closed `window` wire on the crate |
 | **0.5.4** | **0.5.4** | Hygiene + query-wire fuzz |
 | **0.5.2** | **0.5.2** | Normative SPEC + conformance pack on the crate |

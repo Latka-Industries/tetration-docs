@@ -6,7 +6,7 @@ Tetration already covers efficient **partial I/O** over sealed `.tet` images (lo
 
 Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md) · [version alignment](/python/version-alignment).
 
-Current packages: tetration / tet-py **0.6.1**.
+Current packages: tetration / tet-py **0.6.2**.
 
 ---
 
@@ -35,7 +35,7 @@ Current packages: tetration / tet-py **0.6.1**.
 
 ### Smarter indexing
 
-**Today:** geometric organization (logical → chunk coordinates) plus optional zone maps and optional value postings. Closed `filter` skips impossible chunks via zone maps (`zone_filter_skipped_chunks`), may drop more with an exact `eq` posting list (`index_filter_skipped_chunks`), then applies the predicate to cells inside kept chunks. A missing or unusable index falls back to zone maps. `group_by` partitions by dimension name. Grouping by repeated coordinate-label values remains deferred.
+**Today:** geometric organization (logical → chunk coordinates) plus optional zone maps and optional value postings. Closed `filter` skips impossible chunks via zone maps (`zone_filter_skipped_chunks`), may drop more with an exact `eq` posting list (`index_filter_skipped_chunks`), then applies the predicate to cells inside kept chunks. A missing or unusable index falls back to zone maps. `group_by` partitions by dimension name, or by distinct coordinate labels when `"by": "labels"` (0.6.2; requires footer `coords`).
 
 **Direction:** more index kinds (e.g. sorted-axis range, coordinate-label postings), still optional, verifiable, and outside the v1 byte layout so old readers ignore them.
 
@@ -49,9 +49,9 @@ Current packages: tetration / tet-py **0.6.1**.
 
 ### Richer query language
 
-**Today:** flat JSON/TOML documents — one dataset, selection, optional `filter` / `group_by` / `window` / operation / transform / write, or a closed `pipeline` that lowers onto that same document. SQL and arbitrary joins are explicit non-goals for v1. **0.6.0** added windowed stats along a named axis. **0.6.1** ships wire `mode` as **`bins`** (non-overlapping) / **`rolling`** (step 1), plus multi-dataset **`align`** checks (not a join).
+**Today:** flat JSON/TOML documents — one dataset, selection, optional `filter` / `group_by` / `window` / operation / transform / write, or a closed `pipeline` that lowers onto that same document. SQL and arbitrary joins are explicit non-goals for v1. **0.6.0** added windowed stats along a named axis. **0.6.1** ships wire `mode` as **`bins`** (non-overlapping) / **`rolling`** (step 1), plus multi-dataset **`align`** checks (not a join). **0.6.2** adds label-value `group_by` (`by: labels`).
 
-**Direction:** multi-dataset alignment checks and group-by on coordinate-label values (still not SQL) — without becoming a general SQL engine. Extensions should declare tiers (scalar fold vs materialize) and stay JSON/TOML-serializable for agents and FFI.
+**Direction:** richer alignment and grouping on metadata (still not SQL) — without becoming a general SQL engine. Extensions should declare tiers (scalar fold vs materialize) and stay JSON/TOML-serializable for agents and FFI.
 
 ### Scientific semantics
 
