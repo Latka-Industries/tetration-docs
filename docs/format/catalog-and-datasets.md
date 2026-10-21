@@ -57,6 +57,10 @@ v1 dataset records carry **`shape`** and **`chunk_shape`** only. Richer metadata
 
 Analogues: NetCDF dimension name vs coordinate variable; pandas `Index.name` vs `Index` values; xarray `dims` vs `coords`.
 
+### Declared attrs (semantics)
+
+Footer `attrs` may carry optional **declared** science/media keys (`units`, `crs`, provenance-style history rows, …). Declared attrs do **not** change fold answers by themselves — caller policy lives outside the file. See [Semantics](/guides/semantics/) and `tet semantics`.
+
 ## Inspecting the catalog
 
 ```bash

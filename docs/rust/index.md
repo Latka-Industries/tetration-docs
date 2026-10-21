@@ -19,15 +19,15 @@ This site covers usage patterns and cookbooks. Prefer docs.rs for struct fields,
 | `verify` / `repair` | File health |
 | `ffi` | C ABI behind `tetration-ffi` feature |
 
-## Current version
+## Install
 
-```toml
-[dependencies]
-tetration = "0.6.0"
-# optional: features = ["tetration-s3"]  # S3Store / MinIO
+```bash
+cargo add tetration
+# optional S3Store / MinIO:
+cargo add tetration --features tetration-s3
 ```
 
-Requires **Rust 1.95+**.
+Requires **Rust 1.95+**. Current crates.io line: **0.6.0** (see [version alignment](/python/version-alignment)).
 
 ## Sections
 

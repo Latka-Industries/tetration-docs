@@ -10,8 +10,8 @@ The **`tet`** binary ships with the [tetration](https://github.com/Latka-Industr
 | [`tet query`](/cli/query) | `q` | Validate and execute JSON/TOML queries |
 | [`tet verify`](/cli/verify-repair) | — | Layout / `.tet.d` package health check (exit 1 on failure) |
 | [`tet repair`](/cli/verify-repair) | — | Plan or apply safe in-place fixes (footer, stale publish) |
-| [`tet convert`](/cli/convert-export) | — | HDF5 / NetCDF / Zarr → `.tet` |
-| [`tet export`](/cli/convert-export) | — | `.tet` → Zarr / HDF5 / NetCDF |
+| [`tet convert`](/cli/convert-export) | — | HDF5 / NetCDF / Zarr / NumPy / CSV / Parquet → `.tet` |
+| [`tet export`](/cli/convert-export) | — | `.tet` → Zarr v3 / HDF5 / NetCDF |
 | [`tet ingest`](/cli/package) / [`publish`](/cli/package) / [`pack`](/cli/package) / [`gc`](/cli/package) | — | Local `.tet.d` package ingest → publish → pack / cleanup |
 | [`tet qhist`](/cli/qhist) | `hist` | Recent queries (platform cache) |
 | [`tet semantics`](/cli/semantics) | — | Declare science/media attrs / scaffold caller policy |
@@ -37,7 +37,7 @@ Default features need system HDF5 and NetCDF dev libraries for `tet convert`. Wi
 cargo install tetration --no-default-features
 ```
 
-`tet info`, `tet query`, and Zarr import still work.
+`tet info`, `tet query`, and Zarr / NumPy / CSV / Parquet import still work (HDF5/NetCDF need the default features).
 
 ## First commands
 

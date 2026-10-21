@@ -17,8 +17,9 @@ When does Tetration fit vs other array storage formats?
 - **Partial I/O** — touch only intersecting regions (local mmap, or range-read a sealed `packed.tet` on S3)
 - **Built-in query engine** — aggregates, transforms, QC counts via JSON/TOML
 - **Packages** — multi-writer shards → publish → sealed generation; same protocol locally and on S3-compatible stores ([store-backed reads](/rust/store-backed-reads))
-- **Import path** — `tet convert` from HDF5, NetCDF, Zarr (local or `s3://`)
-- **Metadata footer** — axis names, coordinate labels, CF-style attrs
+- **Import path** — `tet convert` from HDF5, NetCDF, Zarr v2/v3, NumPy, CSV/TSV, Parquet (local or `s3://`)
+- **Export path** — `tet export` to Zarr v3, HDF5, or NetCDF
+- **Metadata footer** — axis names, coordinate labels, CF-style / declared attrs
 
 ## When to choose something else
 
@@ -36,7 +37,7 @@ A common pattern:
 
 1. Convert HDF5/NetCDF/Zarr → `.tet` with `tet convert`
 2. Query aggregates with `tet query` (no full load)
-3. Export subsets back to Zarr with `tet export` when needed
+3. Export subsets back to Zarr / HDF5 / NetCDF with `tet export` when needed
 
 ## Design stance
 

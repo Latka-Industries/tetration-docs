@@ -2,11 +2,10 @@
 
 Minimal example: create a `.tet` file and run an in-process query.
 
-## Cargo.toml
+## Add the crate
 
-```toml
-[dependencies]
-tetration = "0.6.0"
+```bash
+cargo add tetration
 ```
 
 ## Create and query

@@ -22,7 +22,7 @@ Default features need system HDF5 and NetCDF dev libraries for `tet convert`. Wi
 cargo install tetration --no-default-features
 ```
 
-`tet info`, `tet query`, and Zarr import still work.
+`tet info`, `tet query`, and Zarr / NumPy / CSV / Parquet import still work (HDF5/NetCDF need the default features).
 
 ### From source
 
@@ -38,8 +38,11 @@ export PATH="$PWD/target/release:$PATH"
 ```bash
 tet convert volume.h5 volume.tet     # HDF5
 tet convert data.nc data.tet         # NetCDF
-tet convert zarr_store/ output.tet   # Zarr v3 directory
+tet convert zarr_store/ output.tet   # Zarr v2/v3 directory
+tet convert table.csv table.tet      # CSV / TSV / Parquet / NumPy also work
 ```
+
+See [convert & export](/cli/convert-export) for the full input table, `--strict`, and `--chunk-mib`.
 
 ## Inspect a file
 
@@ -79,9 +82,9 @@ tet query mean.toml -t volume.tet -x --format table --preview 6
 
 ## Rust library
 
-```toml
-[dependencies]
-tetration = "0.6.0"
+```bash
+cargo add tetration
+# optional: cargo add tetration --features tetration-s3
 ```
 
 ```rust

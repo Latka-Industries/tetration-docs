@@ -39,6 +39,7 @@ Trailing compression suffixes (`.gz`, `.bz2`, `.xz`, `.zst`, `.zip`) are ignored
 |------|--------|
 | `--jobs N` | Parallel chunk read workers (`0` = host `available_parallelism`, capped at 64) |
 | `--strict` | Exit with an error and do not write the `.tet` if any source array is skipped |
+| `--chunk-mib N` | Retile every dataset to about *N* MiB along the leading axis (overrides a source chunk grid when set) |
 
 ### What gets written vs skipped
 
