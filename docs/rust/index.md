@@ -23,7 +23,7 @@ This site covers usage patterns and cookbooks. Prefer docs.rs for struct fields,
 
 ```toml
 [dependencies]
-tetration = "0.5.3"
+tetration = "0.5.4"
 # optional: features = ["tetration-s3"]  # S3Store / MinIO
 ```
 
