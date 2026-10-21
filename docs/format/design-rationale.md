@@ -4,14 +4,20 @@ Tetration combines **HDF5-shaped persistence** (many large arrays in one durable
 
 ## Design goals
 
-| Goal | How `.tet` achieves it |
-|------|------------------------|
+| Goal | How `.tet` / the engine achieves it |
+|------|-------------------------------------|
 | **Single-file portability** | One file to copy, archive, or attach to object storage |
-| **Partial I/O by default** | Chunk index → touch only intersecting payloads (local mmap, or range-read a sealed `packed.tet` on a store) |
+| **Speed via I/O avoidance** | Chunk index → touch only intersecting payloads; streaming tier-A/B folds (no full tensor); optional zone maps / value postings skip impossible chunks; adaptive fold I/O (parallel chunks, ordered visits, or linear scan) — see [Execution strategies](/guides/query-engine/execution) |
+| **Safety by default** | Closed JSON/TOML wire (unknown keys fail); memory budget before dense decode; spill path allowlist; `write: switch` over budget uses ephemeral cache spills (deleted when the query ends); sealed generations never mutate in place |
+| **Partial I/O by default** | Local mmap, or range-read a sealed `packed.tet` on a store |
 | **Query-friendly metadata** | JSON/TOML control plane; footer carries axis names and attrs |
 | **Read-many / write-once (sealed)** | Immutable sealed files or generations; unlimited concurrent readers |
 | **Multi-writer** | Immutable shards → single publish → sealed generation — not parallel updates to one live file ([writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md)) |
 | **Cloud packages** | Same package protocol on S3-compatible stores: pin, range-read, stage, CAS-publish ([store-backed reads](/rust/store-backed-reads)) |
+
+**Speed** here means doing less work (skip chunks, stream folds, prefer sequential I/O when that is cheaper) — not a promise about absolute seconds on a given machine.
+
+**Safety** means fail closed on the wire and refuse unbounded RAM / arbitrary write paths, while still allowing intentional durable exports (`write: spill` / explicit paths) and sidecar publishes.
 
 ## When to use `.tet`
 
@@ -47,8 +53,9 @@ Query documents are **flat** — e.g. `"mean": []` / `mean = []`. Nested `"opera
 
 ## Further reading
 
-- [tetration README — Design stance](https://github.com/Latka-Industries/tetration#design-stance-short)
-- [Query engine docs](https://github.com/Latka-Industries/tetration/blob/main/docs/query_engine.md) in the tetration repo
-- [Writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md) — shards, generations, publish (shipped 0.2+)
+- [Execution strategies](/guides/query-engine/execution) — memory budget, adaptive fold I/O, spill / transform routing
+- [Query engine overview](/guides/query-engine/) — tiers, ops, selections
 - [Store-backed reads](/rust/store-backed-reads) — packages on local / memory / S3 stores
 - [Format overview](/format/) — packages, generation sidecars, SPEC pointers
+- [Writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md) — shards, generations, publish (upstream detail)
+- [Query engine (crate)](https://github.com/Latka-Industries/tetration/blob/main/docs/query_engine.md) — upstream implementation tables
