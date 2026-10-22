@@ -53,23 +53,27 @@ export const mainNav: DefaultTheme.NavItem[] = [
     ],
   },
   {
+    text: 'Query',
+    items: [
+      { text: 'Overview', link: '/query/' },
+      { text: 'Query document', link: '/query/document' },
+      { text: 'Operations', link: '/query/operations' },
+      {
+        text: 'Selections & metadata',
+        link: '/query/selection-and-metadata',
+      },
+      { text: 'Execution strategies', link: '/query/execution' },
+      { text: 'Cookbook', link: '/query/cookbook' },
+    ],
+  },
+  {
     text: 'Guides',
     items: [
       { text: 'Overview', link: '/guides/' },
-      { text: 'Query engine', link: '/guides/query-engine/' },
-      { text: 'Query document', link: '/guides/query-engine/document' },
-      { text: 'Operations', link: '/guides/query-engine/operations' },
-      {
-        text: 'Selections & metadata',
-        link: '/guides/query-engine/selection-and-metadata',
-      },
-      { text: 'Execution strategies', link: '/guides/query-engine/execution' },
-      { text: 'Query cookbook', link: '/guides/query-cookbook' },
       { text: 'Format comparison', link: '/guides/format-comparison' },
       { text: 'Mmap read patterns', link: '/guides/mmap-patterns' },
       { text: 'Semantics', link: '/guides/semantics/' },
     ],
   },
   { text: 'Roadmap', link: '/roadmap' },
-  { text: 'Contact', link: '/contact' },
 ]

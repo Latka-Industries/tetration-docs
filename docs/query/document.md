@@ -14,7 +14,7 @@ Must name a dataset in the `.tet` catalog; non-empty.
 
 ## Operation keys (pick one)
 
-Use any single key from the [operations reference](/guides/query-engine/operations).
+Use any single key from the [operations reference](/query/operations).
 
 | Meaning | JSON | TOML |
 |---------|------|------|
@@ -90,7 +90,7 @@ stop = [2, 3]
 
 :::
 
-See [Selections & metadata](/guides/query-engine/selection-and-metadata) for dimension names, coordinate labels, and striding behavior.
+See [Selections & metadata](/query/selection-and-metadata) for dimension names, coordinate labels, and striding behavior.
 
 ## Filter
 
@@ -424,7 +424,7 @@ spill = "slice.bin"
 
 :::
 
-Relative paths resolve against the **`.tet` file's directory**, not the shell cwd. Paths must lie under the spill allowlist (see [Execution strategies](/guides/query-engine/execution)).
+Relative paths resolve against the **`.tet` file's directory**, not the shell cwd. Paths must lie under the spill allowlist (see [Execution strategies](/query/execution)).
 
 ## Input format detection
 

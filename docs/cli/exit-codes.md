@@ -28,7 +28,7 @@ Verify the path and file permissions. `.tet` files must be fully written (sealed
 Error: query validation failed
 ```
 
-Queries must be flat JSON/TOML. Check for nested `"operation"` objects, missing `"dataset"`, or unsupported keys. See the [Query cookbook](/guides/query-cookbook).
+Queries must be flat JSON/TOML. Check for nested `"operation"` objects, missing `"dataset"`, or unsupported keys. See the [Query cookbook](/query/cookbook).
 
 ### Dataset not in catalog
 

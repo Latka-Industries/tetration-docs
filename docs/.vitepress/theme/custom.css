@@ -1,11 +1,36 @@
 /*
- * Same shell wash as ublx-docs: primary over background, top + bottom fades.
- * Wash tint is the Get started button (--vp-button-brand-bg) so tetration keeps its brand
- * while the gradient shape matches ublx. Content stays transparent; sidebar stays glass.
+ * Shell: top+bottom brand wash + square lattice. Teal brand (not VitePress purple/indigo).
+ * Content stays transparent; sidebar glass stays in shadcn-nav-sidebar.css.
  */
 :root {
+  /*
+   * VitePress brand aliases indigo. Override the indigo primitives (hex, not
+   * circular refs) so --vp-c-brand-* and button tokens pick up teal.
+   */
+  --vp-c-indigo-1: #0f766e;
+  --vp-c-indigo-2: #0d9488;
+  --vp-c-indigo-3: #115e59;
+  --vp-c-indigo-soft: rgba(15, 118, 110, 0.14);
+
+  --vp-c-brand-1: #0f766e;
+  --vp-c-brand-2: #0d9488;
+  --vp-c-brand-3: #115e59;
+  --vp-c-brand-soft: rgba(15, 118, 110, 0.14);
+
+  --vp-button-brand-bg: #0f766e;
+  --vp-button-brand-hover-bg: #0d9488;
+  --vp-button-brand-active-bg: #115e59;
+  --vp-button-brand-text: #f0fdfa;
+  --vp-button-brand-hover-text: #f0fdfa;
+  --vp-button-brand-active-text: #f0fdfa;
+
+  --vp-home-hero-name-color: #0f766e;
+  --vp-home-hero-name-background: transparent;
+
   --lattice-veil-mid: 0.82;
   --lattice-veil-outer: 0.98;
+  --lattice-size: 88px;
+  --lattice-line: hsl(var(--foreground) / 0.045);
 
   --tetration-shell-bg:
     linear-gradient(
@@ -49,6 +74,7 @@
       color-mix(in oklab, var(--lattice-line) 35%, transparent) var(--lattice-size)
     ),
     hsl(var(--background));
+
   --vp-nav-bg-color: hsl(var(--background));
   --vp-nav-screen-bg-color: hsl(var(--background));
   --vp-local-nav-bg-color: hsl(var(--background));
@@ -56,11 +82,86 @@
   --vp-local-search-bg: var(--tetration-shell-bg);
   --vp-local-search-result-bg: hsl(var(--background));
   --vp-local-search-result-selected-bg: hsl(var(--muted));
+
+  /*
+   * Code: quiet chips + Shiki css-variables palette (cool, teal-leaning).
+   */
+  --vp-c-bg-alt: hsl(240 5% 96%);
+  --vp-c-bg-soft: hsl(240 5% 96%);
+  --vp-code-block-bg: hsl(240 5% 96%);
+  --vp-code-bg: hsl(240 5% 93%);
+  --vp-code-color: hsl(240 6% 28%);
+  --vp-code-copy-code-bg: hsl(0 0% 100%);
+  --vp-code-copy-code-hover-bg: hsl(240 5% 96%);
+
+  /*
+   * Cool zinc + teal brand accent. Keywords deep teal, strings mid teal,
+   * functions near-black — hierarchy without pink/warm Shiki defaults.
+   */
+  --shiki-foreground: #3f3f46;
+  --shiki-background: transparent;
+  --shiki-token-constant: #0e7490;
+  --shiki-token-string: #0f766e;
+  --shiki-token-comment: #a1a1aa;
+  /* Mid teal — #115e59 reads as near-black next to zinc body text. */
+  --shiki-token-keyword: #0f766e;
+  --shiki-token-parameter: #52525b;
+  --shiki-token-function: #18181b;
+  --shiki-token-string-expression: #0d9488;
+  --shiki-token-punctuation: #71717a;
+  --shiki-token-link: #0d9488;
 }
 
+/* Match VitePress's `.dark` selector (class on <html>) so we win the cascade */
+.dark,
 html.dark {
+  --vp-c-indigo-1: #2dd4bf;
+  --vp-c-indigo-2: #5eead4;
+  --vp-c-indigo-3: #0d9488;
+  --vp-c-indigo-soft: rgba(45, 212, 191, 0.16);
+
+  --vp-c-brand-1: #2dd4bf;
+  --vp-c-brand-2: #5eead4;
+  --vp-c-brand-3: #0d9488;
+  --vp-c-brand-soft: rgba(45, 212, 191, 0.16);
+
+  --vp-button-brand-bg: #0d9488;
+  --vp-button-brand-hover-bg: #14b8a6;
+  --vp-button-brand-active-bg: #0f766e;
+  --vp-button-brand-text: #042f2e;
+  --vp-button-brand-hover-text: #042f2e;
+  --vp-button-brand-active-text: #042f2e;
+
+  --vp-home-hero-name-color: #2dd4bf;
+
   --lattice-veil-mid: 0.74;
   --lattice-veil-outer: 0.97;
+  --lattice-line: color-mix(in oklab, #2dd4bf 14%, transparent);
+
+  --vp-c-bg-alt: hsl(240 10% 8%);
+  --vp-c-bg-soft: hsl(240 6% 12%);
+  --vp-code-block-bg: hsl(240 8% 10%);
+  --vp-code-bg: hsl(240 6% 14%);
+  --vp-code-color: #e4e4e7;
+  --vp-code-copy-code-bg: hsl(240 10% 10%);
+  --vp-code-copy-code-hover-bg: hsl(240 6% 14%);
+
+  --shiki-foreground: #d4d4d8;
+  --shiki-background: transparent;
+  --shiki-token-constant: #67e8f9;
+  --shiki-token-string: #2dd4bf;
+  --shiki-token-comment: #71717a;
+  --shiki-token-keyword: #5eead4;
+  --shiki-token-parameter: #a1a1aa;
+  --shiki-token-function: #fafafa;
+  --shiki-token-string-expression: #2dd4bf;
+  --shiki-token-punctuation: #a1a1aa;
+  --shiki-token-link: #5eead4;
+}
+
+/* Keyword weight — css-variables theme doesn't bold storage/keyword scopes. */
+.vp-code span[style*='--shiki-token-keyword'] {
+  font-weight: 600;
 }
 
 html:has(.VPHome) {
@@ -69,10 +170,21 @@ html:has(.VPHome) {
   --lattice-line: hsl(var(--foreground) / 0.07);
 }
 
-html.dark:has(.VPHome) {
+html.dark:has(.VPHome),
+.dark:has(.VPHome) {
   --lattice-veil-mid: 0.62;
   --lattice-veil-outer: 0.95;
-  --lattice-line: color-mix(in oklab, var(--vp-c-brand-1) 22%, transparent);
+  --lattice-line: color-mix(in oklab, #2dd4bf 22%, transparent);
+}
+
+/* Solid brand name — no VitePress purple gradient fill */
+.VPHero .name {
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  color: var(--vp-home-hero-name-color) !important;
 }
 
 html,
@@ -147,23 +259,18 @@ html.dark body::after {
   }
 }
 
-/* Home: markdown container holds feature cards, then repo cards */
+/* Home: hero, then custom markdown blocks (positioning / repos / note) */
 .VPHome {
   display: flex;
   flex-direction: column;
 }
 
 .VPHome > .container {
-  order: 1;
   margin-top: 0;
   padding-top: 0;
 }
 
-.VPHome .VPFeatures {
-  order: 2;
-}
-
-/* Top nav: shadcn-style link treatment (matches ublx-docs) */
+/* Top nav: shadcn-style link treatment */
 @media (min-width: 768px) {
   .VPNavBarMenu .VPNavBarMenuLink {
     margin: 0 2px;

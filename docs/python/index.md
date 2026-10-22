@@ -97,7 +97,7 @@ Endpoint and credentials are arguments to `S3Store.connect`, or `TETRATION_S3_*`
 ## Related
 
 - [Getting started](/getting-started) — CLI install and first queries
-- [Query engine guide](/guides/query-engine/) — wire document schema (shared with CLI)
+- [Query engine guide](/query/) — wire document schema (shared with CLI)
 - [Rust crate](/rust/) — underlying implementation
 - [tet-py repo](https://github.com/Latka-Industries/tet-py) — source, CI, issues
 - [Roadmap](/roadmap) — shipped index and prospective directions

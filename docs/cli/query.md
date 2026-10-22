@@ -2,7 +2,7 @@
 
 Run a JSON or TOML query against a `.tet` file — plan only, or plan + execute.
 
-See the [Query engine overview](/guides/query-engine/) for what operations are supported, memory strategies, and limitations.
+See the [Query engine overview](/query/) for what operations are supported, memory strategies, and limitations.
 
 ## Usage
 
@@ -58,7 +58,7 @@ mean = []
 
 :::
 
-Full wire format: [Query document](/guides/query-engine/document).
+Full wire format: [Query document](/query/document).
 
 ## Examples
 
@@ -137,7 +137,7 @@ spill = "slice.bin"
 tet query spill.toml -t data.tet -x --format stats
 ```
 
-More patterns: [Query cookbook](/guides/query-cookbook).
+More patterns: [Query cookbook](/query/cookbook).
 
 ## Supported operations
 
@@ -159,7 +159,7 @@ Use `[]` for scalar over the selection; `0`, `[0, 1]`, or `"time"` / `mean = "ti
 
 Top-level `"spill": "path"` exports the full logical selection without a reduction key.
 
-Full reference: [Operations](/guides/query-engine/operations).
+Full reference: [Operations](/query/operations).
 
 ## Transform write targets
 
@@ -174,13 +174,13 @@ With `-x` and `-t`:
 
 Sidecar default filename: `{stem}.{method}.{timestamp}.tet`. Set `"timestamp": false` for a stable name.
 
-Details: [Execution strategies](/guides/query-engine/execution).
+Details: [Execution strategies](/query/execution).
 
 ## GPU (experimental)
 
 Use `--device auto` or set `execution.device` in the query document. Requires building with `tetration-metal` (macOS) or `tetration-gpu` (NVIDIA). CPU streaming fold remains the default for large selections.
 
-Tier-A/B dense `f32`/`f16` only. `var`/`std` stay on host SIMD. See [Execution strategies — GPU](/guides/query-engine/execution#gpu-routing-experimental).
+Tier-A/B dense `f32`/`f16` only. `var`/`std` stay on host SIMD. See [Execution strategies — GPU](/query/execution#gpu-routing-experimental).
 
 ## Query history
 
