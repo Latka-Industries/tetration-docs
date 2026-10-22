@@ -124,6 +124,35 @@ ge = 0
 
 :::
 
+## Label filter
+
+`label_filter` is closed footer label equality: `{ "axis": "…", "eq": "…" }` (axis name or decimal index). It is pandas-style `station == "nyc"`, not a cell-value compare.
+
+- Requires footer coordinate labels on that axis (fail closed if missing).
+- Optional `coord_label_postings` in `INDEX.json` (0.6.6) may skip chunks that cannot contain the label (`index_filter_skipped_chunks`). Missing index still matches positions from footer labels.
+- AND with cell `filter` when both are set.
+
+::: code-group
+
+```json [label_filter.json]
+{
+  "dataset": "temperature",
+  "label_filter": { "axis": "station", "eq": "nyc" },
+  "sum": []
+}
+```
+
+```toml [label_filter.toml]
+dataset = "temperature"
+sum = []
+
+[label_filter]
+axis = "station"
+eq = "nyc"
+```
+
+:::
+
 ## Group-by
 
 `group_by` must pair with exactly one reduction. Empty reduction axes mean “fold the complement of `group_by`”. Explicit axes must be disjoint from the group axes and, together with them, cover the full rank. At least one axis must remain to reduce.
