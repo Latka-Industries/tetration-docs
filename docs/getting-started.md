@@ -126,7 +126,7 @@ See [Python overview](/python/), [quick start](/python/quick-start), and [NumPy 
 
 - [Format spec](/format/) — `.tet` on-disk layout
 - [CLI reference](/cli/) — all `tet` commands
-- [Query engine](/guides/query-engine/) — what queries can do
-- [Query cookbook](/guides/query-cookbook) — copy-paste examples
+- [Query engine](/query/) — what queries can do
+- [Query cookbook](/query/cookbook) — copy-paste examples
 - [Python (tet-py)](/python/) — PyPI install, query API, NumPy
 - [Guides](/guides/) — format comparisons, mmap patterns, catalog integration

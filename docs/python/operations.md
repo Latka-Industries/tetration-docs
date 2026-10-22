@@ -1,6 +1,6 @@
 # Query operations
 
-`tet` exposes one method per query operation on [`TetFile`](/python/quick-start). Use [`build_query`](#selection-and-build_query) when you need the wire dict explicitly. The wire schema matches the [query engine guide](/guides/query-engine/) and `tet query`.
+`tet` exposes one method per query operation on [`TetFile`](/python/quick-start). Use [`build_query`](#selection-and-build_query) when you need the wire dict explicitly. The wire schema matches the [query engine guide](/query/) and `tet query`.
 
 ```python
 import tet

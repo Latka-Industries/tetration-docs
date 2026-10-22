@@ -38,11 +38,11 @@ Custom domain is configured on the **tetration-docs** GitHub Pages settings (`do
 
 | Path | Content |
 |------|---------|
-| `/` | Overview — what `.tet` is and when to use it |
-| `/format/` | On-disk layout, chunks, catalog |
+| `/` | Overview: what `.tet` is and why this shape |
+| `/format/` | On-disk layout, chunks, catalog, design rationale |
 | `/cli/` | `tet` command reference |
 | `/rust/` | Rust crate usage (links to docs.rs) |
 | `/python/` | tet-py install, query API, NumPy ram/spill/sidecar |
-| `/guides/` | Query engine, cookbook, comparisons |
+| `/query/` | Query engine, document schema, cookbook |
+| `/guides/` | Format comparison, mmap patterns, semantics |
 | `/roadmap` | Shipped index + prospective directions (no release schedule) |
-| `/contact` | Email and GitHub issue links |

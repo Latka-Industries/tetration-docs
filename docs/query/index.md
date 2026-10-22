@@ -81,7 +81,7 @@ mean = []
 
 :::
 
-At most **one** reduction key per document (`mean`, `sum`, `transform`, `spill`, …). See [Query document](/guides/query-engine/document) for the full wire format.
+At most **one** reduction key per document (`mean`, `sum`, `transform`, `spill`, …). See [Query document](/query/document) for the full wire format.
 
 ## Implementation tiers
 
@@ -94,7 +94,7 @@ Operations fall into tiers that determine memory use and performance:
 | **C — Materialize-required** | Full logical tensor (or temp spill file) | `median`, `quantile`, `histogram`, `covariance`, `correlation` |
 | **D — Out of scope** | Separate APIs, not JSON ops | `tet convert`, `tet export`, multi-dataset joins, FFT/ML |
 
-Tier-A/B ops on large selections stay fast: the engine folds per chunk (parallel when in-core, linear scan when out-of-core on contiguous raw payloads). See [Execution strategies](/guides/query-engine/execution).
+Tier-A/B ops on large selections stay fast: the engine folds per chunk (parallel when in-core, linear scan when out-of-core on contiguous raw payloads). See [Execution strategies](/query/execution).
 
 ## What is not supported
 
@@ -120,11 +120,11 @@ These are intentional non-goals for the JSON query surface:
 
 | Page | Topics |
 |------|--------|
-| [Query document](/guides/query-engine/document) | Fields, TOML equivalents, execution hints |
-| [Operations reference](/guides/query-engine/operations) | Every op, response fields, examples |
-| [Selections & metadata](/guides/query-engine/selection-and-metadata) | Slices, striding, dim names, coord labels |
-| [Execution strategies](/guides/query-engine/execution) | Memory budget, spill, transforms, GPU |
-| [Query cookbook](/guides/query-cookbook) | Copy-paste examples |
+| [Query document](/query/document) | Fields, TOML equivalents, execution hints |
+| [Operations reference](/query/operations) | Every op, response fields, examples |
+| [Selections & metadata](/query/selection-and-metadata) | Slices, striding, dim names, coord labels |
+| [Execution strategies](/query/execution) | Memory budget, spill, transforms, GPU |
+| [Query cookbook](/query/cookbook) | Copy-paste examples |
 | [tet query](/cli/query) | CLI flags and output formats |
 | [tet qhist](/cli/qhist) | Query history in platform cache |
 

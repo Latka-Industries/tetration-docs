@@ -4,7 +4,7 @@ Copy-paste query patterns for common tasks. All examples assume a dataset named 
 
 Query documents are **flat** — use `"mean": []` / `mean = []`, not nested `"operation"` objects. Every example below shows **JSON** and **TOML**; both compile to the same wire document.
 
-See the [Query engine overview](/guides/query-engine/) for architecture and limits.
+See the [Query engine overview](/query/) for architecture and limits.
 
 ## Scalar reductions
 
@@ -784,7 +784,7 @@ The tetration repo ships **paired** `.json` / `.toml` fixtures in [`fixtures/que
 
 ## Further reading
 
-- [Operations reference](/guides/query-engine/operations) — every op and response field
-- [Selections & metadata](/guides/query-engine/selection-and-metadata) — dim names, coord labels
-- [Execution strategies](/guides/query-engine/execution) — memory, spill, GPU
+- [Operations reference](/query/operations) — every op and response field
+- [Selections & metadata](/query/selection-and-metadata) — dim names, coord labels
+- [Execution strategies](/query/execution) — memory, spill, GPU
 - [tet query](/cli/query) — CLI flags

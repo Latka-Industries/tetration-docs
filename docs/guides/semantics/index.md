@@ -165,5 +165,5 @@ Display Kelvin as °C belongs in caller policy (`scale` / `offset`), not inside 
 
 - [`tet semantics` CLI](/cli/semantics)
 - [Format versioning](/format/versioning) — history footer / layout v1
-- [Query document](/guides/query-engine/document) — wire stays index-based
+- [Query document](/query/document) — wire stays index-based
 - Crate notes (same contract): [`docs/semantics.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics.md)

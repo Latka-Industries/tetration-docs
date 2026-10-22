@@ -6,7 +6,8 @@ const SITE_URL = 'https://docs.tetration.sh'
 const SITE_TITLE = 'Tetration'
 const SITE_DESCRIPTION =
   'Documentation for the Tetration .tet tensor store, tet CLI, and tet-py.'
-const OG_IMAGE = `${SITE_URL}/og.png`
+const OG_IMAGE = `${SITE_URL}/og-dark.png`
+const OG_IMAGE_LIGHT = `${SITE_URL}/og-light.png`
 
 export default defineConfig({
   title: SITE_TITLE,
@@ -14,8 +15,27 @@ export default defineConfig({
   // Custom domain docs.tetration.sh (GitHub Pages project site with CNAME).
   base: '/',
   head: [
-    ['link', { rel: 'icon', href: '/icon.svg', type: 'image/svg+xml' }],
-    ['link', { rel: 'apple-touch-icon', href: '/brand/tet-mark-vector.png' }],
+    [
+      'link',
+      {
+        rel: 'icon',
+        href: '/icon-light.svg',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: light)',
+      },
+    ],
+    [
+      'link',
+      {
+        rel: 'icon',
+        href: '/icon-dark.svg',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: dark)',
+      },
+    ],
+    // Fallback + VitePress-theme sync target (see theme/index.ts)
+    ['link', { rel: 'icon', href: '/icon-light.svg', type: 'image/svg+xml' }],
+    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     [
@@ -28,10 +48,13 @@ export default defineConfig({
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: SITE_TITLE }],
     ['meta', { property: 'og:url', content: `${SITE_URL}/` }],
+    // Default social card is dark; light asset is listed second for clients that pick it.
     ['meta', { property: 'og:image', content: OG_IMAGE }],
     ['meta', { property: 'og:image:width', content: '1200' }],
     ['meta', { property: 'og:image:height', content: '630' }],
     ['meta', { property: 'og:image:alt', content: `${SITE_TITLE} documentation` }],
+    ['meta', { property: 'og:image', content: OG_IMAGE_LIGHT }],
+    ['meta', { property: 'og:image:alt', content: `${SITE_TITLE} documentation (light)` }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:image', content: OG_IMAGE }],
     ['meta', { name: 'twitter:image:alt', content: `${SITE_TITLE} documentation` }],
@@ -75,7 +98,6 @@ export default defineConfig({
             { text: 'Overview', link: '/' },
             { text: 'Getting started', link: '/getting-started' },
             { text: 'Roadmap', link: '/roadmap' },
-            { text: 'Contact', link: '/contact' },
           ],
         },
       ],
@@ -136,29 +158,27 @@ export default defineConfig({
           ],
         },
       ],
+      '/query/': [
+        {
+          text: 'Query',
+          items: [
+            { text: 'Overview', link: '/query/' },
+            { text: 'Query document', link: '/query/document' },
+            { text: 'Operations', link: '/query/operations' },
+            {
+              text: 'Selections & metadata',
+              link: '/query/selection-and-metadata',
+            },
+            { text: 'Execution strategies', link: '/query/execution' },
+            { text: 'Cookbook', link: '/query/cookbook' },
+          ],
+        },
+      ],
       '/guides/': [
         {
           text: 'Guides',
           items: [
             { text: 'Overview', link: '/guides/' },
-            {
-              text: 'Query engine',
-              collapsed: false,
-              items: [
-                { text: 'Overview', link: '/guides/query-engine/' },
-                { text: 'Query document', link: '/guides/query-engine/document' },
-                { text: 'Operations', link: '/guides/query-engine/operations' },
-                {
-                  text: 'Selections & metadata',
-                  link: '/guides/query-engine/selection-and-metadata',
-                },
-                {
-                  text: 'Execution strategies',
-                  link: '/guides/query-engine/execution',
-                },
-              ],
-            },
-            { text: 'Query cookbook', link: '/guides/query-cookbook' },
             { text: 'Format comparison', link: '/guides/format-comparison' },
             { text: 'Mmap read patterns', link: '/guides/mmap-patterns' },
             { text: 'Semantics', link: '/guides/semantics/' },
@@ -168,11 +188,16 @@ export default defineConfig({
     },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Latka-Industries/tetration' },
+      {
+        icon: {
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><title>Email</title><path d="M1.5 8.67v8.58A2.25 2.25 0 0 0 3.75 19.5h16.5a2.25 2.25 0 0 0 2.25-2.25V8.67l-8.69 5.43a3 3 0 0 1-3.12 0L1.5 8.67Z"/><path d="M22.5 6.908V6.75a2.25 2.25 0 0 0-2.25-2.25H3.75A2.25 2.25 0 0 0 1.5 6.75v.158l9.44 5.9a1.5 1.5 0 0 0 1.62 0l9.44-5.9Z"/></svg>',
+        },
+        link: 'mailto:tensor@tetration.sh',
+        ariaLabel: 'Email',
+      },
     ],
     footer: {
-      message:
-        'Latka Industries · <a href="mailto:tensor@tetration.sh">tensor@tetration.sh</a>',
-      copyright: 'Copyright © 2026 Alexander Hurowitz',
+      copyright: '© 2026 Latka Industries',
     },
   },
 })

@@ -112,10 +112,10 @@ stub = tet.typing_stub("data.tet")
 | `f.plan_only(doc)` | `tet query` (no `-x`) |
 | `f.info()` | `tet info --json` |
 
-Query document schema: [Query engine guide](/guides/query-engine/).
+Query document schema: [Query engine guide](/query/).
 
 ## Next steps
 
 - [Query operations](/python/operations) — all reduction and transform methods
 - [NumPy interchange](/python/numpy) — dense read/write sinks
-- [Query cookbook](/guides/query-cookbook) — copy-paste wire examples
+- [Query cookbook](/query/cookbook) — copy-paste wire examples

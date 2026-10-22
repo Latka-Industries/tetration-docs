@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Tetration">
+  <title>Tetration</title>
+  <rect width="128" height="128" rx="14" ry="14" fill="#ffffff"/>
+  <!-- One selected chunk (cell at grid 44–66 × 44–66) -->
+  <rect x="44" y="44" width="22" height="22" fill="#0f766e"/>
+  <g stroke="#0f766e" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M22 14V114M44 14V114M66 14V114M88 14V114M110 14V114"/>
+    <path d="M14 22H114M14 44H114M14 66H114M14 88H114M14 110H114"/>
+  </g>
+</svg>
