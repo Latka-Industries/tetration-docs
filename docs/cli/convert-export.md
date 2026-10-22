@@ -41,6 +41,8 @@ Trailing compression suffixes (`.gz`, `.bz2`, `.xz`, `.zst`, `.zip`) are ignored
 | `--strict` | Exit with an error and do not write the `.tet` if any source array is skipped |
 | `--chunk-mib N` | Retile every dataset to about *N* MiB along the leading axis (overrides a source chunk grid when set) |
 
+Convert **auto-embeds** zone maps + optional secondary indexes into the output `.tet` (`history_version = 2`). See [Embedded indexes](/format/embedded-indexes).
+
 ### What gets written vs skipped
 
 `.tet` stores dense numeric arrays. Anything else is either encoded as numbers, copied into footer metadata, or skipped.
@@ -142,3 +144,18 @@ In Rust: [`export_tet`](https://docs.rs/tetration/latest/tetration/export/fn.exp
 ::: info Dependencies
 HDF5 and NetCDF export need the same `tetration-hdf5` / `tetration-netcdf` features as convert (default). Zarr export is always available.
 :::
+
+## tet index
+
+(Re)build or drop embedded ZONE/INDEX spills on a sealed standalone `.tet`. Convert and writer commit already embed; use this for older bare files or a no-pushdown baseline. See [Embedded indexes](/format/embedded-indexes).
+
+```bash
+tet index volume.tet
+tet index volume.tet --clear
+```
+
+| Flag / arg | Effect |
+| ---------- | ------ |
+| `<path.tet>` | Target sealed file |
+| `--clear` | Drop embeds (`history_version = 1`; keep history/metadata) |
+| `-q`, `--quiet` | Suppress the one-line summary |

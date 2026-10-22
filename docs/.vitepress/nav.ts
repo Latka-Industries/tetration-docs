@@ -10,6 +10,7 @@ export const mainNav: DefaultTheme.NavItem[] = [
       { text: 'File layout', link: '/format/layout' },
       { text: 'Catalog & datasets', link: '/format/catalog-and-datasets' },
       { text: 'Chunks', link: '/format/chunks' },
+      { text: 'Embedded indexes', link: '/format/embedded-indexes' },
       { text: 'Versioning', link: '/format/versioning' },
       { text: 'Design rationale', link: '/format/design-rationale' },
     ],
