@@ -18,6 +18,13 @@ const lines = [
     </p>
     <p class="home-positioning__more">
       <a href="/format/design-rationale">Why this shape</a>
+      <span class="home-positioning__sep" aria-hidden="true">·</span>
+      <a
+        href="https://bookshop.org/p/books/book-of-numbers-a-novel-joshua-cohen/af5aa739b0fac506?ean=9780812986655&next=t"
+        target="_blank"
+        rel="noreferrer"
+        >More cur?</a
+      >
     </p>
   </section>
 </template>
@@ -52,6 +59,11 @@ const lines = [
 .home-positioning__more {
   margin: 1.1rem 0 0;
   font-size: 0.875rem;
+}
+
+.home-positioning__sep {
+  margin: 0 0.45rem;
+  color: var(--vp-c-text-3);
 }
 
 .home-positioning__more a {
