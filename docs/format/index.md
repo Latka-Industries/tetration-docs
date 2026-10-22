@@ -2,7 +2,7 @@
 
 Tetration stores chunked tensor data in a **layout v1** `.tet` file — one mmap-friendly sealed image with a catalog, fixed-size chunk index, and raw or zstd payloads. Multi-writer and cloud use the **same** sealed bytes inside a `.tet.d` (or store) package: shards → publish → `generations/<G>/packed.tet`.
 
-Current crates: tetration / tet-py **0.6.5**. Normative contract: crate [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) + [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance) (pack milestone **0.6.3**).
+Current crates: tetration / tet-py **0.6.6**. Normative contract: crate [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) + [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance) (pack milestone **0.6.3**).
 
 ## What a `.tet` file contains
 
@@ -52,7 +52,7 @@ Optional blobs live **beside** `packed.tet` under `generations/<G>/`. They are n
 | Sidecar | Since | Role |
 |---------|-------|------|
 | **`ZONE.json`** | 0.4.0 | Per-chunk min / max / null zone maps for `filter` chunk skip |
-| **`INDEX.json`** | 0.4.5 | Optional value postings for exact `eq` on low-cardinality datasets; **0.6.5** adds `sorted_axis_range` for monotonic numeric coords |
+| **`INDEX.json`** | 0.4.5 | Optional value postings for exact `eq` on low-cardinality datasets; **0.6.5** adds `sorted_axis_range` for monotonic numeric coords; **0.6.6** adds `coord_label_postings` for footer label equality |
 
 A reader that only opens `packed.tet` (including older minors) still works. Missing or unverifiable indexes fall back to zone maps or a full scan. Manifest keys unknown to old readers are ignored.
 
