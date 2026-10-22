@@ -84,14 +84,13 @@
   --vp-local-search-result-selected-bg: hsl(var(--muted));
 
   /*
-   * Code surfaces: keep page bg transparent for the lattice, but give code
-   * blocks / inline code solid tones that match light vs dark chrome.
+   * Code surfaces: solid block chrome; quiet inline chips (not loud brand pills).
    */
   --vp-c-bg-alt: hsl(240 5% 96%);
   --vp-c-bg-soft: hsl(240 5% 96%);
-  --vp-code-block-bg: hsl(240 5% 96%);
-  --vp-code-bg: color-mix(in srgb, #0f766e 11%, hsl(240 5% 96%));
-  --vp-code-color: #0f766e;
+  --vp-code-block-bg: #f8f8f8; /* vitesse-light editor bg */
+  --vp-code-bg: hsl(240 5% 93%);
+  --vp-code-color: #393a34;
   --vp-code-copy-code-bg: hsl(0 0% 100%);
   --vp-code-copy-code-hover-bg: hsl(240 5% 96%);
 }
@@ -124,9 +123,9 @@ html.dark {
 
   --vp-c-bg-alt: hsl(240 10% 8%);
   --vp-c-bg-soft: hsl(240 6% 12%);
-  --vp-code-block-bg: hsl(240 10% 8%);
-  --vp-code-bg: color-mix(in srgb, #2dd4bf 16%, hsl(240 6% 12%));
-  --vp-code-color: #5eead4;
+  --vp-code-block-bg: #181818; /* slightly above page zinc so blocks read as panels */
+  --vp-code-bg: hsl(240 6% 14%);
+  --vp-code-color: #dbd7caee;
   --vp-code-copy-code-bg: hsl(240 10% 10%);
   --vp-code-copy-code-hover-bg: hsl(240 6% 14%);
 }

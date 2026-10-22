@@ -79,10 +79,10 @@ export default defineConfig({
     )
   },
   markdown: {
-    // Dual Shiki themes tuned to the zinc/teal shell (not pure github-dark).
+    // Vitesse: cool green accents near brand teal; quieter than github-dimmed pinks.
     theme: {
-      light: 'github-light',
-      dark: 'github-dark-dimmed',
+      light: 'vitesse-light',
+      dark: 'vitesse-dark',
     },
   },
   vite: {
