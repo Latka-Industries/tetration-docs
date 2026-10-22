@@ -78,6 +78,13 @@ export default defineConfig({
       ['meta', { name: 'twitter:description', content: description }],
     )
   },
+  markdown: {
+    // Dual Shiki themes tuned to the zinc/teal shell (not pure github-dark).
+    theme: {
+      light: 'github-light',
+      dark: 'github-dark-dimmed',
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
     server: {
