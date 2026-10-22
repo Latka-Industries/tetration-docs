@@ -27,7 +27,7 @@ cargo add tetration
 cargo add tetration --features tetration-s3
 ```
 
-Requires **Rust 1.95+**. Current crates.io line: **0.7.0** (see [version alignment](/python/version-alignment)).
+Requires **Rust 1.95+**. Current crates.io line: **0.7.1** (see [version alignment](/python/version-alignment)).
 
 ## Sections
 
