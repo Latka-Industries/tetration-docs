@@ -9,19 +9,14 @@ import './shadcn.css'
 import './custom.css'
 import './shadcn-nav-sidebar.css'
 
-function syncIconsToAppearance() {
+/** Keep the non-media favicon in sync with VitePress appearance (navbar logo is VPImage). */
+function syncFaviconToAppearance() {
   const dark = document.documentElement.classList.contains('dark')
   const href = dark ? '/icon-dark.svg' : '/icon-light.svg'
 
   for (const link of document.querySelectorAll<HTMLLinkElement>('link[rel="icon"]')) {
     if (link.media) continue
     link.href = href
-  }
-
-  for (const img of document.querySelectorAll<HTMLImageElement>(
-    '.VPNavBarTitle img, .VPNavScreenAppearance + * img, .logo',
-  )) {
-    if (img.src.includes('icon')) img.src = href
   }
 }
 
@@ -35,8 +30,8 @@ export default {
 
     if (import.meta.env.SSR) return
 
-    syncIconsToAppearance()
-    new MutationObserver(syncIconsToAppearance).observe(document.documentElement, {
+    syncFaviconToAppearance()
+    new MutationObserver(syncFaviconToAppearance).observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class'],
     })

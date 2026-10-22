@@ -116,7 +116,12 @@ export default defineConfig({
     },
   },
   themeConfig: {
-    logo: '/icon.svg',
+    // Light/dark variants follow VitePress `.dark`, not OS prefers-color-scheme
+    // (icon.svg media queries mismatch when appearance is forced light/dark).
+    logo: {
+      light: '/icon-light.svg',
+      dark: '/icon-dark.svg',
+    },
     search: {
       provider: 'local',
     },
