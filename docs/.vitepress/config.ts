@@ -1,6 +1,32 @@
 import { defineConfig } from 'vitepress'
+import { createCssVariablesTheme } from 'shiki'
 import tailwindcss from '@tailwindcss/vite'
 import { mainNav } from './nav'
+
+// Not in VitePress's bundled Shiki themes — build via createCssVariablesTheme.
+// Operators inherit the broad `keyword` scope; push them back to punctuation
+// so Rust `::` / `=` / `->` don't light up teal.
+const codeTheme = (() => {
+  const theme = createCssVariablesTheme({ name: 'tetration' })
+  theme.tokenColors = [
+    ...(theme.tokenColors ?? []),
+    {
+      scope: [
+        'keyword.operator',
+        'keyword.operator.assignment',
+        'keyword.operator.comparison',
+        'keyword.operator.arithmetic',
+        'keyword.operator.logical',
+        'keyword.operator.bitwise',
+        'keyword.operator.namespace',
+      ],
+      settings: {
+        foreground: 'var(--shiki-token-punctuation)',
+      },
+    },
+  ]
+  return theme
+})()
 
 const SITE_URL = 'https://docs.tetration.sh'
 const SITE_TITLE = 'Tetration'
@@ -79,11 +105,9 @@ export default defineConfig({
     )
   },
   markdown: {
-    // Vitesse: cool green accents near brand teal; quieter than github-dimmed pinks.
-    theme: {
-      light: 'vitesse-light',
-      dark: 'vitesse-dark',
-    },
+    // Brand-aligned tokens via CSS vars (see custom.css :root / .dark).
+    // Single theme: light/dark swap through --shiki-* under .dark.
+    theme: codeTheme,
   },
   vite: {
     plugins: [tailwindcss()],

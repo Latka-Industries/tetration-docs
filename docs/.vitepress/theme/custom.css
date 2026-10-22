@@ -84,15 +84,32 @@
   --vp-local-search-result-selected-bg: hsl(var(--muted));
 
   /*
-   * Code surfaces: solid block chrome; quiet inline chips (not loud brand pills).
+   * Code: quiet chips + Shiki css-variables palette (cool, teal-leaning).
    */
   --vp-c-bg-alt: hsl(240 5% 96%);
   --vp-c-bg-soft: hsl(240 5% 96%);
-  --vp-code-block-bg: #f8f8f8; /* vitesse-light editor bg */
+  --vp-code-block-bg: hsl(240 5% 96%);
   --vp-code-bg: hsl(240 5% 93%);
-  --vp-code-color: #393a34;
+  --vp-code-color: hsl(240 6% 28%);
   --vp-code-copy-code-bg: hsl(0 0% 100%);
   --vp-code-copy-code-hover-bg: hsl(240 5% 96%);
+
+  /*
+   * Cool zinc + teal brand accent. Keywords deep teal, strings mid teal,
+   * functions near-black — hierarchy without pink/warm Shiki defaults.
+   */
+  --shiki-foreground: #3f3f46;
+  --shiki-background: transparent;
+  --shiki-token-constant: #0e7490;
+  --shiki-token-string: #0f766e;
+  --shiki-token-comment: #a1a1aa;
+  /* Mid teal — #115e59 reads as near-black next to zinc body text. */
+  --shiki-token-keyword: #0f766e;
+  --shiki-token-parameter: #52525b;
+  --shiki-token-function: #18181b;
+  --shiki-token-string-expression: #0d9488;
+  --shiki-token-punctuation: #71717a;
+  --shiki-token-link: #0d9488;
 }
 
 /* Match VitePress's `.dark` selector (class on <html>) so we win the cascade */
@@ -123,11 +140,28 @@ html.dark {
 
   --vp-c-bg-alt: hsl(240 10% 8%);
   --vp-c-bg-soft: hsl(240 6% 12%);
-  --vp-code-block-bg: #181818; /* slightly above page zinc so blocks read as panels */
+  --vp-code-block-bg: hsl(240 8% 10%);
   --vp-code-bg: hsl(240 6% 14%);
-  --vp-code-color: #dbd7caee;
+  --vp-code-color: #e4e4e7;
   --vp-code-copy-code-bg: hsl(240 10% 10%);
   --vp-code-copy-code-hover-bg: hsl(240 6% 14%);
+
+  --shiki-foreground: #d4d4d8;
+  --shiki-background: transparent;
+  --shiki-token-constant: #67e8f9;
+  --shiki-token-string: #2dd4bf;
+  --shiki-token-comment: #71717a;
+  --shiki-token-keyword: #5eead4;
+  --shiki-token-parameter: #a1a1aa;
+  --shiki-token-function: #fafafa;
+  --shiki-token-string-expression: #2dd4bf;
+  --shiki-token-punctuation: #a1a1aa;
+  --shiki-token-link: #5eead4;
+}
+
+/* Keyword weight — css-variables theme doesn't bold storage/keyword scopes. */
+.vp-code span[style*='--shiki-token-keyword'] {
+  font-weight: 600;
 }
 
 html:has(.VPHome) {
