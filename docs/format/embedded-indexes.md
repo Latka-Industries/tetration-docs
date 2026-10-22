@@ -1,12 +1,12 @@
-# Embedded zone maps + indexes (0.7.0)
+# Embedded zone maps + indexes
 
-**0.7.0** carries the same UTF-8 `ZONE.json` / `INDEX.json` documents **inside** a sealed `.tet` as THST footer spills (`history_version = 2`). A standalone file can push down without a `.tet.d` package. `layout_version` stays **1**.
+A sealed `.tet` can carry the same UTF-8 `ZONE.json` / `INDEX.json` documents **inside** the image as THST footer spills (`history_version = 2`). A standalone file can push down without a `.tet.d` package.
 
 Normative detail: crate [`docs/embedded_indexes.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/embedded_indexes.md) (THI-627).
 
 ## Why
 
-Through **0.6.x**, zone maps and secondary indexes were **package sidecars** beside `packed.tet`. Opening only the `.tet` had no pushdown. Embed puts those blobs in the image so `tet query -t foo.tet` can skip chunks after convert / pack.
+Zone maps and secondary indexes used to live only as **package sidecars** beside `packed.tet`. Opening only the `.tet` had no pushdown. Embed puts those blobs in the image so `tet query -t foo.tet` can skip chunks after convert / pack.
 
 ## Footer framing
 
@@ -42,12 +42,3 @@ Standalone embeds use generation **`0`** and an all-zero `packed_sha256` **place
 3. Else no pushdown  
 
 Embedded wins when both exist. Answers stay correct if indexes are missing — only I/O changes.
-
-## Compatibility
-
-| Field | 0.7.0 |
-|-------|-------|
-| `layout_version` | **1** (unchanged) |
-| `history_version` | **2** when embeds present |
-| Pack / SPEC milestone | **0.7.0** |
-| C ABI | Unchanged |
