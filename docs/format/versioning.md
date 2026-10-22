@@ -14,7 +14,14 @@ The chunk index header carries **`index_version`** (`u32` LE at offset 4 within 
 
 ## History footer version
 
-The optional `THST` footer ends with **`history_version`** (`u32` LE). Must be **1**.
+The optional `THST` footer ends with **`history_version`** (`u32` LE):
+
+| Value | Meaning |
+|-------|---------|
+| **1** | History / metadata (and optional `metadata_ref`) only |
+| **2** | May carry embedded ZONE/INDEX spills + refs — [Embedded indexes](/format/embedded-indexes) |
+
+`layout_version` stays **1**. Readers that only implement version **1** refuse version **2**.
 
 ## Compatibility policy
 
@@ -23,10 +30,11 @@ The optional `THST` footer ends with **`history_version`** (`u32` LE). Must be *
 | New wire dtype tags | Extend v1 if readers can ignore unknown tags |
 | Boolean as separate wire type | Reserved for layout v2 |
 | Breaking layout changes | Bump `layout_version`; v1 readers reject unknown versions |
+| Embedded ZONE/INDEX (0.7.0) | `history_version = 2`; not a `layout_version` bump |
 | Package sidecars (`ZONE.json`, `INDEX.json`) | Beside `packed.tet`; unknown manifest keys ignored; not a layout bump |
 | Query wire (`filter`, `group_by`, `window`, …) | Versioned with the crate minor; SPEC / conformance milestone — not `layout_version` |
 
-The normative contract (layout, writer protocol, query wire, C ABI) and the CI conformance pack live in the crate: [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) · [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance). Current published milestone tracks **0.6.3**.
+The normative contract (layout, writer protocol, query wire, C ABI) and the CI conformance pack live in the crate: [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) · [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance). Current published milestone tracks **0.7.0**.
 
 ::: warning Pre-1.0
 Tetration is still in development. Layout v1 and query JSON/TOML may change before 1.0. Pin crate and CLI versions in production workflows.

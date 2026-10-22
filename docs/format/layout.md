@@ -39,13 +39,14 @@ When superblock **`flags & 1`**, the file ends with a self-describing footer aft
 
 | Region (at EOF) | Notes |
 |-----------------|-------|
-| `history_json` | UTF-8 JSON: `{"history":[…], "metadata":{…}}` |
+| `zone_maps_spill` / `secondary_index_spill` | Optional (0.7.0); UTF-8 ZONE/INDEX when `history_version = 2` — [Embedded indexes](/format/embedded-indexes) |
 | `metadata_spill` | Optional spill for large metadata (> 64 KiB inline budget) |
+| `history_json` | UTF-8 JSON: history / metadata; may include `zone_maps_ref` / `secondary_index_ref` |
 | `history_json_len` | `u64` LE |
-| `history_version` | `u32` LE; must be **1** |
+| `history_version` | `u32` LE; **1** (metadata only) or **2** (may embed ZONE/INDEX) |
 | magic | ASCII **`THST`** |
 
-The footer carries convert provenance (`history` rows) and per-dataset axis metadata (`dim_names`, `coords`, `attrs`). See [Catalog & datasets](/format/catalog-and-datasets).
+Spill order toward EOF: **zone → index → metadata → history_json → tail**. The footer carries convert provenance (`history` rows) and per-dataset axis metadata (`dim_names`, `coords`, `attrs`). See [Catalog & datasets](/format/catalog-and-datasets).
 
 ## How regions connect
 
