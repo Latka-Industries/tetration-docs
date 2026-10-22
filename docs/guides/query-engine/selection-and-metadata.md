@@ -208,6 +208,7 @@ Axis key for coords is `dim_names[d]` when present, otherwise `"0"`, `"1"`, …
 | `"mean": "time"` / `mean = "time"` | `dim_names` |
 | Slice rows 100–200 by index | Numeric `selection` only |
 | Slice by timestamp / station id | `coords` + `start_label` / `stop_label` |
+| Fast axis-range chunk allow-list | Optional `sorted_axis_range` in `INDEX.json` (0.6.5) when footer coords are monotonic numeric; else geometry only |
 | Fast lookup for an exact cell value | Optional value postings (`index_filter_skipped_chunks`) when the dataset qualifies; else zone maps |
 | `group_by` a dimension name | `dim_names` + one reduction |
 | `group_by` by coordinate labels | `coords` + `{ "by": "labels", "axes": [...] }` + one reduction (0.6.2) |
