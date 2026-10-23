@@ -4,7 +4,7 @@
 
 Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md) · [version alignment](/python/version-alignment).
 
-Current packages: tetration / tet-py **0.7.1**.
+Current packages: tetration / tet-py **0.7.2**.
 
 ---
 
@@ -22,7 +22,7 @@ Current packages: tetration / tet-py **0.7.1**.
 | Cloud packages | `PackageStore` / `S3Store`, pin + range-read, CAS publish — [Store-backed reads](/rust/store-backed-reads) |
 | Indexes | Zone maps, value postings, embedded ZONE/INDEX (`history_version = 2`) — [Embedded indexes](/format/embedded-indexes) |
 | Python (tet-py) | NumPy sinks, packages, `s3://` — [Python](/python/) |
-| Distributed fold | Thin protocol + localhost N-process harness (`tet worker`); spill still refuse-only |
+| Distributed query | Thin protocol + localhost N-process harness (`tet worker`); dense materialize / transform (0.7.2); spill still refuse-only |
 | Declared semantics | Footer attrs + caller policy — [Semantics](/guides/semantics/) |
 | SPEC + conformance | Crate `SPEC/` + `conformance/` |
 
@@ -35,7 +35,7 @@ Exploratory only — discuss on [issue #16](https://github.com/Latka-Industries/
 | Direction | Notes |
 | --------- | ----- |
 | Richer indexes | More optional index kinds; sidecars may demote once embed verify is primary |
-| Distributed execution | Boundary + localhost harness shipped (0.7.1); network RPC / cluster / distributed spill still open |
+| Distributed execution | Boundary + localhost harness (0.7.1); materialize / transform / tier-C (0.7.2); network RPC / cluster / distributed spill still open |
 | Query language | Window/align/label grouping shipped; richer metadata alignment without becoming SQL |
 | Scientific semantics | Declared attrs shipped; CF/PROV/UCUM/plugin host still open |
 

@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.7.1**](https://pypi.org/project/tet-py/0.7.1/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.7.1**](https://crates.io/crates/tetration/0.7.1) |
+| **tet-py** (PyPI) | [**0.7.2**](https://pypi.org/project/tet-py/0.7.2/) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.7.2**](https://crates.io/crates/tetration/0.7.2) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
