@@ -16,7 +16,7 @@ Open, verify, and query stay valid when none of these keys are present. Declared
 tet-semantics.toml  →  policy (display °C, index↔seconds, …)
 ```
 
-Lab-wide conversion graphs do **not** belong inside `packed.tet`. A package-level `SEMANTICS.json` sidecar is not defined yet.
+Lab-wide conversion graphs do **not** belong inside `packed.tet`. Optional package **`SEMANTICS.json`** (declare-only, beside `packed.tet` in `generations/<G>/`) may mirror declared attrs for tools — ignore-unknown; must not change fold answers (**0.7.3**).
 
 ## Layout
 
@@ -59,7 +59,7 @@ Not enforced on decode. Prefer these spellings when declaring:
 
 - **Units:** `K`, `degC`, `uV`, `mV`, `Hz`, `1`, `px`
 - **CRS:** `EPSG:####` when an EPSG code exists; otherwise a short WKT or authority string
-- **Profile ids:** `media_v1`, `timeseries_v1`, `climate_v1` (documentation anchors; TOML-safe bare keys)
+- **Profile ids:** `media_v1`, `timeseries_v1`, `cf_lite_v1`, `prov_log_v1` (documentation anchors; legacy `climate_v1` → `cf_lite_v1`; open minting). Registry: crate [`semantics_profiles.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md).
 
 ## Caller policy
 
