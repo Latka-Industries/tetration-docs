@@ -65,12 +65,12 @@ tet semantics apply clip.tet --from clip-semantics.toml
 
 ```bash
 tet semantics scaffold clip.tet -o tet-semantics.toml
-# or start from docs/semantics_snippets/media.v1.toml
+# or start from docs/semantics_snippets/{media,timeseries,cf_lite,prov_log}.v1.toml
 tet semantics apply clip.tet --from tet-semantics.toml
 tet semantics apply clip.tet --from tet-semantics.toml --annotate -o annotated.toml
 ```
 
-`scaffold` / `--annotate`: missing recommended keys as `# key =` comments; nothing declared → catalog + doc links only (no invented config).
+`scaffold` / `--annotate`: missing recommended keys as `# key =` comments; nothing declared → catalog + doc links only (no invented config). Crate smoke fixture: `fixtures/small/tet/recording.tet` (`frames` `[6,2,2]`, `media.v1`).
 
 **4. One-off patch**
 
@@ -141,31 +141,9 @@ Validate: dataset exists; `dim_names.len() == rank`; `time_axis` in range when s
 
 Plugin / dynamic load; mandatory semantics; full CF / PROV suite; built-in climate/media / UCUM engine; conversion tables or formulas inside `packed.tet`; executing policy at fold time; coords via apply.
 
-## Worked examples
-
-Facts and profile ids only — no special runtime.
-
-**Video** — crate fixture `fixtures/small/tet/recording.tet` (`frames` `[6,2,2]`, `media.v1`):
-
-```bash
-tet info fixtures/small/tet/recording.tet
-tet semantics scaffold fixtures/small/tet/recording.tet -o tet-semantics.toml
-```
-
-**Timeseries / climate-as-attrs** — snippets [`timeseries.v1.toml`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_snippets/timeseries.v1.toml), [`cf_lite.v1.toml`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_snippets/cf_lite.v1.toml):
-
-```bash
-tet semantics apply signal.tet --from tet-semantics.toml
-tet semantics set grid.tet --dataset tas \
-  --set units=K --set standard_name=air_temperature \
-  --set crs=EPSG:4326 --set semantics_profile=cf_lite.v1
-```
-
-That `set` only **labels** the sealed cells: values stay in kelvin, `attrs.units` is `"K"`. Showing °C in a UI (or writing a TOML `[units.K] display = "°C"` formula) is caller policy — tetration does not convert or store a display unit inside `packed.tet`.
-
 ## Related
 
 - [`tet semantics` CLI](/cli/semantics)
 - [Format versioning](/format/versioning)
 - [Query document](/query/document)
-- Crate: [`semantics.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics.md) · [`semantics_profiles.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md)
+- Crate: [`semantics.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics.md) · [`semantics_profiles.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md) · [`semantics_snippets/`](https://github.com/Latka-Industries/tetration/tree/main/docs/semantics_snippets)
