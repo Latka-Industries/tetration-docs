@@ -4,7 +4,7 @@
 
 Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md) · [version alignment](/python/version-alignment).
 
-Current packages: tetration / tet-py **0.8.0**.
+Current packages: tetration / tet-py **0.8.1**.
 
 ---
 

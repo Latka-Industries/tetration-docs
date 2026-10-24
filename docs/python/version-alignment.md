@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (package / GitHub) | [**0.8.0**](https://github.com/Latka-Industries/tet-py/releases/tag/v0.8.0) (PyPI publish may lag) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.8.0**](https://crates.io/crates/tetration/0.8.0) |
+| **tet-py** (package / GitHub) | [**0.8.1**](https://github.com/Latka-Industries/tet-py/releases/tag/v0.8.1) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.8.1**](https://crates.io/crates/tetration/0.8.1) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
