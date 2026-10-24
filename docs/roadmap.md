@@ -4,7 +4,7 @@
 
 Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md) · [version alignment](/python/version-alignment).
 
-Current packages: tetration / tet-py **0.7.3**.
+Current packages: tetration / tet-py **0.8.0**.
 
 ---
 
@@ -23,7 +23,7 @@ Current packages: tetration / tet-py **0.7.3**.
 | Indexes | Zone maps, value postings, embedded ZONE/INDEX (`history_version = 2`) — [Embedded indexes](/format/embedded-indexes) |
 | Python (tet-py) | NumPy sinks, packages, `s3://` — [Python](/python/) |
 | Distributed query | Thin protocol + localhost N-process harness (`tet worker`); dense materialize / transform (0.7.2); spill still refuse-only |
-| Declared semantics | Footer attrs + caller policy; **0.7.3** profile contracts, package `SEMANTICS.json`, advisory lint — [Semantics](/guides/semantics/) |
+| Declared semantics | Footer attrs + one-file TOML apply (**0.8.0**); profile contracts / lint / `SEMANTICS.json` (+ `dim_names`) — [Semantics](/guides/semantics/) |
 | SPEC + conformance | Crate `SPEC/` + `conformance/` |
 
 ---
@@ -37,7 +37,7 @@ Exploratory only — discuss on [issue #16](https://github.com/Latka-Industries/
 | Richer indexes | More optional index kinds; sidecars may demote once embed verify is primary |
 | Distributed execution | Boundary + localhost harness (0.7.1); materialize / transform / tier-C (0.7.2); network RPC / cluster / distributed spill still open |
 | Query language | Window/align/label grouping shipped; richer metadata alignment without becoming SQL |
-| Scientific semantics | Declared attrs + 0.7.3 profiles/lint shipped; one-file TOML apply planned **0.8.0**; CF/PROV/UCUM/plugin host still open |
+| Scientific semantics | Declared attrs + apply/scaffold shipped (**0.8.0**); CF/PROV/UCUM/plugin host / wizard still open |
 
 **Long-term qualities:** write-once sealed generations ([packages](/cli/package)); normative SPEC; decade-scale read compatibility.
 
