@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { createCssVariablesTheme } from 'shiki'
 import tailwindcss from '@tailwindcss/vite'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 import { mainNav } from './nav'
 
 // Not in VitePress's bundled Shiki themes — build via createCssVariablesTheme.
@@ -35,7 +36,8 @@ const SITE_DESCRIPTION =
 const OG_IMAGE = `${SITE_URL}/og-dark.png`
 const OG_IMAGE_LIGHT = `${SITE_URL}/og-light.png`
 
-export default defineConfig({
+export default withMermaid(
+  defineConfig({
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   // Custom domain docs.tetration.sh (GitHub Pages project site with CNAME).
@@ -236,4 +238,5 @@ export default defineConfig({
       copyright: '© 2026 Latka Industries',
     },
   },
-})
+}),
+)
