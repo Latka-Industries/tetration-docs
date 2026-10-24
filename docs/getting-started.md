@@ -129,4 +129,4 @@ See [Python overview](/python/), [quick start](/python/quick-start), and [NumPy 
 - [Query engine](/query/) — what queries can do
 - [Query cookbook](/query/cookbook) — copy-paste examples
 - [Python (tet-py)](/python/) — PyPI install, query API, NumPy
-- [Guides](/guides/) — format comparisons, mmap patterns, catalog integration
+- [Guides](/guides/) — format comparisons, mmap patterns, semantics

@@ -23,7 +23,7 @@ Current packages: tetration / tet-py **0.8.1**.
 | Indexes | Zone maps, value postings, embedded ZONE/INDEX (`history_version = 2`) — [Embedded indexes](/format/embedded-indexes) |
 | Python (tet-py) | NumPy sinks, packages, `s3://` — [Python](/python/) |
 | Distributed query | Thin protocol + localhost N-process harness (`tet worker`); dense materialize / transform; spill still refuse-only |
-| Declared semantics | Footer attrs + one-file TOML apply; profile contracts / lint / `SEMANTICS.json` (+ `dim_names`) — [Semantics](/guides/semantics/) |
+| Declared semantics | Footer attrs + wizard / one-file TOML apply; profile contracts / lint / `SEMANTICS.json` (+ `dim_names`) — [Semantics](/guides/semantics/) |
 | SPEC + conformance | Crate `SPEC/` + `conformance/` |
 
 ---
@@ -37,7 +37,7 @@ Exploratory only — discuss on [issue #16](https://github.com/Latka-Industries/
 | Richer indexes | More optional index kinds; sidecars may demote once embed verify is primary |
 | Distributed execution | Boundary + localhost harness + materialize / transform / tier-C shipped; network RPC / cluster / distributed spill still open |
 | Query language | Window/align/label grouping shipped; richer metadata alignment without becoming SQL |
-| Scientific semantics | Declared attrs + apply/scaffold shipped; CF/PROV/UCUM/plugin host / wizard still open |
+| Scientific semantics | Declared attrs + wizard / apply / scaffold shipped; CF/PROV/UCUM / in-tree policy interpreter / plugin host still open |
 
 **Long-term qualities:** write-once sealed generations ([packages](/cli/package)); normative SPEC; decade-scale read compatibility.
 

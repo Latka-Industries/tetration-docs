@@ -12,15 +12,16 @@ You can run queries through:
 
 | Capability | Example |
 |------------|---------|
-| **Scalar reductions** | Mean, sum, min, max, count, var, std over a selection |
-| **Partial-axis reductions** | `"mean": 0` or `"sum": [0, 1]` — reduce along named or numeric axes |
+| **Scalar / partial reductions** | Mean, sum, min, max, count, var, std; `"mean": 0` or `"sum": [0, 1]` |
 | **Selections & previews** | Half-open slices, strided steps, coordinate label bounds |
+| **Cell `filter`** | Closed compares / null tests with zone-map (+ optional posting) chunk skip |
+| **`group_by` / `window` / `align`** | Dimension or label grouping; bins/rolling windows; multi-dataset axis checks |
+| **`label_filter`** | Closed footer label equality (`station == "nyc"`) |
 | **QC counts** | `nan_count`, `null_count`, `inf_count`, `any_inf`, `any_nan`, `all_finite` |
 | **Tier-C stats** | `median`, `quantile`, `histogram`, `covariance`, `correlation` |
 | **Transforms** | `zscore`, `minmax`, `softmax`, … with RAM, spill, or sidecar output |
 | **Export spill** | Write the full logical selection to a binary file (`"spill": "out.bin"`) |
-| **Named axes** | `"mean": "time"` when footer `dim_names` is set |
-| **Label slices** | `start_label` / `stop_label` when footer `coords` exist |
+| **Named axes / label slices** | `"mean": "time"` via `dim_names`; `start_label` / `stop_label` via `coords` |
 
 The engine reads **one dataset per query** from a sealed `.tet` file. It never loads the whole file into RAM unless the selection and operation require it — tier-A/B reductions use **streaming fold** over touched chunks.
 
