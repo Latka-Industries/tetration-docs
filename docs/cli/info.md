@@ -21,7 +21,7 @@ tet info [OPTIONS] <PATH>
 | `--datasets` | Dataset catalog table |
 | `--chunks` | Chunk index table |
 | `--history` | Convert / provenance footer events |
-| `--metadata` | Footer `dim_names` / `coords` previews under dataset rows |
+| `--metadata` | Footer `dim_names` / `coords` / declared attrs under dataset rows |
 | `-n`, `--limit N` | Max chunk rows with `--chunks` or `--all` (default 32; `0` = all) |
 | `--dataset`, `--grep` | Case-insensitive filters on dataset name (and dtype for `--grep`) |
 

@@ -20,7 +20,7 @@ tet-semantics.toml profiles/units →  policy (fold-inert)
 
 In **0.8.0** the same TOML file can hold **both** declare and policy. `tet semantics apply` stamps only declare facts into the footer; formulas and `[units.*]` stay in the file.
 
-Lab-wide conversion graphs do **not** belong inside `packed.tet`. Optional package **`SEMANTICS.json`** (declare-only, beside `packed.tet` in `generations/<G>/`) mirrors declared attrs and `dim_names` for tools — ignore-unknown; must not change fold answers. Stamp a mutable `.tet` with `apply`, seal a **new** generation, then `tet semantics package-write`. A sealed `packed.tet` is not rewritten in place.
+Lab-wide conversion graphs do **not** belong inside `packed.tet`. Optional package **`SEMANTICS.json`** (declare-only, beside `packed.tet` in `generations/<G>/`) mirrors declared attrs and `dim_names` for tools — ignore-unknown; must not change fold answers. `apply` targets a **mutable** `.tet` only; a sealed `.tet.d` generation is immutable — stamp, seal a **new** generation, then `tet semantics package-write`. Do not rewrite `packed.tet` in place.
 
 ## Layout
 
@@ -98,49 +98,24 @@ Policy miss or missing file → behave as today (indices and raw dtype). Map wal
 
 ## Cold start
 
-A bare `.tet` with no footer metadata is valid.
-
-1. Prefer convert / writer attrs when the source has them.
-2. Prefer **`tet semantics apply --from tet-semantics.toml`** for dims + attrs in one shot.
-3. Or `tet semantics set` for individual keys.
-4. Or app-only policy without writing the file (fine for one pipeline; weak for sharing).
-5. `tet semantics scaffold` / `apply --annotate` emit the combined file; missing recommended keys are `# key =` comments.
-
-When nothing is declared, scaffold prints catalog lines plus doc links — **no invented config**.
+A bare `.tet` with no footer metadata is valid. Prefer convert / writer attrs when the source has them; otherwise **`tet semantics apply --from tet-semantics.toml`**, or `set` for individual keys. App-only policy (no footer write) is fine for one pipeline, weak for sharing. `scaffold` / `apply --annotate` emit the combined file; missing recommended keys are `# key =` comments. With nothing declared, scaffold prints catalog lines plus doc links — **no invented config**.
 
 ## CLI
 
 ```bash
-# Stamp dims + attrs from one file (formulas stay in the TOML)
 tet semantics apply clip.tet --from tet-semantics.toml
-
-# Combined declare+policy scaffold (or after apply: --annotate)
 tet semantics scaffold clip.tet -o tet-semantics.toml
 tet semantics apply clip.tet --from tet-semantics.toml --annotate -o annotated.toml
-
-# Single-key edits
 tet semantics set clip.tet --dataset frames --set frame_rate=30 --set time_axis=0
-
-# Advisory profile-contract lint
 tet semantics lint clip.tet
-
-# After seal: mirror attrs + dim_names beside packed.tet
 tet semantics package-write package.tet.d
 ```
 
-Full flags: `tet semantics -h`. Command table: [`tet semantics`](/cli/semantics).
-
-## What `tet info` shows
-
-Declared `dim_names` and attrs appear under each dataset in the default table (and in `--json`). Policy formulas never appear in the footer or in `info` — only what `apply` / `set` stamped.
+`tet info` (default table and `--json`) shows stamped `dim_names` and attrs under each dataset — never policy formulas. Full flags: `tet semantics -h`. Command table: [`tet semantics`](/cli/semantics).
 
 ## Relation to query
 
 Declared semantics do not change chunk planning or fold answers by themselves. Cell `filter`, zone maps, and value postings are unchanged. Policy may map wall-clock or display units to indices / dtype before a query document is built; that mapping is caller-side.
-
-## Packages
-
-`apply` targets a **mutable** `.tet` (same as `set`). A sealed `.tet.d` generation is immutable — seal a new generation to change semantics, then `package-write`. Do not rewrite `packed.tet` in place.
 
 ## Not in scope
 

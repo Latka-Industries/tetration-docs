@@ -59,13 +59,13 @@ Analogues: NetCDF dimension name vs coordinate variable; pandas `Index.name` vs 
 
 ### Declared attrs (semantics)
 
-Footer `attrs` may carry optional **declared** science/media keys (`units`, `crs`, provenance-style history rows, …). Declared attrs do **not** change fold answers by themselves — caller policy lives outside the file. See [Semantics](/guides/semantics/) and `tet semantics`.
+Footer `attrs` may carry optional **declared** science/media keys (`units`, `crs`, `semantics_profile`, …). Stamp them with `tet semantics apply` (one-file TOML) or `set`. Declared attrs do **not** change fold answers by themselves — caller policy lives outside the file. See [Semantics](/guides/semantics/).
 
 ## Inspecting the catalog
 
 ```bash
-tet info file.tet                  # dataset table (default)
-tet info file.tet --metadata       # footer dim_names / coord previews
+tet info file.tet                  # dataset table (default; includes stamped attrs)
+tet info file.tet --metadata       # dim_names / coords / attrs previews
 tet info file.tet --json           # full dump
 ```
 
