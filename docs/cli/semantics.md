@@ -1,6 +1,6 @@
 # `tet semantics`
 
-Declare science/media facts in the `.tet` footer, apply one-file `tet-semantics.toml`, or scaffold combined declare+policy. Not a plugin host — attrs do not change query answers by themselves.
+Declare science/media facts in the `.tet` footer: interactive wizard, one-file TOML apply/scaffold, or `set`. Not a plugin host — attrs do not change query answers by themselves.
 
 Guide: [Declared semantics](/guides/semantics/). Profile registry: crate [`semantics_profiles.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md).
 
@@ -8,6 +8,7 @@ Guide: [Declared semantics](/guides/semantics/). Profile registry: crate [`seman
 
 | Subcommand | Effect |
 | ---------- | ------ |
+| `wizard <path.tet>` | Interactive prompts: name dims, pick profile / attrs, confirm. Writes combined TOML (default `tet-semantics.toml` beside the `.tet`; `-o FILE`) and applies unless `--no-apply`. `--dataset NAME` skips the dataset picker when set. Mutable `.tet` only. |
 | `apply <path.tet> --from FILE` | Stamp `dim_names` and attrs from one-file TOML. Prints what was stamped vs left in the TOML (profiles and units are not written). Does not rewrite `--from`. Refuses a sealed `.tet.d`. `--annotate` prints a combined TOML with live values and `# key =` comments for missing recommended attrs; `-o FILE` writes that copy and must not be `--from`. |
 | `scaffold <path.tet>` | Emit combined `tet-semantics.toml` (default) or `--format json`: declare sections plus policy. Missing recommended keys are TOML comments. With none → catalog lines + doc URLs only. `-o FILE` writes instead of stdout. |
 | `set <path.tet> --dataset NAME --set KEY=VAL` | Declare attrs (repeatable `--set` / `--clear KEY`). Rewrites footer metadata; appends a `semantics` history row. |
@@ -16,6 +17,8 @@ Guide: [Declared semantics](/guides/semantics/). Profile registry: crate [`seman
 | `lint <path.tet\|.tet.d>` | Advisory profile-contract lint (missing recommended attrs). Does not refuse open; exit 0 always. |
 
 ```bash
+tet semantics wizard clip.tet
+tet semantics wizard clip.tet --no-apply -o draft.toml
 tet semantics apply clip.tet --from tet-semantics.toml
 tet semantics apply clip.tet --from tet-semantics.toml --annotate -o annotated.toml
 tet semantics scaffold clip.tet -o tet-semantics.toml
@@ -26,4 +29,4 @@ tet semantics package-write package.tet.d
 
 Worked recording fixture (crate repo): `fixtures/small/tet/recording.tet`. Canonical TOML: [`media.v1.toml`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_snippets/media.v1.toml).
 
-Full flags: `tet semantics -h` / `tet semantics apply -h` / `tet semantics scaffold -h`.
+Full flags: `tet semantics -h` / `tet semantics wizard -h` / `tet semantics apply -h` / `tet semantics scaffold -h`.

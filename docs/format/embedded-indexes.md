@@ -2,7 +2,7 @@
 
 A sealed `.tet` can carry the same UTF-8 `ZONE.json` / `INDEX.json` documents **inside** the image as THST footer spills (`history_version = 2`). A standalone file can push down without a `.tet.d` package.
 
-Normative detail: crate [`docs/embedded_indexes.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/embedded_indexes.md) (THI-627).
+Normative detail: crate [`docs/embedded_indexes.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/embedded_indexes.md).
 
 ## Why
 

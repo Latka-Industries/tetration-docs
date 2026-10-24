@@ -59,7 +59,7 @@ Analogues: NetCDF dimension name vs coordinate variable; pandas `Index.name` vs 
 
 ### Declared attrs (semantics)
 
-Footer `attrs` may carry optional **declared** science/media keys (`units`, `crs`, `semantics_profile`, …). Stamp them with `tet semantics apply` (one-file TOML) or `set`. Declared attrs do **not** change fold answers by themselves — caller policy lives outside the file. See [Semantics](/guides/semantics/).
+Footer `attrs` may carry optional **declared** science/media keys (`units`, `crs`, `semantics_profile`, …). Stamp them with `tet semantics wizard`, `apply` (one-file TOML), or `set`. Declared attrs do **not** change fold answers by themselves — caller policy lives outside the file. See [Semantics](/guides/semantics/).
 
 ## Inspecting the catalog
 
