@@ -11,8 +11,8 @@ The **`tet`** binary ships with the [tetration](https://github.com/Latka-Industr
 | [`tet verify`](/cli/verify-repair) | — | Layout / `.tet.d` package health check (exit 1 on failure) |
 | [`tet repair`](/cli/verify-repair) | — | Plan or apply safe in-place fixes (footer, stale publish) |
 | [`tet convert`](/cli/convert-export) | — | HDF5 / NetCDF / Zarr / NumPy / CSV / Parquet → `.tet` (auto-embeds ZONE/INDEX) |
-| [`tet index`](/cli/convert-export#tet-index) | — | (Re)embed or `--clear` ZONE/INDEX footer spills (0.7.0) |
-| `tet worker` | — | Localhost distributed harness: `WorkerJobV1` JSON → `WorkerPartialV1` (fold + dense materialize; 0.7.1 / 0.7.2) |
+| [`tet index`](/cli/convert-export#tet-index) | — | (Re)embed or `--clear` ZONE/INDEX footer spills |
+| `tet worker` | — | Localhost distributed harness: `WorkerJobV1` JSON → `WorkerPartialV1` (fold + dense materialize) |
 | [`tet export`](/cli/convert-export) | — | `.tet` → Zarr v3 / HDF5 / NetCDF |
 | [`tet ingest`](/cli/package) / [`publish`](/cli/package) / [`pack`](/cli/package) / [`gc`](/cli/package) | — | Local `.tet.d` package ingest → publish → pack / cleanup |
 | [`tet qhist`](/cli/qhist) | `hist` | Recent queries (platform cache) |

@@ -30,11 +30,11 @@ The optional `THST` footer ends with **`history_version`** (`u32` LE):
 | New wire dtype tags | Extend v1 if readers can ignore unknown tags |
 | Boolean as separate wire type | Reserved for layout v2 |
 | Breaking layout changes | Bump `layout_version`; v1 readers reject unknown versions |
-| Embedded ZONE/INDEX (0.7.0) | `history_version = 2`; not a `layout_version` bump |
+| Embedded ZONE/INDEX | `history_version = 2`; not a `layout_version` bump |
 | Package sidecars (`ZONE.json`, `INDEX.json`) | Beside `packed.tet`; unknown manifest keys ignored; not a layout bump |
 | Query wire (`filter`, `group_by`, `window`, …) | Versioned with the crate minor; SPEC / conformance milestone — not `layout_version` |
 
-The normative contract (layout, writer protocol, query wire, C ABI) and the CI conformance pack live in the crate: [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) · [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance). Current published line: **0.8.0** (conformance pack milestone **0.7.0**).
+The normative contract (layout, writer protocol, query wire, C ABI) and the CI conformance pack live in the crate: [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) · [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance). Current published line: **0.8.0**.
 
 ::: warning Pre-1.0
 Tetration is still in development. Layout v1 and query JSON/TOML may change before 1.0. Pin crate and CLI versions in production workflows.
@@ -54,7 +54,7 @@ A **sealed** layout-v1 `.tet` has **no** on-disk locking or live-append protocol
 
 Scale for a sealed file comes from **immutable bytes + mmap (or range-read) readers**.
 
-**Multi-writer (shipped 0.2+):** concurrent ingest uses **immutable shards → single publish → sealed generation**, then readers pin that generation (local `.tet.d` or store; optionally `tet pack` to a standalone `.tet`). See [CLI packages](/cli/package) and [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md).
+**Multi-writer:** concurrent ingest uses **immutable shards → single publish → sealed generation**, then readers pin that generation (local `.tet.d` or store; optionally `tet pack` to a standalone `.tet`). See [CLI packages](/cli/package) and [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md).
 
 ## Verification
 

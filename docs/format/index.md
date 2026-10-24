@@ -2,7 +2,7 @@
 
 Tetration stores chunked tensor data in a **layout v1** `.tet` file — one mmap-friendly sealed image with a catalog, fixed-size chunk index, and raw or zstd payloads. Multi-writer and cloud use the **same** sealed bytes inside a `.tet.d` (or store) package: shards → publish → `generations/<G>/packed.tet`.
 
-Current crates: tetration / tet-py **0.8.0**. Normative contract: crate [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) + [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance) (pack milestone **0.7.0**).
+Current crates: tetration / tet-py **0.8.0**. Normative contract: crate [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) + [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance).
 
 ## What a `.tet` file contains
 
@@ -12,7 +12,7 @@ Current crates: tetration / tet-py **0.8.0**. Normative contract: crate [`SPEC/`
 | **Dataset directory** | Named datasets: dtype tag, shape, chunk grid |
 | **Chunk index** (`TIDX`) | Fixed 104-byte rows: grid coords → payload offset / lengths / codec |
 | **Chunk payloads** | Tensor bytes — codec **0** raw or **1** zstd |
-| **History footer** (`THST`, optional) | Provenance `history` rows + per-dataset `dim_names` / `coords` / `attrs`; **0.7.0** may embed ZONE/INDEX spills (`history_version = 2`) |
+| **History footer** (`THST`, optional) | Provenance `history` rows + per-dataset `dim_names` / `coords` / `attrs`; may embed ZONE/INDEX spills (`history_version = 2`) |
 
 All multi-byte integers are **little-endian**.
 
@@ -43,16 +43,16 @@ Booleans from HDF5, Zarr, and similar sources import as **`u8`** (0/1).
 | **`.tet.d` package** | Directory (or store prefix): staging parts → publish → `generations/<G>/packed.tet` + `CURRENT` |
 | **`packed.tet`** | The sealed layout-v1 file readers open for generation `G` — same byte contract as a standalone `.tet` |
 
-Readers **pin** a generation at open. Advancing `CURRENT` does not retarget an already-open handle. Detail: [CLI packages](/cli/package), [store-backed reads](/rust/store-backed-reads), upstream [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md) (shipped with 0.2+).
+Readers **pin** a generation at open. Advancing `CURRENT` does not retarget an already-open handle. Detail: [CLI packages](/cli/package), [store-backed reads](/rust/store-backed-reads), upstream [writer protocol v2](https://github.com/Latka-Industries/tetration/blob/main/docs/writer_protocol_v2.md).
 
 ## Zone maps + secondary indexes
 
-| Location | Since | Role |
-|----------|-------|------|
-| **Embedded footer spills** | **0.7.0** | Same UTF-8 ZONE/INDEX bytes inside the sealed `.tet` (`history_version = 2`). Convert / writer auto-embed; `tet index` re-embeds. See [Embedded indexes](/format/embedded-indexes). |
-| **Generation sidecars** | 0.4.0 / 0.4.5 | Optional `ZONE.json` / `INDEX.json` beside `packed.tet` under `generations/<G>/` (package seal may keep mirrors). Not a `layout_version` bump. |
+| Location | Role |
+|----------|------|
+| **Embedded footer spills** | Same UTF-8 ZONE/INDEX bytes inside the sealed `.tet` (`history_version = 2`). Convert / writer auto-embed; `tet index` re-embeds. See [Embedded indexes](/format/embedded-indexes). |
+| **Generation sidecars** | Optional `ZONE.json` / `INDEX.json` beside `packed.tet` under `generations/<G>/` (package seal may keep mirrors). Not a `layout_version` bump. |
 
-`INDEX.json` kinds: value postings (`eq`); **0.6.5** `sorted_axis_range`; **0.6.6** `coord_label_postings`. Query prefers **embed → sidecar → missing**. Missing or unverifiable indexes fall back; answers stay correct.
+`INDEX.json` kinds: value postings (`eq`), `sorted_axis_range`, `coord_label_postings`. Query prefers **embed → sidecar → missing**. Missing or unverifiable indexes fall back; answers stay correct.
 
 ## Interchange (into / out of `.tet`)
 
@@ -70,7 +70,7 @@ See [tet convert & export](/cli/convert-export). Declared science/media attrs in
 - [File layout](/format/layout) — byte map from offset 0 through payloads
 - [Catalog & datasets](/format/catalog-and-datasets) — naming, shapes, axis metadata
 - [Chunks](/format/chunks) — index entries, codecs, mmap access
-- [Embedded indexes](/format/embedded-indexes) — ZONE/INDEX footer spills (0.7.0)
+- [Embedded indexes](/format/embedded-indexes) — ZONE/INDEX footer spills
 - [Versioning](/format/versioning) — version fields, packages, compatibility
 - [Design rationale](/format/design-rationale) — why `.tet` vs directory stores
 
