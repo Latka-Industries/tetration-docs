@@ -12,10 +12,9 @@
 |------|-------|
 | PyPI / GitHub | **`tet-py`** |
 | Import | **`import tet`** |
-| Rust core | [`tetration`](https://crates.io/crates/tetration) **0.8.1** (linked at build time) |
 | Native extension | `tet._native` (PyO3 / maturin, abi3 `cp311+`) |
 
-Bindings are **PyO3 → tetration rlib**, not the C ABI. For Julia / R / Go, see [FFI](/rust/ffi). Which tet-py release pins which crate is on [Version alignment](/python/version-alignment).
+Bindings are **PyO3 → tetration rlib**, not the C ABI. For Julia / R / Go, see [FFI](/rust/ffi). Pin map: [Version alignment](/python/version-alignment).
 
 ## What you get
 
