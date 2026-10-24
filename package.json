@@ -10,9 +10,11 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.0",
     "clsx": "^2.1.1",
+    "mermaid": "^11.17.2",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.0",
-    "vitepress": "^1.6.3"
+    "vitepress": "^1.6.3",
+    "vitepress-plugin-mermaid": "^2.0.17"
   },
   "dependencies": {
     "@lucide/vue": "^1.17.0",
