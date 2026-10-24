@@ -161,7 +161,7 @@ tet semantics set grid.tet --dataset tas \
   --set crs=EPSG:4326 --set semantics_profile=cf_lite.v1
 ```
 
-Display K as °C belongs in caller policy, not in `packed.tet`.
+That `set` only **labels** the sealed cells: values stay in kelvin, `attrs.units` is `"K"`. Showing °C in a UI (or writing a TOML `[units.K] display = "°C"` formula) is caller policy — tetration does not convert or store a display unit inside `packed.tet`.
 
 ## Related
 
