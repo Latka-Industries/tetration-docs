@@ -15,7 +15,7 @@ Layout stays **`layout_version` 1** (optional `THST`). Attrs are string maps; un
 
 Package **`SEMANTICS.json`** (beside `packed.tet`) mirrors declare for tools — ignore-unknown, fold-inert. Stamp a **mutable** `.tet`, seal a **new** generation, then `package-write`. Never rewrite sealed `packed.tet` in place.
 
-## How to stamp (wizard · TOML · set)
+## How to stamp
 
 Same footer surface either way. Pick by how you author.
 
