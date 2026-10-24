@@ -2,7 +2,7 @@
 
 Declare science/media facts in the `.tet` footer: interactive wizard, one-file TOML apply/scaffold, or `set`. Not a plugin host — attrs do not change query answers by themselves.
 
-Guide: [Declared semantics](/guides/semantics/). Profile registry: crate [`semantics_profiles.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md).
+Guide: [Declared semantics](/guides/semantics/) — including how **wizard · TOML · set** compose as one stamp process. Profile registry: crate [`semantics_profiles.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md).
 
 ## Subcommands
 
@@ -17,15 +17,23 @@ Guide: [Declared semantics](/guides/semantics/). Profile registry: crate [`seman
 | `lint <path.tet\|.tet.d>` | Advisory profile-contract lint (missing recommended attrs). Does not refuse open; exit 0 always. |
 
 ```bash
+# Interactive first stamp (TOML + apply)
 tet semantics wizard clip.tet
-tet semantics wizard clip.tet --no-apply -o draft.toml
+tet semantics wizard clip.tet --no-apply -o draft.toml   # draft only, then edit / apply
+
+# Batch TOML
+tet semantics scaffold clip.tet -o tet-semantics.toml
 tet semantics apply clip.tet --from tet-semantics.toml
 tet semantics apply clip.tet --from tet-semantics.toml --annotate -o annotated.toml
-tet semantics scaffold clip.tet -o tet-semantics.toml
+
+# One-off patch (no TOML update)
 tet semantics set clip.tet --dataset frames --set frame_rate=30 --set time_axis=0
+
 tet semantics lint clip.tet
 tet semantics package-write package.tet.d
 ```
+
+**Process:** wizard for the guided first pass; keep/edit the TOML and `apply` for repeatable stamps; `set` for tiny footer patches. Same declare surface either way — see [How to stamp](/guides/semantics/#how-to-stamp-wizard--toml--set).
 
 Worked recording fixture (crate repo): `fixtures/small/tet/recording.tet`. Canonical TOML: [`media.v1.toml`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_snippets/media.v1.toml).
 

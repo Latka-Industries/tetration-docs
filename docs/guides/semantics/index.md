@@ -17,33 +17,84 @@ Optional package **`SEMANTICS.json`** (beside `packed.tet` in `generations/<G>/`
 
 Layout stays **`layout_version` 1** (optional `THST` history). Attrs are string maps; unknown keys are ignored; absence of every recommended key is valid. Provenance prefers `history` rows over parallel provenance attrs — see [`prov_log.v1`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md#prov_logv1).
 
-## How to stamp
+## How to stamp (wizard · TOML · set)
 
-| Path | When |
-| ---- | ---- |
-| **`tet semantics wizard`** | Interactive: name dims, pick profile / attrs, confirm → write TOML + apply |
-| **`apply` / `scaffold` / `annotate`** | Batch one-file TOML |
-| **`set` / `--clear`** | One-off keys |
-| Convert / writer attrs | Prefer when the source already carries them |
+All three paths write the **same** footer declare surface (`dim_names` + string attrs). Pick by how you want to author — they compose.
+
+| Path | Best for | Writes TOML? | Stamps `.tet`? |
+| ---- | -------- | ------------ | -------------- |
+| **`wizard`** | First pass on a bare clip; guided dims + profile | Yes (default `tet-semantics.toml` beside the file) | Yes (unless `--no-apply`) |
+| **`apply` / `scaffold` / `annotate`** | Repeatable / CI / editing policy by hand | You own the file (`--from` / `-o`) | `apply` yes; `scaffold` no |
+| **`set` / `--clear`** | One-off attr tweaks without touching TOML | No | Yes |
+| Convert / writer | Source already carried attrs | — | At write time |
+
+```mermaid
+flowchart LR
+  bare["bare / convert .tet"] --> choose{author?}
+  choose -->|interactive| wiz["wizard\n→ TOML + apply"]
+  choose -->|batch / edit| toml["edit tet-semantics.toml\n→ apply --from"]
+  choose -->|tiny patch| set["set / --clear"]
+  wiz --> footer["footer dim_names + attrs"]
+  toml --> footer
+  set --> footer
+  footer --> lint["lint / info"]
+  footer --> pkg["seal → package-write\nSEMANTICS.json"]
+```
+
+### Typical flows
+
+**1. Interactive first stamp (wizard owns the loop)**
 
 ```bash
-# Interactive (mutable .tet only)
 tet semantics wizard clip.tet
-tet semantics wizard clip.tet -o clip-semantics.toml   # custom TOML path
-tet semantics wizard clip.tet --no-apply               # write TOML only
-
-# Batch
-tet semantics apply clip.tet --from tet-semantics.toml
-tet semantics scaffold clip.tet -o tet-semantics.toml
-tet semantics apply clip.tet --from tet-semantics.toml --annotate -o annotated.toml
-tet semantics set clip.tet --dataset frames --set frame_rate=30 --set time_axis=0
+# prompts: dataset (if many) → axis names → profile → recommended attrs → extras → confirm
+# writes tet-semantics.toml beside clip.tet, then apply
+tet info clip.tet --metadata
 tet semantics lint clip.tet
+```
+
+On confirm, `n` redoes prompts with the last selection pre-filled (shown in `[brackets]`). **Enter** keeps last; **`-`** clears/skips a field. Dim names are required (cannot leave empty). `--dataset NAME` skips the picker; `-o FILE` sets the TOML path; `--no-apply` writes TOML only (handy before you are ready to stamp).
+
+**2. Wizard drafts TOML → you edit policy → re-apply**
+
+```bash
+tet semantics wizard clip.tet --no-apply -o clip-semantics.toml
+# edit [profiles.*] / [units.*] (and declare keys if needed)
+tet semantics apply clip.tet --from clip-semantics.toml
+```
+
+Wizard and `apply` share stamp rules: declare only; formulas stay in the TOML; present fields overwrite; omitted fields stay untouched; `--from` is never rewritten.
+
+**3. Batch / CI from a known TOML (no wizard)**
+
+```bash
+# start from a snippet or from what is already on the file
+tet semantics scaffold clip.tet -o tet-semantics.toml
+# or: cp docs/semantics_snippets/media.v1.toml tet-semantics.toml
+tet semantics apply clip.tet --from tet-semantics.toml
+tet semantics apply clip.tet --from tet-semantics.toml --annotate -o annotated.toml
+```
+
+`scaffold` / `apply --annotate` emit the combined file; missing recommended keys are `# key =` comments. With nothing declared, scaffold prints catalog lines plus doc links — **no invented config**.
+
+**4. Patch one attr without a TOML round-trip**
+
+```bash
+tet semantics set clip.tet --dataset frames --set frame_rate=60
+tet semantics set clip.tet --dataset frames --clear color_space
+```
+
+`set` does not update `tet-semantics.toml`. If you keep a TOML as source of truth, either re-`scaffold` / annotate after, or prefer `apply` for the next full stamp.
+
+**5. Package**
+
+Stamp a **mutable** `.tet`, seal a **new** generation, then:
+
+```bash
 tet semantics package-write package.tet.d
 ```
 
-`scaffold` / `apply --annotate` emit the combined file; missing recommended keys are `# key =` comments. With nothing declared, scaffold prints catalog lines plus doc links — **no invented config**. App-only policy (no footer write) is fine for one pipeline, weak for sharing.
-
-`tet info` (default table and `--json`) shows stamped `dim_names` and attrs under each dataset — never policy formulas. Full flags: [`tet semantics`](/cli/semantics).
+App-only policy (TOML never applied) is fine for one pipeline, weak for sharing. `tet info` (default table and `--json`) shows stamped `dim_names` and attrs — never policy formulas. Full flags: [`tet semantics`](/cli/semantics).
 
 ## Declared keys
 
