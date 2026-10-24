@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (PyPI) | [**0.7.3**](https://pypi.org/project/tet-py/0.7.3/) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.7.3**](https://crates.io/crates/tetration/0.7.3) |
+| **tet-py** (package / GitHub) | [**0.8.0**](https://github.com/Latka-Industries/tet-py/releases/tag/v0.8.0) (PyPI publish may lag) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.8.0**](https://crates.io/crates/tetration/0.8.0) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -15,7 +15,7 @@
 
 ## Alignment policy
 
-From **0.2.0** onward, tet-py and tetration share the same **minor** (e.g. tet-py **0.6.x** ↔ tetration **0.6.x**). Patch cuts on either side are usually **pin-only** for Python (same `import tet` surface).
+From **0.2.0** onward, tet-py and tetration share the same **minor** (e.g. tet-py **0.8.x** ↔ tetration **0.8.x**). Patch cuts on either side are usually **pin-only** for Python (same `import tet` surface).
 
 - **Patch** tet-py releases may bump the pinned crate for bug fixes or crate-only work.
 - **Minor** tet-py releases may add Python API or query wrappers without layout changes.
@@ -42,7 +42,7 @@ tet --version
 **Rust (when embedding directly):**
 
 ```bash
-cargo add tetration
+cargo add tetration@0.8
 ```
 
 Pin the same minor as `tet.core_version()` when you need a locked build.

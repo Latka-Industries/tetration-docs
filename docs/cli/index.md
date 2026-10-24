@@ -16,7 +16,7 @@ The **`tet`** binary ships with the [tetration](https://github.com/Latka-Industr
 | [`tet export`](/cli/convert-export) | — | `.tet` → Zarr v3 / HDF5 / NetCDF |
 | [`tet ingest`](/cli/package) / [`publish`](/cli/package) / [`pack`](/cli/package) / [`gc`](/cli/package) | — | Local `.tet.d` package ingest → publish → pack / cleanup |
 | [`tet qhist`](/cli/qhist) | `hist` | Recent queries (platform cache) |
-| [`tet semantics`](/cli/semantics) | — | Declare science/media attrs / scaffold caller policy |
+| [`tet semantics`](/cli/semantics) | — | Apply one-file TOML / scaffold / set / lint / package SEMANTICS.json |
 
 ## Install
 
