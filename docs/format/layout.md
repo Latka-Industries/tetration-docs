@@ -39,7 +39,7 @@ When superblock **`flags & 1`**, the file ends with a self-describing footer aft
 
 | Region (at EOF) | Notes |
 |-----------------|-------|
-| `zone_maps_spill` / `secondary_index_spill` | Optional (0.7.0); UTF-8 ZONE/INDEX when `history_version = 2` — [Embedded indexes](/format/embedded-indexes) |
+| `zone_maps_spill` / `secondary_index_spill` | Optional; UTF-8 ZONE/INDEX when `history_version = 2` — [Embedded indexes](/format/embedded-indexes) |
 | `metadata_spill` | Optional spill for large metadata (> 64 KiB inline budget) |
 | `history_json` | UTF-8 JSON: history / metadata; may include `zone_maps_ref` / `secondary_index_ref` |
 | `history_json_len` | `u64` LE |

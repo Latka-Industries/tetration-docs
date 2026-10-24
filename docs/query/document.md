@@ -98,7 +98,7 @@ See [Selections & metadata](/query/selection-and-metadata) for dimension names, 
 
 Three layers:
 
-1. **Zone-map chunk skip** — drop tiles whose zone min/max/null cannot match. `read_plan.zone_filter_skipped_chunks` is that count. Missing zone maps mean no skip. **0.7.0:** zone maps may come from **embedded** footer spills (preferred) or generation sidecars — [Embedded indexes](/format/embedded-indexes).
+1. **Zone-map chunk skip** — drop tiles whose zone min/max/null cannot match. `read_plan.zone_filter_skipped_chunks` is that count. Missing zone maps mean no skip. Zone maps may come from **embedded** footer spills (preferred) or generation sidecars — [Embedded indexes](/format/embedded-indexes).
 2. **Value-posting skip (optional)** — for a single exact `eq` whose literal encodes as one raw value, a sealed INDEX may drop more of the survivors. `read_plan.index_filter_skipped_chunks` is that count (default 0). Discovery: embed → sidecar (+ MANIFEST hash when package) → missing. Ranges, `ne`, null tests, and inexact literals do not use it.
 3. **Cell filter** — apply the same predicate inside a kept chunk. A tier-A/B fold ignores non-matches. Materialize and transform keep the selection shape: non-matching floats (`f16` / `f32` / `f64`) are NaN; non-matching integers are the dataset fill (`_FillValue`, `missing_value`, or `fill_value`). Integer materialize under `filter` without a fill is refused.
 
@@ -129,7 +129,7 @@ ge = 0
 `label_filter` is closed footer label equality: `{ "axis": "…", "eq": "…" }` (axis name or decimal index). It is pandas-style `station == "nyc"`, not a cell-value compare.
 
 - Requires footer coordinate labels on that axis (fail closed if missing).
-- Optional `coord_label_postings` in `INDEX.json` (0.6.6) may skip chunks that cannot contain the label (`index_filter_skipped_chunks`). Missing index still matches positions from footer labels.
+- Optional `coord_label_postings` in `INDEX.json` may skip chunks that cannot contain the label (`index_filter_skipped_chunks`). Missing index still matches positions from footer labels.
 - AND with cell `filter` when both are set.
 
 ::: code-group
@@ -162,7 +162,7 @@ Two forms:
 | Form | Partitions by | `execution.group_count` |
 |------|---------------|-------------------------|
 | Array of dimension names or decimal indices | Each index along those axes | Product of the group axes’ logical extents |
-| Object `{ "by": "labels", "axes": [...] }` (0.6.2) | Distinct coordinate labels on those axes (repeated labels collapse) | Product of distinct-label counts. Requires footer `coords` on those axes (fail closed if missing). Closed keys only (`by` / `axes`); `by` must be `labels`. |
+| Object `{ "by": "labels", "axes": [...] }` | Distinct coordinate labels on those axes (repeated labels collapse) | Product of distinct-label counts. Requires footer `coords` on those axes (fail closed if missing). Closed keys only (`by` / `axes`); `by` must be `labels`. |
 
 Tier-A/B reductions stream one fold per group (`memory_strategy = streaming_fold`). Tier-C ops such as `median` materialize. `transform`, `covariance`, and `correlation` are rejected.
 
@@ -219,7 +219,7 @@ Worked example: extent **7**, `size` **3** → **bins** → `window_count` **3**
 | `align` | no | `start` (default) / `end` — short-bin side, or rolling overhang side under pad. Rolling + `align` `end` requires `pad` other than `none` |
 | `min_count` | no | Minimum real (non-pad) cells (1…`size`, default 1). Fewer → NaN for that window |
 
-Requires exactly one reduction. Empty reduction axes mean reduce only within each window along the windowed axis (other axes kept). Not valid with `group_by`, `transform`, covariance/correlation, or materialize-required ops. `execution.window_count` is the number of window positions. All wire dtypes (0.6.3).
+Requires exactly one reduction. Empty reduction axes mean reduce only within each window along the windowed axis (other axes kept). Not valid with `group_by`, `transform`, covariance/correlation, or materialize-required ops. `execution.window_count` is the number of window positions. All wire dtypes.
 
 ::: code-group
 

@@ -225,7 +225,7 @@ sum = []
 
 :::
 
-Label form (0.6.2) collapses repeated coordinate labels; requires footer `coords` on those axes. `group_count` is the product of distinct-label counts.
+Label form collapses repeated coordinate labels; requires footer `coords` on those axes. `group_count` is the product of distinct-label counts.
 
 The same document as ordered steps. `pipeline` cannot be mixed with top-level `selection`, `filter`, `group_by`, `spill`, `write`, or an operation key.
 

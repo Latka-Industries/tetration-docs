@@ -15,7 +15,7 @@
 
 ## Alignment policy
 
-From **0.2.0** onward, tet-py and tetration share the same **minor** (e.g. tet-py **0.8.x** ↔ tetration **0.8.x**). Patch cuts on either side are usually **pin-only** for Python (same `import tet` surface).
+tet-py and tetration share the same **minor** (e.g. tet-py **0.8.x** ↔ tetration **0.8.x**). Patch cuts on either side are usually **pin-only** for Python (same `import tet` surface).
 
 - **Patch** tet-py releases may bump the pinned crate for bug fixes or crate-only work.
 - **Minor** tet-py releases may add Python API or query wrappers without layout changes.

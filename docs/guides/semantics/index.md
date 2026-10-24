@@ -4,8 +4,6 @@ Optional **declared** science and media facts live in the `.tet` footer. **Inter
 
 Open, verify, and query stay valid when none of these keys are present. Declared attrs do **not** change fold or query answers by themselves.
 
-**Current line:** tetration / tet-py **0.8.0** (profiles/lint in **0.7.3**; one-file apply in **0.8.0**).
-
 ## Two layers
 
 | Layer | Where | What |
@@ -18,7 +16,7 @@ Open, verify, and query stay valid when none of these keys are present. Declared
 tet-semantics.toml profiles/units →  policy (fold-inert)
 ```
 
-In **0.8.0** the same TOML file can hold **both** declare and policy. `tet semantics apply` stamps only declare facts into the footer; formulas and `[units.*]` stay in the file.
+The same TOML file can hold **both** declare and policy. `tet semantics apply` stamps only declare facts into the footer; formulas and `[units.*]` stay in the file.
 
 Lab-wide conversion graphs do **not** belong inside `packed.tet`. Optional package **`SEMANTICS.json`** (declare-only, beside `packed.tet` in `generations/<G>/`) mirrors declared attrs and `dim_names` for tools — ignore-unknown; must not change fold answers. `apply` targets a **mutable** `.tet` only; a sealed `.tet.d` generation is immutable — stamp, seal a **new** generation, then `tet semantics package-write`. Do not rewrite `packed.tet` in place.
 
