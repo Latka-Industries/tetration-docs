@@ -8,7 +8,7 @@ Practical docs for choosing Tetration and reading data efficiently.
 |-------|-------------|
 | [Format comparison](/guides/format-comparison) | `.tet` vs Parquet vs Zarr vs NPY |
 | [Mmap read patterns](/guides/mmap-patterns) | Partial chunk access in Rust and Python |
-| [Semantics](/guides/semantics/) | Wizard · TOML · set as one stamp process; declare vs policy; worked examples |
+| [Semantics](/guides/semantics/) | Wizard · TOML · set as one stamp process; declare vs policy |
 
 Query engine docs (wire format, ops, cookbook) live under [Query](/query/).
 
