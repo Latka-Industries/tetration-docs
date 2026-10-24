@@ -33,8 +33,6 @@ tet semantics lint clip.tet
 tet semantics package-write package.tet.d
 ```
 
-**Process:** wizard for the guided first pass; keep/edit the TOML and `apply` for repeatable stamps; `set` for tiny footer patches. Same declare surface either way — see [How to stamp](/guides/semantics/#how-to-stamp-wizard--toml--set).
-
-Worked recording fixture (crate repo): `fixtures/small/tet/recording.tet`. Canonical TOML: [`media.v1.toml`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_snippets/media.v1.toml).
+Flows (wizard → TOML → set): [How to stamp](/guides/semantics/#how-to-stamp-wizard--toml--set). Fixture: `fixtures/small/tet/recording.tet`. Snippet: [`media.v1.toml`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_snippets/media.v1.toml).
 
 Full flags: `tet semantics -h` / `tet semantics wizard -h` / `tet semantics apply -h` / `tet semantics scaffold -h`.

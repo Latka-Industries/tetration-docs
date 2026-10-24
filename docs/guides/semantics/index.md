@@ -1,8 +1,6 @@
 # Declared semantics + caller policy
 
-Optional **declared** science and media facts live in the `.tet` footer (`dim_names`, string `attrs`, append-only `history`). **Interpretation** (unit convert, seconds↔index, geo crops) stays in caller policy outside the file. The crate is not a plugin host and has no climate- or video-special mode. Declared attrs do **not** change fold or query answers by themselves.
-
-Open, verify, and query stay valid when none of these keys are present.
+Optional **declared** facts live in the `.tet` footer (`dim_names`, string `attrs`, append-only `history`). **Interpretation** (unit convert, seconds↔index, geo crops) stays in caller policy outside the file. Declared attrs do **not** change fold or query answers. Open / verify / query stay valid with none of these keys set. Not a plugin host and not a climate- or video-special mode.
 
 ## Declare vs policy
 
@@ -11,22 +9,24 @@ Open, verify, and query stay valid when none of these keys are present.
 | **Declared** | Footer `dim_names` + `attrs` + `history` | Facts about this sealed file |
 | **Interpreted** | `tet-semantics.toml` policy tables | What the app does with those facts |
 
-One file can hold **both**. `tet semantics apply` / `wizard` stamp only declare facts into the footer; `[profiles.*]` formulas and `[units.*]` stay in the TOML. The crate does **not** load the TOML unless you pass `--from` (or the wizard writes + applies it).
+One TOML can hold **both**. `wizard` / `apply` stamp only declare facts; `[profiles.*]` and `[units.*]` stay in the file. The crate loads that TOML only via `--from` (or when the wizard writes + applies it).
 
-Optional package **`SEMANTICS.json`** (beside `packed.tet` in `generations/<G>/`) mirrors declared attrs and `dim_names` for tools — ignore-unknown; fold-inert. Stamp a **mutable** `.tet`, seal a **new** generation, then `tet semantics package-write`. Do not rewrite sealed `packed.tet` in place.
+Layout stays **`layout_version` 1** (optional `THST`). Attrs are string maps; unknown keys ignored; missing recommended keys are fine. Provenance prefers `history` rows — see [`prov_log.v1`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md#prov_logv1).
 
-Layout stays **`layout_version` 1** (optional `THST` history). Attrs are string maps; unknown keys are ignored; absence of every recommended key is valid. Provenance prefers `history` rows over parallel provenance attrs — see [`prov_log.v1`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md#prov_logv1).
+Package **`SEMANTICS.json`** (beside `packed.tet`) mirrors declare for tools — ignore-unknown, fold-inert. Stamp a **mutable** `.tet`, seal a **new** generation, then `package-write`. Never rewrite sealed `packed.tet` in place.
 
 ## How to stamp (wizard · TOML · set)
 
-All three paths write the **same** footer declare surface (`dim_names` + string attrs). Pick by how you want to author — they compose.
+Same footer surface either way. Pick by how you author.
 
-| Path | Best for | Writes TOML? | Stamps `.tet`? |
-| ---- | -------- | ------------ | -------------- |
-| **`wizard`** | First pass on a bare clip; guided dims + profile | Yes (default `tet-semantics.toml` beside the file) | Yes (unless `--no-apply`) |
-| **`apply` / `scaffold` / `annotate`** | Repeatable / CI / editing policy by hand | You own the file (`--from` / `-o`) | `apply` yes; `scaffold` no |
-| **`set` / `--clear`** | One-off attr tweaks without touching TOML | No | Yes |
-| Convert / writer | Source already carried attrs | — | At write time |
+| Path | Best for | TOML | Stamps `.tet`? |
+| ---- | -------- | ---- | -------------- |
+| **`wizard`** | Guided first pass | Writes default `tet-semantics.toml` beside the file | Yes (unless `--no-apply`) |
+| **`apply` / `scaffold` / `annotate`** | Batch / CI / hand-edit policy | You own `--from` / `-o` | `apply` yes; `scaffold` no |
+| **`set` / `--clear`** | One-off attr patch | No | Yes |
+| Convert / writer | Source already had attrs | — | At write time |
+
+**Shared stamp rules:** declare only; present fields overwrite; omitted stay; `--from` is never rewritten.
 
 ```mermaid
 flowchart LR
@@ -38,67 +38,56 @@ flowchart LR
   toml --> footer
   set --> footer
   footer --> lint["lint / info"]
-  footer --> pkg["seal → package-write\nSEMANTICS.json"]
+  footer --> pkg["seal → package-write"]
 ```
 
-### Typical flows
+### Flows
 
-**1. Interactive first stamp (wizard owns the loop)**
+**1. Interactive first stamp**
 
 ```bash
 tet semantics wizard clip.tet
-# prompts: dataset (if many) → axis names → profile → recommended attrs → extras → confirm
-# writes tet-semantics.toml beside clip.tet, then apply
 tet info clip.tet --metadata
 tet semantics lint clip.tet
 ```
 
-On confirm, `n` redoes prompts with the last selection pre-filled (shown in `[brackets]`). **Enter** keeps last; **`-`** clears/skips a field. Dim names are required (cannot leave empty). `--dataset NAME` skips the picker; `-o FILE` sets the TOML path; `--no-apply` writes TOML only (handy before you are ready to stamp).
+Prompts: dataset (if many) → axis names → profile → recommended attrs → extras → confirm. Then writes TOML + apply. Confirm `n` redoes with last selection in `[brackets]`. **Enter** keeps last; **`-`** clears/skips. Dim names required. `--dataset`, `-o`, `--no-apply` as on [`tet semantics`](/cli/semantics).
 
-**2. Wizard drafts TOML → you edit policy → re-apply**
+**2. Draft TOML → edit policy → apply**
 
 ```bash
 tet semantics wizard clip.tet --no-apply -o clip-semantics.toml
-# edit [profiles.*] / [units.*] (and declare keys if needed)
+# edit [profiles.*] / [units.*]
 tet semantics apply clip.tet --from clip-semantics.toml
 ```
 
-Wizard and `apply` share stamp rules: declare only; formulas stay in the TOML; present fields overwrite; omitted fields stay untouched; `--from` is never rewritten.
-
-**3. Batch / CI from a known TOML (no wizard)**
+**3. Batch / CI (no wizard)**
 
 ```bash
-# start from a snippet or from what is already on the file
 tet semantics scaffold clip.tet -o tet-semantics.toml
-# or: cp docs/semantics_snippets/media.v1.toml tet-semantics.toml
+# or start from docs/semantics_snippets/media.v1.toml
 tet semantics apply clip.tet --from tet-semantics.toml
 tet semantics apply clip.tet --from tet-semantics.toml --annotate -o annotated.toml
 ```
 
-`scaffold` / `apply --annotate` emit the combined file; missing recommended keys are `# key =` comments. With nothing declared, scaffold prints catalog lines plus doc links — **no invented config**.
+`scaffold` / `--annotate`: missing recommended keys as `# key =` comments; nothing declared → catalog + doc links only (no invented config).
 
-**4. Patch one attr without a TOML round-trip**
+**4. One-off patch**
 
 ```bash
 tet semantics set clip.tet --dataset frames --set frame_rate=60
 tet semantics set clip.tet --dataset frames --clear color_space
 ```
 
-`set` does not update `tet-semantics.toml`. If you keep a TOML as source of truth, either re-`scaffold` / annotate after, or prefer `apply` for the next full stamp.
+Does not update TOML. If TOML is source of truth, re-`scaffold` / annotate later, or use `apply` for the next full stamp.
 
-**5. Package**
+**5. Package** — after stamp + seal: `tet semantics package-write package.tet.d`.
 
-Stamp a **mutable** `.tet`, seal a **new** generation, then:
-
-```bash
-tet semantics package-write package.tet.d
-```
-
-App-only policy (TOML never applied) is fine for one pipeline, weak for sharing. `tet info` (default table and `--json`) shows stamped `dim_names` and attrs — never policy formulas. Full flags: [`tet semantics`](/cli/semantics).
+App-only policy (never apply) is fine for one pipeline, weak for sharing. `tet info` shows declare under datasets — never policy formulas.
 
 ## Declared keys
 
-Recommended attr names. Values are strings; TOML apply coerces number/bool → string (e.g. `frame_rate = 30` → `"30"`).
+Values are strings; TOML apply coerces number/bool → string (`frame_rate = 30` → `"30"`). Also stampable: **`dim_names`** (rank order). **`coords` via apply are rejected.**
 
 | Key | Meaning | Example |
 | --- | ------- | ------- |
@@ -118,13 +107,11 @@ Recommended attr names. Values are strings; TOML apply coerces number/bool → s
 | `uncertainty_sibling` | Catalog name of an error / σ dataset | `"tas_err"` |
 | `standard_name` | Optional CF-style name | `"air_temperature"` |
 
-Also stampable: **`dim_names`** (axis names in rank order). **`coords` via apply are not supported** — apply rejects them.
-
-**Vocabulary (not enforced on decode):** units `K`, `degC`, `uV`, `mV`, `Hz`, `1`, `px`; CRS `EPSG:####` when an EPSG code exists. **Profile ids (canonical):** `media.v1`, `timeseries.v1`, `cf_lite.v1`, `prov_log.v1`. Aliases `media_v1` / `v1.media` (same pattern for the others; `climate_v1` → `cf_lite.v1`) still normalize. Open minting allowed (advisory lint only). Registry: crate [`semantics_profiles.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md).
+**Vocabulary (not enforced):** units `K`, `degC`, `uV`, `mV`, `Hz`, `1`, `px`; CRS `EPSG:####`. **Profiles:** `media.v1`, `timeseries.v1`, `cf_lite.v1`, `prov_log.v1` (aliases `media_v1` / `v1.media` / `climate_v1` → `cf_lite.v1` still normalize). Open minting OK (advisory lint). Registry: [`semantics_profiles.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md).
 
 ## One-file `tet-semantics.toml`
 
-Convention name only — pass the path with `--from`. Canonical snippet: [`media.v1.toml`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_snippets/media.v1.toml).
+Convention name; pass the path with `--from`. Snippet: [`media.v1.toml`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_snippets/media.v1.toml).
 
 ```toml
 schema_version = 1
@@ -148,52 +135,37 @@ seconds_to_index = "floor(seconds * frame_rate)"
 display = "Hz"
 ```
 
-**Stamped:** `dim_names`, attrs (including `semantics_profile`). **Left in TOML:** `[profiles.*]`, `[units.*]`. Present fields overwrite; omitted fields stay; `--from` is never rewritten. Validate: dataset exists; `dim_names.len() == rank`; `time_axis` in range when set. Map wall-clock or display units to indices in the app **before** building a query document.
-
-## Relation to query
-
-Cell `filter`, zone maps, and value postings are unchanged by declared semantics. Policy may map wall-clock or display units to indices / dtype before a query document is built — caller-side only.
+Validate: dataset exists; `dim_names.len() == rank`; `time_axis` in range when set. Map wall-clock / display units to indices in the app **before** the query document — cell `filter`, zone maps, and postings ignore declared semantics.
 
 ## Not in scope
 
-- Plugin / dynamic code load inside the crate
-- Mandatory semantics on every file
-- Full CF / PROV compliance suite
-- Built-in climate or media modes / UCUM engine
-- Conversion tables stored inside `packed.tet`
-- Executing policy at fold / query time
-- Footer-embedded formulas
-- Coords via apply
+Plugin / dynamic load; mandatory semantics; full CF / PROV suite; built-in climate/media / UCUM engine; conversion tables or formulas inside `packed.tet`; executing policy at fold time; coords via apply.
 
 ## Worked examples
 
-None of these enable a special runtime mode — facts and doc profile ids only.
+Facts and profile ids only — no special runtime.
 
-### Video / recording
-
-Tracked fixture: `fixtures/small/tet/recording.tet` in the crate repo (`frames` `[6,2,2]`, `dim_names = ["t","y","x"]`, `media.v1` attrs + `semantics` history row).
+**Video** — crate fixture `fixtures/small/tet/recording.tet` (`frames` `[6,2,2]`, `media.v1`):
 
 ```bash
 tet info fixtures/small/tet/recording.tet
 tet semantics scaffold fixtures/small/tet/recording.tet -o tet-semantics.toml
-# tet semantics apply clip.tet --from docs/semantics_snippets/media.v1.toml
 ```
 
-### Timeseries / climate-as-attrs
+**Timeseries / climate-as-attrs** — snippets [`timeseries.v1.toml`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_snippets/timeseries.v1.toml), [`cf_lite.v1.toml`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_snippets/cf_lite.v1.toml):
 
 ```bash
-tet semantics apply signal.tet --from tet-semantics.toml   # timeseries.v1 dims + sample_rate formulas
+tet semantics apply signal.tet --from tet-semantics.toml
 tet semantics set grid.tet --dataset tas \
   --set units=K --set standard_name=air_temperature \
   --set crs=EPSG:4326 --set semantics_profile=cf_lite.v1
 ```
 
-Display Kelvin as °C belongs in caller policy, not inside `packed.tet`. Snippets: [`timeseries.v1.toml`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_snippets/timeseries.v1.toml), [`cf_lite.v1.toml`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_snippets/cf_lite.v1.toml).
+Display K as °C belongs in caller policy, not in `packed.tet`.
 
 ## Related
 
 - [`tet semantics` CLI](/cli/semantics)
-- [Format versioning](/format/versioning) — history footer / layout v1
-- [Query document](/query/document) — wire stays index-based
-- Crate notes: [`docs/semantics.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics.md)
-- Profile registry: [`docs/semantics_profiles.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md)
+- [Format versioning](/format/versioning)
+- [Query document](/query/document)
+- Crate: [`semantics.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics.md) · [`semantics_profiles.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/semantics_profiles.md)
