@@ -15,6 +15,7 @@ The **`tet`** binary ships with the [tetration](https://github.com/Latka-Industr
 | `tet worker` | — | Localhost distributed harness: `WorkerJobV1` JSON → `WorkerPartialV1` (fold + dense materialize) |
 | [`tet export`](/cli/convert-export) | — | `.tet` → Zarr v3 / HDF5 / NetCDF |
 | [`tet ingest`](/cli/package) / [`publish`](/cli/package) / [`pack`](/cli/package) / [`gc`](/cli/package) | — | Local `.tet.d` package ingest → publish → pack / cleanup |
+| [`tet run`](/cli/run) | — | Job file: ordered stock `tet` steps, fail-fast |
 | [`tet qhist`](/cli/qhist) | `hist` | Recent queries (platform cache) |
 | [`tet semantics`](/cli/semantics) | — | Wizard / apply one-file TOML / scaffold / set / lint / package SEMANTICS.json |
 
@@ -56,6 +57,10 @@ tet publish climate.tet.d
 tet query '{"dataset":"temp","mean":[]}' -t climate.tet.d -x -q
 tet pack climate.tet.d -o climate.tet
 tet gc climate.tet.d              # dry-run
+
+# Job file (stock steps, fail-fast)
+tet run job.toml
+tet run job.toml --dry-run
 ```
 
 ## Live help

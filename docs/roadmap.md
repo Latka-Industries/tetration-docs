@@ -4,7 +4,7 @@
 
 Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md) · [version alignment](/python/version-alignment).
 
-Current packages: tetration / tet-py **0.8.1**.
+Current packages: tetration / tet-py **0.8.2**.
 
 ---
 
@@ -21,7 +21,8 @@ Current packages: tetration / tet-py **0.8.1**.
 | Packages | `.tet.d` shards → publish → sealed generation — [CLI packages](/cli/package) |
 | Cloud packages | `PackageStore` / `S3Store`, pin + range-read, CAS publish — [Store-backed reads](/rust/store-backed-reads) |
 | Indexes | Zone maps, value postings, embedded ZONE/INDEX (`history_version = 2`) — [Embedded indexes](/format/embedded-indexes) |
-| Python (tet-py) | NumPy sinks, packages, `s3://` — [Python](/python/) |
+| Python (tet-py) | NumPy sinks, packages, `s3://`, `run_job` — [Python](/python/) |
+| Job files | `tet run` / `tet.run_job` sequences stock CLI verbs — [Job files](/guides/job-files) |
 | Distributed query | Thin protocol + localhost N-process harness (`tet worker`); dense materialize / transform; spill still refuse-only |
 | Declared semantics | Footer attrs + wizard / one-file TOML apply; profile contracts / lint / `SEMANTICS.json` (+ `dim_names`) — [Semantics](/guides/semantics/) |
 | SPEC + conformance | Crate `SPEC/` + `conformance/` |
