@@ -18,7 +18,7 @@ Bindings are **PyO3 → tetration rlib**, not the C ABI. For Julia / R / Go, see
 
 ## What you get
 
-Open a `.tet`, `.tet.d` package, or `s3://` package URI; run the same JSON/TOML queries as the CLI; pull selections into NumPy (ram / spill / sidecar); write with `TetWriter` / `write_dataset`; convert and export through optional extras (`[h5]`, `[netcdf]`, `[zarr]`, `[parquet]`, `[export]`). Package helpers cover ingest, publish, and pack. **`tet.run_job`** runs a `tet run` job file through the Rust executor ([Job files](/guides/job-files)). Details live in the sections below — not a per-release changelog.
+Open a `.tet`, `.tet.d` package, or `s3://` package URI; run the same JSON/TOML queries as the CLI; pull selections into NumPy (ram / spill / sidecar); write with `TetWriter` / `write_dataset`; convert and export through optional extras (`[h5]`, `[netcdf]`, `[zarr]`, `[parquet]`, `[export]`). Package helpers cover ingest, publish, and pack. Job files: [`tet.run_job`](/guides/job-files#reading-the-report). Details live in the sections below — not a per-release changelog.
 
 ## Sections
 

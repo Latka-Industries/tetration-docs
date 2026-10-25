@@ -58,9 +58,7 @@ tet query '{"dataset":"temp","mean":[]}' -t climate.tet.d -x -q
 tet pack climate.tet.d -o climate.tet
 tet gc climate.tet.d              # dry-run
 
-# Job file (stock steps, fail-fast)
-tet run job.toml
-tet run job.toml --dry-run
+tet run job.toml                  # see Job files guide
 ```
 
 ## Live help
