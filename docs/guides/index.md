@@ -17,7 +17,7 @@ Query engine docs (wire format, ops, cookbook) live under [Query](/query/).
 
 - [Getting started](/getting-started) — install CLI or tet-py, first commands
 - [Query](/query/) — operations, selections, execution
-- [Python (tet-py)](/python/) — PyPI install, query API, NumPy, `run_job`
+- [Python (tet-py)](/python/) — PyPI install, query API, NumPy
 - [Format spec](/format/) — on-disk layout
-- [CLI reference](/cli/) — all `tet` commands including [`tet run`](/cli/run)
+- [CLI reference](/cli/) — all `tet` commands
 - [Roadmap](/roadmap) — shipped index and prospective directions

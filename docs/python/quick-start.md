@@ -104,15 +104,6 @@ stub = tet.typing_stub("data.tet")
 # save as mydata_tet.pyi — Literal dataset names and dim_names when present
 ```
 
-## Job files
-
-```python
-report = tet.run_job("job.toml")              # same engine as tet run
-plan = tet.run_job("job.toml", dry_run=True)
-```
-
-Guide: [Job files](/guides/job-files). CLI: [`tet run`](/cli/run).
-
 ## CLI parity
 
 | Python | CLI |
@@ -120,7 +111,7 @@ Guide: [Job files](/guides/job-files). CLI: [`tet run`](/cli/run).
 | `f.query(doc)` | `tet query -x` |
 | `f.plan_only(doc)` | `tet query` (no `-x`) |
 | `f.info()` | `tet info --json` |
-| `tet.run_job(path)` | `tet run` |
+| `tet.run_job(path)` | `tet run` — report dict: [Job files](/guides/job-files#reading-the-report) |
 
 Query document schema: [Query engine guide](/query/).
 
@@ -128,5 +119,4 @@ Query document schema: [Query engine guide](/query/).
 
 - [Query operations](/python/operations) — all reduction and transform methods
 - [NumPy interchange](/python/numpy) — dense read/write sinks
-- [Job files](/guides/job-files) — `tet.run_job` / `tet run`
 - [Query cookbook](/query/cookbook) — copy-paste wire examples

@@ -48,15 +48,15 @@ Field names mirror CLI flags (`dry_run`, `remove_package`, …). Full per-op fie
 
 Steps call the same library APIs as the CLI (no subprocess).
 
-## `--json`
+## `--json` / report shape
 
-Success: `{ dry_run, root, steps, elapsed_secs }` on stdout. Each step has `data` (structured result) even when `quiet` drops the note. Shapes: crate [`docs/job.md` — Machine-readable output](https://github.com/Latka-Industries/tetration/blob/main/docs/job.md#machine-readable-output).
+How to read `steps[].data` (Python + `jq`): [Job files — Reading the report](/guides/job-files#reading-the-report). Per-op `data` schemas: crate [`docs/job.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/job.md#machine-readable-output).
 
-Failure: exit 1. If at least one step **completed**, stdout also has those steps plus `error` (`index` **0-based**, `op`, `message`, `path`). First-step / parse / pre-flight failures print nothing on stdout. Always check the exit code (or `error`).
+Failure: exit 1. If a step completed, stdout may include those steps plus `error` (`index` **0-based**). First-step / parse / pre-flight → empty stdout. Always check the exit code.
 
-## Python / library
+## Bindings
 
-- **tet-py:** `tet.run_job(path, *, root=None, dry_run=False)` → `JobReport` dict ([guide](/guides/job-files#python)).
-- **Rust:** `tetration::job::run_job_path` / `run_job` — same engine, quiet and structured.
+- **tet-py:** `tet.run_job(...)` → same dict ([guide](/guides/job-files#python))
+- **Rust:** `tetration::job::run_job_path`
 
 Live flags: `tet run -h`.
