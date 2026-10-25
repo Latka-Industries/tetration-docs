@@ -3,7 +3,7 @@
 **[tet-py](https://github.com/Latka-Industries/tet-py)** is the official Python package for Tetration. Install from PyPI, `import tet`, and use the same query engine and `.tet` layout as the Rust crate and `tet` CLI.
 
 ::: tip Current line
-**tet-py 0.8.1** pins crates.io **tetration 0.8.1**. [`pip install tet-py`](https://pypi.org/project/tet-py/).
+**tet-py 0.8.2** pins crates.io **tetration 0.8.2**. [`pip install tet-py`](https://pypi.org/project/tet-py/).
 :::
 
 ## Naming
@@ -18,7 +18,7 @@ Bindings are **PyO3 → tetration rlib**, not the C ABI. For Julia / R / Go, see
 
 ## What you get
 
-Open a `.tet`, `.tet.d` package, or `s3://` package URI; run the same JSON/TOML queries as the CLI; pull selections into NumPy (ram / spill / sidecar); write with `TetWriter` / `write_dataset`; convert and export through optional extras (`[h5]`, `[netcdf]`, `[zarr]`, `[parquet]`, `[export]`). Package helpers cover ingest, publish, and pack. Details live in the sections below — not a per-release changelog.
+Open a `.tet`, `.tet.d` package, or `s3://` package URI; run the same JSON/TOML queries as the CLI; pull selections into NumPy (ram / spill / sidecar); write with `TetWriter` / `write_dataset`; convert and export through optional extras (`[h5]`, `[netcdf]`, `[zarr]`, `[parquet]`, `[export]`). Package helpers cover ingest, publish, and pack. **`tet.run_job`** runs a `tet run` job file through the Rust executor ([Job files](/guides/job-files)). Details live in the sections below — not a per-release changelog.
 
 ## Sections
 
