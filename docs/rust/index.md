@@ -17,6 +17,7 @@ This site covers usage patterns and cookbooks. Prefer docs.rs for struct fields,
 | `convert` | HDF5 / NetCDF / Zarr / NumPy / CSV / Parquet import |
 | `export` | Zarr / HDF5 / NetCDF export |
 | `verify` / `repair` | File health |
+| `job` | Job-file executor (`run_job_path`) — [Job files](/guides/job-files) |
 | `ffi` | C ABI behind `tetration-ffi` feature |
 
 ## Install
