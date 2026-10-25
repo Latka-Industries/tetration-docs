@@ -9,6 +9,7 @@ Practical docs for choosing Tetration and reading data efficiently.
 | [Format comparison](/guides/format-comparison) | `.tet` vs Parquet vs Zarr vs NPY |
 | [Mmap read patterns](/guides/mmap-patterns) | Partial chunk access in Rust and Python |
 | [Job files](/guides/job-files) | `tet run` / `tet.run_job` — stock CLI steps, fail-fast |
+| [Trust boundaries](/guides/trust-boundaries) | Verify-first, host-owned paths, spill allowlist, HTTP outside the crate |
 | [Semantics](/guides/semantics/) | Wizard · TOML · set as one stamp process; declare vs policy |
 
 Query engine docs (wire format, ops, cookbook) live under [Query](/query/).

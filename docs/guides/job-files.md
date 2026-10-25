@@ -4,6 +4,8 @@ Ordered stock `tet` steps in TOML or JSON. Run them with `tet run` or `tet.run_j
 
 **Not** a scheduler (no DAG, conditionals, loops, retries). **Not** query-pipeline ETL — chained transforms belong on the query [`pipeline`](/query/document) wire.
 
+Prefer a `verify` step before `query` on external bytes — [Trust boundaries](/guides/trust-boundaries).
+
 CLI flags and the closed op set: [`tet run`](/cli/run).
 
 ## Worked example

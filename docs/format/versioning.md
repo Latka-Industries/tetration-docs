@@ -34,7 +34,7 @@ The optional `THST` footer ends with **`history_version`** (`u32` LE):
 | Package sidecars (`ZONE.json`, `INDEX.json`) | Beside `packed.tet`; unknown manifest keys ignored; not a layout bump |
 | Query wire (`filter`, `group_by`, `window`, …) | Versioned with the crate minor; SPEC / conformance milestone — not `layout_version` |
 
-The normative contract (layout, writer protocol, query wire, C ABI) and the CI conformance pack live in the crate: [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) · [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance). Current published line: **0.8.2**.
+The normative contract (layout, writer protocol, query wire, C ABI) and the CI conformance pack live in the crate: [`SPEC/`](https://github.com/Latka-Industries/tetration/tree/main/SPEC) · [`conformance/`](https://github.com/Latka-Industries/tetration/tree/main/conformance). Current published line: **0.8.3**.
 
 ::: warning Pre-1.0
 Tetration is still in development. Layout v1 and query JSON/TOML may change before 1.0. Pin crate and CLI versions in production workflows.
