@@ -6,8 +6,8 @@
 
 | Component | Version |
 |-----------|---------|
-| **tet-py** (package / GitHub) | [**0.8.2**](https://github.com/Latka-Industries/tet-py/releases/tag/v0.8.2) |
-| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.8.2**](https://crates.io/crates/tetration/0.8.2) |
+| **tet-py** (package / GitHub) | [**0.8.3**](https://github.com/Latka-Industries/tet-py/releases/tag/v0.8.3) |
+| **tetration** crate (CLI / Rust / linked by tet-py) | [**0.8.3**](https://crates.io/crates/tetration/0.8.3) |
 | Layout version | **1** |
 | C ABI version | **1** (`TET_ABI_VERSION`) |
 | Python | **3.11+** (abi3 wheels) |
@@ -15,7 +15,7 @@
 
 ## Alignment policy
 
-tet-py and tetration share the same **minor** (e.g. tet-py **0.8.x** ↔ tetration **0.8.x**). Most patch cuts are **pin-only** for Python; some add a thin wrapper when the crate ships a new library surface (e.g. **0.8.2** `tet.run_job`).
+tet-py and tetration share the same **minor** (e.g. tet-py **0.8.x** ↔ tetration **0.8.x**). Most patch cuts are **pin-only** for Python; some add a thin wrapper when the crate ships a new library surface (e.g. **0.8.2** `tet.run_job`). **0.8.3** is pin-only (crate trust-boundary docs + `parse_job` fuzz).
 
 - **Patch** tet-py releases may bump the pinned crate and/or expose a thin Rust API (no Python re-implementation of crate logic).
 - **Minor** tet-py releases may add broader Python API without layout changes.

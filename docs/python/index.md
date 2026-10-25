@@ -3,7 +3,7 @@
 **[tet-py](https://github.com/Latka-Industries/tet-py)** is the official Python package for Tetration. Install from PyPI, `import tet`, and use the same query engine and `.tet` layout as the Rust crate and `tet` CLI.
 
 ::: tip Current line
-**tet-py 0.8.2** pins crates.io **tetration 0.8.2**. [`pip install tet-py`](https://pypi.org/project/tet-py/).
+**tet-py 0.8.3** pins crates.io **tetration 0.8.3**. [`pip install tet-py`](https://pypi.org/project/tet-py/).
 :::
 
 ## Naming

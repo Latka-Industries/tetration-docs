@@ -74,6 +74,7 @@ export const mainNav: DefaultTheme.NavItem[] = [
       { text: 'Format comparison', link: '/guides/format-comparison' },
       { text: 'Mmap read patterns', link: '/guides/mmap-patterns' },
       { text: 'Job files', link: '/guides/job-files' },
+      { text: 'Trust boundaries', link: '/guides/trust-boundaries' },
       { text: 'Semantics', link: '/guides/semantics/' },
     ],
   },

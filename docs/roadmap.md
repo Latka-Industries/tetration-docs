@@ -4,7 +4,7 @@
 
 Per-release notes: [crate CHANGELOG](https://github.com/Latka-Industries/tetration/blob/main/CHANGELOG.md) · [tet-py CHANGELOG](https://github.com/Latka-Industries/tet-py/blob/main/CHANGELOG.md) · [version alignment](/python/version-alignment).
 
-Current packages: tetration / tet-py **0.8.2**.
+Current packages: tetration / tet-py **0.8.3**.
 
 ---
 
@@ -23,6 +23,7 @@ Current packages: tetration / tet-py **0.8.2**.
 | Indexes | Zone maps, value postings, embedded ZONE/INDEX (`history_version = 2`) — [Embedded indexes](/format/embedded-indexes) |
 | Python (tet-py) | NumPy sinks, packages, `s3://` — [Python](/python/) |
 | Job files | `tet run` / `tet.run_job` — [Job files](/guides/job-files) |
+| Trust boundaries | Verify-first / host-owned paths / spill allowlist — [Trust boundaries](/guides/trust-boundaries) |
 | Distributed query | Thin protocol + localhost N-process harness (`tet worker`); dense materialize / transform; spill still refuse-only |
 | Declared semantics | Footer attrs + wizard / one-file TOML apply; profile contracts / lint / `SEMANTICS.json` (+ `dim_names`) — [Semantics](/guides/semantics/) |
 | SPEC + conformance | Crate `SPEC/` + `conformance/` |
