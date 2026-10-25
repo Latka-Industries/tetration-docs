@@ -1,6 +1,6 @@
 # CLI reference
 
-The **`tet`** binary ships with the [tetration](https://github.com/Latka-Industries/tetration) crate. It provides file inspection, JSON/TOML queries, format conversion, and file health tools.
+The **`tet`** binary from the [tetration](https://github.com/Latka-Industries/tetration) crate: inspect, query, convert/export, packages, job files, semantics.
 
 ## Commands
 
@@ -21,26 +21,7 @@ The **`tet`** binary ships with the [tetration](https://github.com/Latka-Industr
 
 ## Install
 
-**macOS (Homebrew, recommended):**
-
-```bash
-brew tap Latka-Industries/tetration https://github.com/Latka-Industries/tetration
-brew install tetration
-```
-
-**cargo install:**
-
-```bash
-cargo install tetration
-```
-
-Default features need system HDF5 and NetCDF dev libraries for `tet convert`. Without them:
-
-```bash
-cargo install tetration --no-default-features
-```
-
-`tet info`, `tet query`, and Zarr / NumPy / CSV / Parquet import still work (HDF5/NetCDF need the default features).
+See [Getting started](/getting-started#install-the-cli) (Homebrew, `cargo install`, from source).
 
 ## First commands
 
@@ -57,8 +38,7 @@ tet publish climate.tet.d
 tet query '{"dataset":"temp","mean":[]}' -t climate.tet.d -x -q
 tet pack climate.tet.d -o climate.tet
 tet gc climate.tet.d              # dry-run
-
-tet run job.toml                  # see Job files guide
+tet run job.toml                  # [Job files](/guides/job-files)
 ```
 
 ## Live help

@@ -89,7 +89,7 @@ plan = tet.run_job("job.toml", dry_run=True)
 assert all(s["data"] is None for s in plan["steps"])
 ```
 
-`root=` matches CLI `--root`. Failures raise `TetError` (same messages as `tet run`); there is no partial `error` object in the Python return — the exception is the failure signal.
+`root=` matches CLI `--root`. Failures raise `TetError` (same messages as `tet run`) — no partial `error` object in the return value.
 
 ### CLI (`--json`)
 
@@ -103,4 +103,23 @@ Mid-job failure (exit 1): stdout may still hold completed steps plus `"error": {
 
 ### What lives in `data`
 
-Depends on `op`. For the example above: convert → `ConvertReport` (`dataset_count`, `datasets`, `output`, …); verify → `TetVerifyReport` (`ok`, `findings`, `summary`); query → `QueryResponse`. Full map: crate [`docs/job.md` — Machine-readable output](https://github.com/Latka-Industries/tetration/blob/main/docs/job.md#machine-readable-output).
+Type name by `op` (field details stay in the crate):
+
+| `op` | `data` |
+| ---- | ------ |
+| `info` | `tet info --json` envelope |
+| `verify` | `TetVerifyReport` |
+| `repair` | `RepairPlan` or `TetRepairReport` |
+| `query` | `QueryResponse` |
+| `convert` / `export` | `ConvertReport` / `ExportReport` |
+| `index` | small `{ ok, path, … }` |
+| `semantics.apply` | `SemanticsApplyReport` |
+| `semantics.scaffold` / `set` / `package-write` | small `{ ok, path, … }` |
+| `semantics.wizard` | `WizardResult` |
+| `semantics.lint` | `SemanticsLintReport` |
+| `ingest` | `{ package, jobs, parts }` |
+| `publish` / `compact` | `{ mode, … }` (`published` / `dry_run` / `aborted`) |
+| `pack` | small `{ ok, package, … }` |
+| `gc` | `{ target, apply, plan\|report }` |
+
+Field-level schemas: crate [`docs/job.md` — Machine-readable output](https://github.com/Latka-Industries/tetration/blob/main/docs/job.md#machine-readable-output).

@@ -1,6 +1,6 @@
 # `tet run`
 
-Run a job file — ordered stock `tet` steps, fail-fast. What it is / isn’t and a worked example: [Job files](/guides/job-files).
+Ordered stock `tet` steps, fail-fast. Guide (example + reading `data`): [Job files](/guides/job-files).
 
 ```bash
 tet run job.toml
@@ -50,13 +50,10 @@ Steps call the same library APIs as the CLI (no subprocess).
 
 ## `--json` / report shape
 
-How to read `steps[].data` (Python + `jq`): [Job files — Reading the report](/guides/job-files#reading-the-report). Per-op `data` schemas: crate [`docs/job.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/job.md#machine-readable-output).
+Envelope, `op` → type map, Python / `jq`: [Reading the report](/guides/job-files#reading-the-report). Field schemas: crate [`docs/job.md`](https://github.com/Latka-Industries/tetration/blob/main/docs/job.md#machine-readable-output).
 
-Failure: exit 1. If a step completed, stdout may include those steps plus `error` (`index` **0-based**). First-step / parse / pre-flight → empty stdout. Always check the exit code.
+Failure: exit 1. Completed steps may appear with `error` (`index` **0-based**). First-step / parse / pre-flight → empty stdout — check the exit code.
 
 ## Bindings
 
-- **tet-py:** `tet.run_job(...)` → same dict ([guide](/guides/job-files#python))
-- **Rust:** `tetration::job::run_job_path`
-
-Live flags: `tet run -h`.
+`tet.run_job` (tet-py) and `tetration::job::run_job_path` (Rust) share this engine. Live flags: `tet run -h`.

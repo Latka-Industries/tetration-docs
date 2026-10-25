@@ -18,7 +18,13 @@ Bindings are **PyO3 → tetration rlib**, not the C ABI. For Julia / R / Go, see
 
 ## What you get
 
-Open a `.tet`, `.tet.d` package, or `s3://` package URI; run the same JSON/TOML queries as the CLI; pull selections into NumPy (ram / spill / sidecar); write with `TetWriter` / `write_dataset`; convert and export through optional extras (`[h5]`, `[netcdf]`, `[zarr]`, `[parquet]`, `[export]`). Package helpers cover ingest, publish, and pack. Job files: [`tet.run_job`](/guides/job-files#reading-the-report). Details live in the sections below — not a per-release changelog.
+- Open a `.tet`, `.tet.d` package, or `s3://` URI
+- Same JSON/TOML queries as the CLI; NumPy sinks (ram / spill / sidecar)
+- Write with `TetWriter` / `write_dataset`; convert / export via extras (`[h5]`, `[netcdf]`, `[zarr]`, `[parquet]`, `[export]`)
+- Package helpers: ingest, publish, pack
+- Job files: [`tet.run_job`](/guides/job-files#reading-the-report)
+
+Details are in the sections below — not a per-release changelog.
 
 ## Sections
 
@@ -36,9 +42,9 @@ Open a `.tet`, `.tet.d` package, or `s3://` package URI; run the same JSON/TOML 
 | **spill** | Row-major `.bin` beside source | Large transforms; reload with `.to_numpy()` |
 | **sidecar** | One-chunk `.tet` beside source | Keep transformed data as a mmap-friendly `.tet` (re-query, share, append pipeline) |
 
-Sidecar is **transform-only** (no top-level `read_sidecar` — the engine writes a derived `.tet`, then you `side.open(f)` or `tet.open(path)`). Spill is raw bytes; sidecar is a full catalog file. Sidecar vs `TetWriter`: sidecar presets path, naming, and provenance from the transform; `TetWriter` is general authoring from your array ([NumPy — sidecar vs TetWriter](/python/numpy#sidecar-transform-tet)).
+Sidecar is **transform-only** (engine writes a derived `.tet`; open with `side.open(f)` or `tet.open`). Spill is raw bytes; sidecar is a full catalog file. Prefer sidecar for transform provenance; `TetWriter` for general authoring ([details](/python/numpy#sidecar-transform-tet)).
 
-Convert and export from Python use `tet.convert` / `tet.export` with the matching extra. The CLI (`tet convert` / `tet export`) is the same importers without Python deps — see [Install](/python/install) and [CLI convert & export](/cli/convert-export).
+Convert / export: `tet.convert` / `tet.export` (+ extras). Same importers as the CLI without Python deps — [Install](/python/install), [CLI convert & export](/cli/convert-export).
 
 ## Minimal example
 
@@ -91,7 +97,16 @@ pinned = store.open("current")   # pin; later publish does not retarget
 assert pinned.generation == 1
 ```
 
-Endpoint and credentials are arguments to `S3Store.connect`, or `TETRATION_S3_*` for `tet.open("s3://bucket/prefix")` and `tet.convert` from `s3://`. That open pins the package and range-reads; it does not download `packed.tet`. `store.open("current")` still does. `tet.convert("s3://bucket/object.ext", "out.tet")` downloads that one foreign file and runs the local importer. A Zarr prefix uses the `[zarr]` extra and fetches each chunk as needed. See [store-backed reads](/rust/store-backed-reads#python-tet-py).
+Credentials: `S3Store.connect(...)` args, or `TETRATION_S3_*` for `tet.open("s3://…")` / `tet.convert("s3://…")`.
+
+| Path | Behavior |
+| ---- | -------- |
+| `tet.open("s3://bucket/prefix")` | Pin + range-read (no full download) |
+| `store.open("current")` | Downloads `packed.tet` |
+| `tet.convert("s3://…/file.ext")` | Download one object, then local import |
+| `tet.convert("s3://…/store.zarr")` | Needs `[zarr]`; fetch chunks as needed |
+
+More: [store-backed reads](/rust/store-backed-reads#python-tet-py).
 
 ## Related
 
