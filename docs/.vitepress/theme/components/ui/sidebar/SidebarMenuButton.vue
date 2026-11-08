@@ -16,7 +16,7 @@ defineEmits<{ click: [Event] }>()
     :no-icon="true"
     :class="
       cn(
-        'flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm text-sidebar-foreground/80 outline-none ring-sidebar-ring transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>span:last-child]:truncate',
+        'flex w-full items-center gap-2 overflow-hidden rounded-md px-2 py-1.5 text-left text-[13px] font-normal text-sidebar-foreground/65 outline-none ring-sidebar-ring transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>span:last-child]:truncate',
         'active:bg-sidebar-accent active:font-medium active:text-sidebar-accent-foreground',
         props.class,
       )

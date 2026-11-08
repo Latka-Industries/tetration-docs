@@ -116,6 +116,11 @@ export default withMermaid(
     server: {
       port: 5174,
     },
+    // Mermaid pulls CJS fastdom; without prebundle Vite serves it raw and
+    // `import fastdom from 'fastdom'` crashes the whole client (#app stays empty).
+    optimizeDeps: {
+      include: ['mermaid', 'fastdom'],
+    },
   },
   themeConfig: {
     // Light/dark variants follow VitePress `.dark`, not OS prefers-color-scheme
@@ -158,14 +163,14 @@ export default withMermaid(
           text: 'CLI',
           items: [
             { text: 'Overview', link: '/cli/' },
-            { text: 'tet info', link: '/cli/info' },
-            { text: 'tet query', link: '/cli/query' },
-            { text: 'tet verify & repair', link: '/cli/verify-repair' },
-            { text: 'tet convert & export', link: '/cli/convert-export' },
-            { text: 'tet ingest / publish / pack / gc', link: '/cli/package' },
-            { text: 'tet run', link: '/cli/run' },
-            { text: 'tet qhist', link: '/cli/qhist' },
-            { text: 'tet semantics', link: '/cli/semantics' },
+            { text: 'info', link: '/cli/info' },
+            { text: 'query', link: '/cli/query' },
+            { text: 'verify & repair', link: '/cli/verify-repair' },
+            { text: 'convert & export', link: '/cli/convert-export' },
+            { text: 'ingest / publish / pack / gc', link: '/cli/package' },
+            { text: 'run', link: '/cli/run' },
+            { text: 'qhist', link: '/cli/qhist' },
+            { text: 'semantics', link: '/cli/semantics' },
             { text: 'Exit codes & errors', link: '/cli/exit-codes' },
           ],
         },
@@ -239,6 +244,12 @@ export default withMermaid(
     ],
     footer: {
       copyright: '© 2026 Latka Industries',
+    },
+    notFound: {
+      title: 'Page not found',
+      quote: '',
+      linkText: '',
+      linkLabel: '',
     },
   },
 }),

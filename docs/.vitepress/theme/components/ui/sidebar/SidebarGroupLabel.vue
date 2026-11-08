@@ -8,7 +8,8 @@ defineProps<{ class?: string }>()
   <div
     :class="
       cn(
-        'flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none',
+        /* Enerblock hierarchy: section title clearly larger/heavier than link list */
+        'mb-1.5 flex min-h-10 shrink-0 items-center rounded-md px-2 text-base font-bold tracking-[-0.02em] text-sidebar-foreground outline-none',
         $props.class,
       )
     "

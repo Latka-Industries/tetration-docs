@@ -15,7 +15,7 @@ defineProps<{ class?: string }>()
     role="menu"
     :class="
       cn(
-        'absolute left-0 top-[calc(100%+6px)] z-50 max-h-96 min-w-[10rem] w-max overflow-y-auto rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md',
+        'absolute left-0 top-[calc(100%+6px)] z-50 max-h-96 min-w-[10rem] w-max overflow-y-auto rounded-[14px] border border-black/8 bg-white p-2 text-popover-foreground shadow-[0_8px_32px_#08090a0d] dark:border-white/8 dark:bg-[#08090a]/90 dark:backdrop-blur-[32px] dark:shadow-[0_8px_32px_#08090a]',
         $props.class,
       )
     "

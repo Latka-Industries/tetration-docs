@@ -16,8 +16,8 @@ defineEmits<{ click: [] }>()
     :aria-selected="active"
     :class="
       cn(
-        'relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-left text-xs outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
-        active && 'bg-accent text-accent-foreground',
+        'relative flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-3 py-2 text-left text-sm outline-none transition-colors hover:bg-black/[0.04] hover:text-foreground focus:bg-black/[0.04] focus:text-foreground dark:hover:bg-white/[0.04] dark:focus:bg-white/[0.04]',
+        active && 'bg-black/[0.04] text-foreground dark:bg-white/[0.04]',
         props.class,
       )
     "
