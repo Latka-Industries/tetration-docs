@@ -40,10 +40,10 @@ const repos = [
         :href="repo.href"
         target="_blank"
         rel="noopener"
-        class="group block text-left no-underline outline-none"
+        class="home-impls__item group text-left no-underline outline-none"
       >
         <Card
-          class="home-impls__card relative p-5 transition-[border-color,background-color] duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] hover:border-primary/40 hover:bg-primary/[0.04]"
+          class="home-impls__card relative flex h-full flex-col p-5 transition-[border-color,background-color] duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] hover:border-primary/40 hover:bg-primary/[0.04]"
         >
           <div class="relative flex items-start justify-between gap-3">
             <div
@@ -66,7 +66,7 @@ const repos = [
             {{ repo.description }}
           </p>
 
-          <div class="relative mt-3 flex flex-wrap gap-x-3 gap-y-1">
+          <div class="relative mt-auto flex flex-wrap gap-x-3 gap-y-1 pt-3">
             <a
               v-for="link in repo.links"
               :key="link.href"
@@ -97,6 +97,17 @@ const repos = [
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
+  align-items: stretch;
+}
+
+.home-impls__item {
+  display: flex;
+  min-height: 100%;
+  height: 100%;
+}
+
+.home-impls__item :deep(.home-impls__card) {
+  width: 100%;
 }
 
 @media (min-width: 640px) {

@@ -319,6 +319,66 @@ html.dark body::after {
 }
 
 /*
+ * Home hero rhythm — Unkey (details.so/inspo/unkey-47b9d0) static overlay only.
+ * Excluded (user scope): looping hero video + IntersectionObserver pause/play.
+ * Keep lattice/teal; borrow dense headline stack, quieter tagline, clear CTA row,
+ * then a short “why” beat into repo cards as the next composition.
+ */
+.VPHome .VPHero {
+  padding: calc(var(--vp-nav-height) + 4.5rem) 24px 3.25rem !important;
+}
+
+@media (min-width: 640px) {
+  .VPHome .VPHero {
+    padding: calc(var(--vp-nav-height) + 5rem) 48px 3.5rem !important;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPHome .VPHero {
+    padding: calc(var(--vp-nav-height) + 5.5rem) 64px 4rem !important;
+  }
+}
+
+.VPHome .VPHero .main {
+  max-width: 40rem;
+}
+
+.VPHome .VPHero .name {
+  max-width: none !important;
+  font-size: clamp(2.35rem, 4.2vw, 3.35rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.035em !important;
+  font-weight: 700 !important;
+}
+
+.VPHome .VPHero .text {
+  margin-top: 0.35rem !important;
+  max-width: 18ch !important;
+  font-size: clamp(2.1rem, 3.8vw, 3.1rem) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.035em !important;
+  font-weight: 650 !important;
+}
+
+.VPHome .VPHero .tagline {
+  margin-top: 1.15rem !important;
+  padding-top: 0 !important;
+  max-width: 34rem !important;
+  font-size: 1.05rem !important;
+  line-height: 1.55 !important;
+  font-weight: 450 !important;
+  color: var(--vp-c-text-2) !important;
+  letter-spacing: -0.01em;
+}
+
+.VPHome .VPHero .actions {
+  margin-top: 0 !important;
+  padding-top: 1.75rem !important;
+  gap: 0.75rem;
+}
+
+/*
  * Top nav — Linear-style pill focus + frosted dropdown
  * (details.so/inspo/linear-445982: TZTsQG_anchor / TZTsQG_viewport)
  */
