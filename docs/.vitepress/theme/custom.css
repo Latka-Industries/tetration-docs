@@ -32,7 +32,7 @@
   --lattice-size: 88px;
   --lattice-line: hsl(var(--foreground) / 0.045);
 
-  --tetration-shell-bg:
+  --tetration-shell-images:
     linear-gradient(
       180deg,
       color-mix(
@@ -73,13 +73,19 @@
       var(--lattice-line) calc(var(--lattice-size) - 1px),
       color-mix(in oklab, var(--lattice-line) 35%, transparent) var(--lattice-size)
     ),
-    hsl(var(--background));
+    linear-gradient(hsl(var(--background)), hsl(var(--background)));
+
+  --tetration-shell-sizes: auto, auto, auto, auto, auto;
+  --tetration-shell-positions: 0 0, 0 0, 0 0, 0 0, 0 0;
+  --tetration-shell-repeats: no-repeat, no-repeat, repeat, repeat, no-repeat;
+
+  --tetration-shell-bg: var(--tetration-shell-images);
 
   --vp-nav-bg-color: hsl(var(--background));
-  --vp-nav-screen-bg-color: hsl(var(--background));
+  --vp-nav-screen-bg-color: #fff;
   --vp-local-nav-bg-color: hsl(var(--background));
   --vp-c-bg: transparent;
-  --vp-local-search-bg: var(--tetration-shell-bg);
+  --vp-local-search-bg: hsl(var(--background));
   --vp-local-search-result-bg: hsl(var(--background));
   --vp-local-search-result-selected-bg: hsl(var(--muted));
 
@@ -138,6 +144,7 @@ html.dark {
   --lattice-veil-outer: 0.97;
   --lattice-line: color-mix(in oklab, #2dd4bf 14%, transparent);
 
+  --vp-nav-screen-bg-color: #0a0a0b;
   --vp-c-bg-alt: hsl(240 10% 8%);
   --vp-c-bg-soft: hsl(240 6% 12%);
   --vp-code-block-bg: hsl(240 8% 10%);
@@ -190,7 +197,11 @@ html.dark:has(.VPHome),
 html,
 body {
   min-height: 100%;
-  background: var(--tetration-shell-bg);
+  background-color: hsl(var(--background));
+  background-image: var(--tetration-shell-images);
+  background-size: var(--tetration-shell-sizes);
+  background-position: var(--tetration-shell-positions);
+  background-repeat: var(--tetration-shell-repeats);
   background-attachment: fixed;
 }
 
@@ -199,26 +210,63 @@ body {
 .VPNavBar .container,
 .VPNavBar .content-body,
 .VPLocalNav {
-  background: var(--tetration-shell-bg) !important;
+  background-color: hsl(var(--background)) !important;
+  background-image: var(--tetration-shell-images) !important;
+  background-size: var(--tetration-shell-sizes) !important;
+  background-position: var(--tetration-shell-positions) !important;
+  background-repeat: var(--tetration-shell-repeats) !important;
   background-attachment: fixed !important;
 }
 
-/* Mobile hamburger panel. VitePress defaults this to --vp-c-bg, which we keep
-   transparent for the page lattice — override so landing text cannot show through. */
+/* Mobile hamburger panel — solid sheet. Page uses transparent --vp-c-bg for the
+   lattice; NavBar also gets the lattice image. Kill both while the screen is open. */
 .VPNavScreen {
-  background-color: hsl(var(--background)) !important;
+  z-index: 100 !important;
+  background-color: #fff !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  opacity: 1 !important;
+}
+
+.dark .VPNavScreen {
+  background-color: #0a0a0b !important;
+}
+
+.VPNavBar.screen-open,
+.VPNavBar.screen-open .wrapper,
+.VPNavBar.screen-open .container,
+.VPNavBar.screen-open .content,
+.VPNavBar.screen-open .content-body {
+  background-color: #fff !important;
+  background-image: none !important;
+}
+
+.dark .VPNavBar.screen-open,
+.dark .VPNavBar.screen-open .wrapper,
+.dark .VPNavBar.screen-open .container,
+.dark .VPNavBar.screen-open .content,
+.dark .VPNavBar.screen-open .content-body {
+  background-color: #0a0a0b !important;
   background-image: none !important;
 }
 
 .VPLocalSearchBox .shell {
-  background: var(--tetration-shell-bg) !important;
-  background-attachment: fixed !important;
-  border: 1px solid var(--vp-c-divider);
-  box-shadow: 0 12px 40px hsl(var(--background) / 0.55);
+  background-color: color-mix(in srgb, hsl(var(--background)) 88%, transparent) !important;
+  background-image: none !important;
+  backdrop-filter: blur(28px) saturate(1.2);
+  -webkit-backdrop-filter: blur(28px) saturate(1.2);
+  border: 1px solid color-mix(in srgb, var(--vp-c-divider) 90%, transparent) !important;
+  border-radius: 16px !important;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, #fff 4%, transparent),
+    0 24px 64px hsl(var(--background) / 0.55);
+  overflow: hidden;
 }
 
 .VPLocalSearchBox .result {
-  background-color: hsl(var(--background)) !important;
+  background-color: transparent !important;
+  border-radius: 10px;
 }
 
 .VPContent,
@@ -270,49 +318,832 @@ html.dark body::after {
   padding-top: 0;
 }
 
-/* Top nav: shadcn-style link treatment */
+/*
+ * Home hero rhythm — Unkey (details.so/inspo/unkey-47b9d0) static overlay only.
+ * Excluded (user scope): looping hero video + IntersectionObserver pause/play.
+ * Keep lattice/teal; borrow dense headline stack, quieter tagline, clear CTA row,
+ * then a short “why” beat into repo cards as the next composition.
+ */
+.VPHome .VPHero {
+  padding: calc(var(--vp-nav-height) + 4.5rem) 24px 3.25rem !important;
+}
+
+@media (min-width: 640px) {
+  .VPHome .VPHero {
+    padding: calc(var(--vp-nav-height) + 5rem) 48px 3.5rem !important;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPHome .VPHero {
+    padding: calc(var(--vp-nav-height) + 5.5rem) 64px 4rem !important;
+  }
+}
+
+.VPHome .VPHero .main {
+  max-width: 40rem;
+}
+
+.VPHome .VPHero .name {
+  max-width: none !important;
+  font-size: clamp(2.35rem, 4.2vw, 3.35rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.035em !important;
+  font-weight: 700 !important;
+}
+
+.VPHome .VPHero .text {
+  margin-top: 0.35rem !important;
+  max-width: 18ch !important;
+  font-size: clamp(2.1rem, 3.8vw, 3.1rem) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.035em !important;
+  font-weight: 650 !important;
+}
+
+.VPHome .VPHero .tagline {
+  margin-top: 1.15rem !important;
+  padding-top: 0 !important;
+  max-width: 34rem !important;
+  font-size: 1.05rem !important;
+  line-height: 1.55 !important;
+  font-weight: 450 !important;
+  color: var(--vp-c-text-2) !important;
+  letter-spacing: -0.01em;
+}
+
+.VPHome .VPHero .actions {
+  margin-top: 0 !important;
+  padding-top: 1.75rem !important;
+  gap: 0.75rem;
+}
+
+/*
+ * Top nav — Linear-style pill focus + frosted dropdown
+ * (details.so/inspo/linear-445982: TZTsQG_anchor / TZTsQG_viewport)
+ */
 @media (min-width: 768px) {
+  .VPNavBarMenu {
+    --nav-pill-bg: #00000014;
+    align-items: center;
+  }
+
+  .dark .VPNavBarMenu {
+    --nav-pill-bg: #ffffff14;
+  }
+
   .VPNavBarMenu .VPNavBarMenuLink {
+    height: 32px;
     margin: 0 2px;
-    border-radius: calc(var(--radius) - 2px);
+    padding: 0 12px;
+    line-height: 32px;
+    align-self: center;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--vp-c-text-2) !important;
     transition:
-      color 0.2s,
-      background-color 0.2s;
+      color 0.15s ease,
+      background-color 0.15s ease;
   }
 
-  .VPNavBarMenu .VPNavBarMenuLink:hover {
-    background: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
+  .VPNavBarMenu .VPNavBarMenuLink:hover,
+  .VPNavBarMenu .VPNavBarMenuLink.active {
+    background: var(--nav-pill-bg);
+    color: var(--vp-c-text-1) !important;
   }
 
-  .VPNavBarMenu .VPNavBarMenuGroup :deep(.button) {
+  .VPNavBarMenu .VPFlyout {
+    display: flex;
+    align-items: center;
+  }
+
+  .VPNavBarMenu .VPFlyout .button {
+    height: 32px;
     margin: 0 2px;
-    border-radius: calc(var(--radius) - 2px);
+    padding: 0 12px;
+    border-radius: 9999px;
+    color: var(--vp-c-text-2);
     transition:
-      color 0.2s,
-      background-color 0.2s;
+      color 0.15s ease,
+      background-color 0.15s ease;
   }
 
-  .VPNavBarMenu .VPNavBarMenuGroup :deep(.button:hover) {
-    background: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
+  .VPNavBarMenu .VPFlyout .button .text {
+    font-size: 13px;
+    line-height: 32px;
+    font-weight: 500;
+    color: inherit;
+    transition: color 0.15s ease;
+  }
+
+  .VPNavBarMenu .VPFlyout:hover,
+  .VPNavBarMenu .VPFlyout:hover .button .text,
+  .VPNavBarMenu .VPFlyout:hover .button .text-icon {
+    color: var(--vp-c-text-1) !important;
+  }
+
+  .VPNavBarMenu .VPFlyout:hover .button,
+  .VPNavBarMenu .VPFlyout .button[aria-expanded='true'] {
+    background: var(--nav-pill-bg);
+    color: var(--vp-c-text-1) !important;
+  }
+
+  .VPNavBarMenu .VPFlyout .button[aria-expanded='true'] .text,
+  .VPNavBarMenu .VPFlyout .button[aria-expanded='true'] .text-icon {
+    color: var(--vp-c-text-1) !important;
   }
 }
 
-/* Nav dropdown panels */
+/*
+ * Nav mega — Lesse-style expanding card grid under the pill
+ * (details.so/inspo/lessestudio-856de0: services-panel cards)
+ */
+.VPNavBarMenu .VPFlyout .menu {
+  top: calc(100% + 8px);
+  left: 0;
+  right: auto;
+  transform: translateY(-6px) scale(0.98);
+  transform-origin: top left;
+  padding-top: 0;
+}
+
+.VPNavBarMenu .VPFlyout:nth-last-child(-n+3) .menu {
+  left: auto;
+  right: 0;
+  transform-origin: top right;
+}
+
+.VPNavBarMenu .VPFlyout:hover .menu,
+.VPNavBarMenu .VPFlyout .button[aria-expanded='true'] + .menu {
+  transform: translateY(0) scale(1);
+}
+
 .VPMenu {
-  border-radius: calc(var(--radius) - 2px);
-  border-color: hsl(var(--border));
-  background: hsl(var(--popover));
+  width: min(36rem, calc(100vw - 2rem));
+  min-width: 22rem;
+  border-radius: 16px;
+  border: 1px solid #00000014;
+  background: #fffffff2;
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  padding: 10px;
+  box-shadow:
+    0 0 0 1px #00000008,
+    0 16px 48px #08090a18;
+  overflow: hidden;
 }
 
-.VPMenu .VPMenuLink .label {
+.dark .VPMenu {
+  border-color: #ffffff14;
+  background: #0c0d10f2;
+  box-shadow:
+    0 0 0 1px #ffffff0a,
+    0 16px 48px #000000b0;
+}
+
+.VPMenu .items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.VPMenu .VPMenuLink {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.VPMenu .VPMenuLink .link {
+  display: block;
+  height: auto !important;
+  min-height: 0;
+  border-radius: 12px;
+  padding: 12px 14px !important;
+  line-height: 1.25 !important;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--vp-c-text-1) !important;
+  white-space: normal;
+  background: transparent;
   transition:
-    color 0.2s,
-    background-color 0.2s;
+    color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.VPMenu .VPMenuLink:hover .label {
-  background: hsl(var(--accent));
-  color: hsl(var(--accent-foreground));
+.VPMenu .VPMenuLink .link:hover,
+.VPMenu .VPMenuLink .link.active {
+  background: #00000008 !important;
+  color: var(--vp-c-text-1) !important;
+  box-shadow: inset 0 0 0 1px #0000000a;
+}
+
+.dark .VPMenu .VPMenuLink .link:hover,
+.dark .VPMenu .VPMenuLink .link.active {
+  background: #ffffff0a !important;
+  box-shadow: inset 0 0 0 1px #ffffff12;
+}
+
+.nav-mega__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  text-align: left;
+}
+
+.nav-mega__title {
+  font-size: 13px;
+  font-weight: 560;
+  letter-spacing: -0.015em;
+  color: var(--vp-c-text-1);
+}
+
+.nav-mega__desc {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--vp-c-text-3);
+}
+
+.VPMenu .VPMenuLink .link:hover .nav-mega__desc,
+.VPMenu .VPMenuLink .link.active .nav-mega__desc {
+  color: var(--vp-c-text-2);
+}
+
+@media (max-width: 767px) {
+  .VPMenu .items {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .VPNavBarMenu .VPFlyout .menu {
+    transition:
+      opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* 404: drop default quote + home link */
+.NotFound .quote,
+.NotFound .action,
+.NotFound .divider {
+  display: none;
+}
+
+/* =========================================================================
+ * Spruce pass — hero CTAs, doc chrome, code, outline, footer, 404
+ * Visible sample of “what I meant” for content pages + landing actions.
+ * ========================================================================= */
+
+/* Hero CTAs — solid brand pill + ghost alt (Linear-ish) */
+.VPHero .actions {
+  gap: 0.65rem;
+}
+
+.VPHero .VPButton.big {
+  border-radius: 9999px;
+  padding: 0 1.35rem;
+  line-height: 2.65rem;
+  font-size: 0.875rem;
+  font-weight: 560;
+  letter-spacing: -0.01em;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.VPHero .VPButton.brand {
+  border-color: transparent;
+  box-shadow: 0 1px 0 color-mix(in srgb, #fff 18%, transparent) inset;
+}
+
+.VPHero .VPButton.brand:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #fff 22%, transparent) inset,
+    0 8px 24px color-mix(in srgb, var(--vp-c-brand-1) 28%, transparent);
+}
+
+.VPHero .VPButton.alt {
+  border-color: color-mix(in srgb, var(--vp-c-text-1) 14%, transparent);
+  background: color-mix(in srgb, hsl(var(--background)) 55%, transparent);
+  color: var(--vp-c-text-1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.VPHero .VPButton.alt:hover {
+  border-color: color-mix(in srgb, var(--vp-c-brand-1) 45%, transparent);
+  background: color-mix(in srgb, var(--vp-c-brand-1) 8%, transparent);
+  color: var(--vp-c-text-1);
+  transform: translateY(-1px);
+}
+
+/* Doc tables */
+.vp-doc table {
+  display: table;
+  width: 100%;
+  margin: 1.25rem 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--vp-c-divider) 90%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, hsl(var(--background)) 72%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.vp-doc tr {
+  border: none;
+  background: transparent !important;
+}
+
+.vp-doc th,
+.vp-doc td {
+  border: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--vp-c-divider) 85%, transparent);
+  padding: 0.7rem 0.9rem;
+}
+
+.vp-doc tr:last-child td {
+  border-bottom: none;
+}
+
+.vp-doc th {
+  background: color-mix(in srgb, var(--vp-c-brand-1) 7%, transparent);
+  color: var(--vp-c-text-1);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
+
+.vp-doc td {
+  font-size: 0.875rem;
+  color: var(--vp-c-text-2);
+}
+
+.vp-doc tr:hover td {
+  background: color-mix(in srgb, var(--vp-c-brand-1) 4%, transparent);
+}
+
+/* Callouts / custom blocks */
+.vp-doc .custom-block {
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--vp-c-divider) 90%, transparent);
+  background: color-mix(in srgb, hsl(var(--background)) 70%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.9rem 1rem 0.95rem;
+}
+
+.vp-doc .custom-block.info,
+.vp-doc .custom-block.tip {
+  border-color: color-mix(in srgb, var(--vp-c-brand-1) 28%, transparent);
+  background: color-mix(in srgb, var(--vp-c-brand-1) 7%, transparent);
+}
+
+.vp-doc .custom-block.warning {
+  border-color: color-mix(in srgb, #d97706 35%, transparent);
+  background: color-mix(in srgb, #d97706 8%, transparent);
+}
+
+.vp-doc .custom-block.danger {
+  border-color: color-mix(in srgb, #e11d48 32%, transparent);
+  background: color-mix(in srgb, #e11d48 7%, transparent);
+}
+
+.vp-doc .custom-block-title {
+  font-size: 0.8rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+/* Code blocks */
+.vp-doc div[class*='language-'] {
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--vp-c-divider) 88%, transparent);
+  background: var(--vp-code-block-bg) !important;
+  box-shadow: 0 1px 0 color-mix(in srgb, #fff 4%, transparent) inset;
+}
+
+.vp-doc div[class*='language-'] > span.lang {
+  right: 14px;
+  top: 10px;
+  font-size: 0.68rem;
+  font-weight: 560;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
+  opacity: 1;
+}
+
+.vp-doc :not(pre) > code {
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--vp-c-divider) 80%, transparent);
+  background: color-mix(in srgb, var(--vp-c-brand-1) 6%, var(--vp-code-bg));
+  padding: 0.12em 0.38em;
+  font-size: 0.86em;
+}
+
+/* On this page */
+.VPDocAside .outline-title {
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
+  margin-bottom: 0.35rem;
+}
+
+.VPDocAside .outline-link {
+  display: block;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  padding-block: 0.28rem;
+  color: var(--vp-c-text-3);
+  transition: color 0.15s ease;
+}
+
+.VPDocAside .outline-link:hover,
+.VPDocAside .outline-link.active {
+  color: var(--vp-c-brand-1);
+}
+
+.VPDocAside .outline-marker {
+  background-color: var(--vp-c-brand-1);
+  width: 1.5px;
+}
+
+html:not(.dark) .VPDocAside .outline-link {
+  color: #71717a;
+}
+
+html:not(.dark) .VPDocAside .outline-link:hover,
+html:not(.dark) .VPDocAside .outline-link.active {
+  color: var(--vp-c-brand-1);
+}
+
+/* Footer */
+.VPFooter {
+  border-top: 1px solid color-mix(in srgb, var(--vp-c-divider) 70%, transparent) !important;
+  padding: 1.75rem 1.5rem 2.25rem !important;
+}
+
+.VPFooter .copyright {
+  font-size: 0.78rem;
+  letter-spacing: -0.01em;
+  color: var(--vp-c-text-3);
+}
+
+/* 404 — keep minimal, slightly on-brand */
+.NotFound {
+  padding-top: 5rem;
+}
+
+.NotFound .code {
+  font-size: 4.5rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: color-mix(in srgb, var(--vp-c-brand-1) 75%, var(--vp-c-text-1));
+  line-height: 1;
+}
+
+.NotFound .title {
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  font-weight: 560;
+  letter-spacing: -0.02em;
+  color: var(--vp-c-text-2);
+  text-transform: none;
+}
+
+/* -------------------------------------------------------------------------
+ * Pass: search trigger + modal, prev/next pager
+ * ------------------------------------------------------------------------- */
+
+/* Search trigger — pill like top-nav focus */
+@media (min-width: 768px) {
+  .DocSearch-Button {
+    height: 32px !important;
+    border-radius: 9999px !important;
+    border: 1px solid color-mix(in srgb, var(--vp-c-text-1) 10%, transparent) !important;
+    padding: 0 10px 0 12px !important;
+    background: color-mix(in srgb, hsl(var(--background)) 55%, transparent) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition:
+      border-color 0.15s ease,
+      background-color 0.15s ease,
+      box-shadow 0.15s ease !important;
+  }
+
+  .DocSearch-Button:hover {
+    border-color: color-mix(in srgb, var(--vp-c-brand-1) 40%, transparent) !important;
+    background: color-mix(in srgb, var(--vp-c-brand-1) 8%, transparent) !important;
+  }
+
+  .DocSearch-Button .DocSearch-Button-Placeholder {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--vp-c-text-3);
+  }
+
+  /* Keep VitePress joined ⌘K pair — only quiet the chrome */
+  .DocSearch-Button .DocSearch-Button-Key {
+    margin-top: 0;
+    height: 1.25rem;
+    line-height: 1.25rem;
+    border-color: color-mix(in srgb, var(--vp-c-text-1) 12%, transparent);
+    background: color-mix(in srgb, var(--vp-c-text-1) 4%, transparent);
+    box-shadow: none;
+    color: var(--vp-c-text-3);
+  }
+
+  .DocSearch-Button .DocSearch-Button-Key:first-child:after {
+    font-size: 12px;
+    line-height: 1.25rem;
+    color: var(--vp-c-text-3);
+  }
+}
+
+.VPLocalSearchBox .search-bar {
+  border-bottom: 1px solid color-mix(in srgb, var(--vp-c-divider) 85%, transparent);
+}
+
+.VPLocalSearchBox .result:hover,
+.VPLocalSearchBox .result.selected {
+  background: color-mix(in srgb, var(--vp-c-brand-1) 9%, transparent) !important;
+}
+
+.VPLocalSearchBox .result.selected {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--vp-c-brand-1) 22%, transparent);
+}
+
+/* Prev / next pager — frosted cards */
+.VPDocFooter .prev-next {
+  border-top-color: color-mix(in srgb, var(--vp-c-divider) 75%, transparent);
+  padding-top: 1.25rem;
+  gap: 0.75rem;
+}
+
+.VPDocFooter .pager-link {
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--vp-c-divider) 88%, transparent);
+  background: color-mix(in srgb, hsl(var(--background)) 70%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 0.95rem 1.1rem 1.05rem;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.VPDocFooter .pager-link:hover {
+  border-color: color-mix(in srgb, var(--vp-c-brand-1) 40%, transparent);
+  background: color-mix(in srgb, var(--vp-c-brand-1) 7%, transparent);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--vp-c-brand-1) 12%, transparent);
+  transform: translateY(-1px);
+}
+
+.VPDocFooter .pager-link .desc {
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
+}
+
+.VPDocFooter .pager-link .title {
+  margin-top: 0.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--vp-c-text-1);
+  line-height: 1.3;
+}
+
+.VPDocFooter .pager-link:hover .title {
+  color: var(--vp-c-brand-1);
+}
+
+/* -------------------------------------------------------------------------
+ * Pass: mobile nav screen + light-mode chrome
+ * ------------------------------------------------------------------------- */
+
+/* Flatten mega-card HTML inside the hamburger panel */
+.VPNavScreen .nav-mega__card {
+  display: inline;
+}
+
+.VPNavScreen .nav-mega__desc {
+  display: none;
+}
+
+.VPNavScreen .nav-mega__title {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+.VPNavScreen {
+  border-top: 1px solid color-mix(in srgb, var(--vp-c-divider) 80%, transparent);
+}
+
+.VPNavScreen .container {
+  padding-top: 0.75rem;
+  padding-bottom: 1.5rem;
+}
+
+.VPNavScreenMenuLink,
+.VPNavScreenMenuGroup {
+  border-bottom-color: color-mix(in srgb, var(--vp-c-divider) 70%, transparent) !important;
+}
+
+.VPNavScreenMenuLink {
+  margin: 0 0.1rem;
+  border-bottom: none !important;
+  border-radius: 8px;
+  padding: 0.3rem 0.7rem !important;
+  line-height: 1.25 !important;
+  font-size: 0.875rem !important;
+  font-weight: 560 !important;
+  letter-spacing: -0.015em;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease !important;
+}
+
+.VPNavScreenMenuLink:hover {
+  background: color-mix(in srgb, var(--vp-c-brand-1) 9%, transparent);
+  color: var(--vp-c-text-1) !important;
+}
+
+.VPNavScreenMenuGroup {
+  position: relative;
+  margin: 0 0.1rem;
+  border-bottom: none !important;
+  border-radius: 8px;
+  /* Let the button set height — VitePress keeps .items in-flow when
+     visibility:hidden, which was inflating closed rows */
+  height: auto !important;
+  overflow: visible;
+  min-height: 0;
+}
+
+.VPNavScreenMenuGroup:not(.open) .items {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 0 !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+  pointer-events: none;
+}
+
+.VPNavScreenMenuGroup .button {
+  border-radius: 8px;
+  padding: 0.3rem 0.7rem !important;
+  line-height: 1.25 !important;
+  font-size: 0.875rem !important;
+  font-weight: 560 !important;
+  letter-spacing: -0.015em;
+}
+
+.VPNavScreenMenuGroup .button:hover,
+.VPNavScreenMenuGroup.open .button {
+  background: color-mix(in srgb, var(--vp-c-brand-1) 9%, transparent);
+  color: var(--vp-c-text-1) !important;
+}
+
+.VPNavScreenMenuGroup.open {
+  height: auto !important;
+  background: color-mix(in srgb, var(--vp-c-brand-1) 5%, transparent);
+  padding-bottom: 0.25rem !important;
+}
+
+.VPNavScreenMenuGroup.open .items {
+  position: static;
+  height: auto !important;
+  overflow: visible !important;
+  visibility: visible !important;
+  pointer-events: auto;
+}
+
+.VPNavScreenMenuGroupLink {
+  margin: 0 0.45rem 0 0.65rem !important;
+  border-radius: 6px;
+  padding: 0.28rem 0.55rem !important;
+  line-height: 1.3 !important;
+  font-size: 0.8125rem !important;
+  color: var(--vp-c-text-2) !important;
+}
+
+.VPNavScreenMenuGroupLink:hover {
+  background: color-mix(in srgb, var(--vp-c-brand-1) 8%, transparent);
+  color: var(--vp-c-text-1) !important;
+}
+
+.VPNavScreenAppearance,
+.VPNavScreenSocialLinks {
+  margin-top: 0.75rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid color-mix(in srgb, var(--vp-c-divider) 75%, transparent);
+}
+
+/* Light mode — solid panel; lattice shows through frost too easily */
+html:not(.dark) .VPMenu {
+  background: #fff;
+  border-color: #00000014;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow:
+    0 0 0 1px #00000006,
+    0 16px 40px #08090a14;
+}
+
+html:not(.dark) .vp-doc table {
+  background: #fffffff0;
+  border-color: #00000012;
+}
+
+html:not(.dark) .vp-doc th {
+  background: color-mix(in srgb, var(--vp-c-brand-1) 8%, #fff);
+}
+
+html:not(.dark) .vp-doc div[class*='language-'] {
+  background: #f4f4f5 !important;
+  border-color: #00000012;
+  box-shadow: none;
+}
+
+html:not(.dark) .vp-doc :not(pre) > code {
+  background: color-mix(in srgb, var(--vp-c-brand-1) 7%, #f4f4f5);
+  border-color: #00000012;
+}
+
+html:not(.dark) .VPLocalSearchBox .shell {
+  background-color: #fffffff5 !important;
+  border-color: #00000014 !important;
+  box-shadow:
+    0 0 0 1px #00000006,
+    0 24px 64px #08090a18;
+}
+
+html:not(.dark) .VPDocFooter .pager-link {
+  background: #fff;
+  border-color: #00000014;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 1px 0 #00000006;
+}
+
+html:not(.dark) .VPDocFooter .pager-link:hover {
+  background: color-mix(in srgb, var(--vp-c-brand-1) 5%, #fff);
+  border-color: color-mix(in srgb, var(--vp-c-brand-1) 28%, transparent);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--vp-c-brand-1) 10%, transparent);
+}
+
+html:not(.dark) .vp-doc .custom-block {
+  background: #fff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-color: #00000014;
+}
+
+html:not(.dark) .vp-doc .custom-block.info,
+html:not(.dark) .vp-doc .custom-block.tip {
+  background: color-mix(in srgb, var(--vp-c-brand-1) 6%, #fff);
+  border-color: color-mix(in srgb, var(--vp-c-brand-1) 22%, transparent);
+}
+
+@media (min-width: 960px) {
+  html:not(.dark) aside.VPSidebar,
+  html:not(.dark) aside.VPSidebar .curtain {
+    background-color: #fafafaf5 !important;
+  }
+}
+
+html:not(.dark) .VPHero .VPButton.alt {
+  background: #ffffffcc;
+  border-color: #00000018;
+}
+
+html:not(.dark) .DocSearch-Button {
+  background: #ffffffb8 !important;
+  border-color: #00000014 !important;
+}
+
+html:not(.dark) .VPNavScreen {
+  background-color: #fff !important;
 }

@@ -7,12 +7,12 @@
 
 <style scoped>
 .home-stability {
-  margin: 0 auto 2.5rem;
-  max-width: 36rem;
+  margin: 0.25rem auto 2.25rem;
+  max-width: 40rem;
   padding: 0 1.5rem;
   width: 100%;
   color: var(--vp-c-text-3);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   line-height: 1.5;
   text-align: center;
 }

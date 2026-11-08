@@ -32,33 +32,34 @@ const lines = [
 <style scoped>
 .home-positioning {
   margin: 0 auto;
-  max-width: 36rem;
-  padding: 0.5rem 1.5rem 0.25rem;
+  max-width: 40rem;
+  padding: 0.25rem 1.5rem 0;
   width: 100%;
 }
 
 .home-positioning__line {
   margin: 0;
   color: var(--vp-c-text-2);
-  font-size: 0.95rem;
-  line-height: 1.55;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
 }
 
 .home-positioning__line + .home-positioning__line {
-  margin-top: 0.65rem;
+  margin-top: 0.45rem;
 }
 
 .home-positioning__line--lead {
   color: var(--vp-c-text-1);
-  font-size: 1.05rem;
-  font-weight: 550;
-  letter-spacing: -0.01em;
-  line-height: 1.4;
+  font-size: 1.125rem;
+  font-weight: 560;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
 }
 
 .home-positioning__more {
-  margin: 1.1rem 0 0;
-  font-size: 0.875rem;
+  margin: 0.95rem 0 0;
+  font-size: 0.8125rem;
 }
 
 .home-positioning__sep {

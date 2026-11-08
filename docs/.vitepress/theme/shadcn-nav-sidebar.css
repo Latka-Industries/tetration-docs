@@ -4,12 +4,13 @@
 }
 
 /* Glass sidebar — translucent wash over the brand ambient field.
-   VitePress scopes .VPSidebar background, so override the token + win with !important. */
+   VitePress scopes .VPSidebar background, so override the token + win with !important.
+   Light mode stays denser so lattice/text don't fight the nav labels. */
 @media (min-width: 960px) {
   :root {
     --vp-sidebar-bg-color: color-mix(
       in srgb,
-      hsl(var(--sidebar-background)) 52%,
+      hsl(var(--sidebar-background)) 92%,
       transparent
     );
   }
@@ -17,7 +18,7 @@
   html.dark {
     --vp-sidebar-bg-color: color-mix(
       in srgb,
-      hsl(var(--sidebar-background)) 42%,
+      hsl(var(--sidebar-background)) 55%,
       transparent
     );
   }
@@ -26,7 +27,7 @@
     background-color: var(--vp-sidebar-bg-color) !important;
     backdrop-filter: blur(22px) saturate(1.25);
     -webkit-backdrop-filter: blur(22px) saturate(1.25);
-    border-right: 1px solid color-mix(in srgb, hsl(var(--sidebar-border)) 55%, transparent);
+    border-right: 1px solid color-mix(in srgb, hsl(var(--sidebar-border)) 70%, transparent);
   }
 
   aside.VPSidebar .curtain {
@@ -60,10 +61,16 @@
     max-width: calc(var(--vp-sidebar-width) - 16px) !important;
     height: auto !important;
     padding: 12px 14px 20px !important;
-    border: 1px solid color-mix(in srgb, hsl(var(--sidebar-border)) 55%, transparent) !important;
+    border: 1px solid color-mix(in srgb, hsl(var(--sidebar-border)) 70%, transparent) !important;
     border-radius: 16px;
-    box-shadow: 0 16px 48px hsl(var(--background) / 0.45);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, #000 3%, transparent),
+      0 12px 36px hsl(var(--background) / 0.35);
     overflow: auto;
+  }
+
+  html.dark aside.VPSidebar {
+    box-shadow: 0 16px 48px hsl(var(--background) / 0.55);
   }
 
   aside.VPSidebar .curtain {
@@ -79,9 +86,10 @@
   padding-bottom: 1rem;
 }
 
+/* Enerblock-style section rules between sidebar groups */
 .shadcn-sidebar-nav > div + div {
-  margin-top: 0.5rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid hsl(var(--sidebar-border));
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in srgb, hsl(var(--sidebar-border)) 80%, transparent);
 }
 
